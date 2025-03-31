@@ -112,6 +112,8 @@ Para rodar o script executável
 
 Depos de criar o executável, aqui está um exeplo de como rodar o programa  
 
+![munmap-rodar](https://github.com/user-attachments/assets/b0505b43-b25c-4685-8730-eb5a8c5f143f)
+
 
 Este programa aloca dinamicamente uma página de memória (4096 bytes) usando mmap(), permitindo leitura e escrita. Ele armazena uma string nessa região e imprime seu conteúdo. Após o uso, a memória é liberada com munmap(), garantindo que o sistema operacional recupere os recursos alocados.
 <br>
@@ -122,6 +124,7 @@ Agora vamos utilizar a ferramenta 'strace', por ela conseguimos a relação de t
 ```bash
 strace -c ./<nome_arquivo_executavel>
 ```
+![munmap-strace](https://github.com/user-attachments/assets/a4f91d42-1dc9-4db8-bb59-527ac23c4723)
  
 <br>
 <br>
