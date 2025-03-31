@@ -38,7 +38,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![Captura de tela de 2025-03-30 19-27-37](https://github.com/user-attachments/assets/035c6770-469b-4773-974f-56596c6eb706)
 
-Pelos resultados, conseguimos afirmar que é um comportamento **I/O-bound**. A métrica "File system inputs: 32", indicando que a leitura do arquivo envolveu acessos reais ao disco. Também podemos falar que a CPU foi pouca utilizada (40%), o que sugere que o processo passou mais tempo aguardando o disco do que executando cálculos.
+Perante os dados acima, conseguimos afirmar que é um comportamento **I/O-bound**. A métrica "File system inputs: 32", indicando que a leitura do arquivo envolveu acessos reais ao disco. Também podemos falar que a CPU foi pouca utilizada (40%), o que sugere que o processo passou mais tempo aguardando o disco do que executando cálculos e que pode ser considerado I/O-bound.
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
