@@ -1,1 +1,2 @@
-
+resumo mprotect.
+O programa aloca um bloco de memória de 4 páginas e usa mprotect() para alterar as permissões de acesso na terceira página, tornando-a apenas leitura. Em seguida, entra em um loop tentando escrever na memória alocada. Quando tenta gravar na página protegida, ocorre um segmentation fault (erro de violação de segmento). O tratador de sinal captura o erro, imprime o endereço da falha e encerra o programa. O objetivo é demonstrar o uso de mprotect() para alterar permissões de memória e como tratar uma violação de memória ao tentar acessar uma área com permissões inadequadas.
