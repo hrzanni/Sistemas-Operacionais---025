@@ -11,7 +11,7 @@ time ./<nome_arquivo_executável>
 **User time:** 0.01s
 ➝ Tempo que a CPU gastou executando cálculos. Muito pouco tempo, indicando que o programa não exige processamento intenso.
 
-**System time:** 7.76s
+**System time:** 7.756s
 ➝ Tempo gasto pelo sistema operacional manipulando chamadas de I/O (como fwrite e fread). Relativamente alto, mostrando que há muitas operações no disco.
 
 O tempo total (real) é muito maior que (user + sys), indicando que o programa está esperando o disco responder, assim, podemos perceber que o programa é I/O bound
