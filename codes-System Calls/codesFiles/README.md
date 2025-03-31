@@ -136,7 +136,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![read_file-time-v](https://github.com/user-attachments/assets/cd5d5a4d-2727-49f4-9b9b-5da37e734e02)
 
-O processo não é I/O bound porque não há operações de entrada/saída no disco. Também não é CPU bound porque quase não usa CPU. 
+# Colocar aqui se é I/O ou CPU bound
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
