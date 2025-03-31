@@ -18,7 +18,7 @@ Depos de criar o executável, aqui está um exeplo de como rodar o programa
 
 ![open_file-rodar](https://github.com/user-attachments/assets/0513aeab-cd8f-411d-97ba-0742862ae191)
 
-Nesse programa, o arquivo 'myFile.txt' foi aberto pelo função open() e é mostrado um texto na tela avisando se o arquivo foi aberto com sucesso. E a função close() é utilizada para fechar o arquivo.
+Nesse programa, o arquivo 'myFile.txt' foi aberto pela função open() e é mostrado um texto na tela avisando se o arquivo foi aberto com sucesso. E a função close() é utilizada para fechar o arquivo.
 <br>
 <br>
 
