@@ -1,3 +1,5 @@
+# Colocar se o read_file é I/O ou CPU bound
+
 ## Esse README contém as estatísticas relacionadas ao uso de chamadas ao sistema em cada um dos programas desenvolvidos no diretório "codesFiles"
 
 ## Arquivo -> open_file
