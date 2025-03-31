@@ -18,7 +18,7 @@ Depos de criar o executável, aqui está um exeplo de como rodar o programa
 
 ![mmpa-rodar](https://github.com/user-attachments/assets/d9513898-7473-43ac-9feb-c2949486c83c)
 
-#### Descrição resumida do que o programa faz
+Este programa aloca dinamicamente memória utilizando mmap(), armazena os números de 1 a 5 nessa memória e os imprime na tela. Em seguida, libera a memória com munmap().
 
 <br>
 <br>
