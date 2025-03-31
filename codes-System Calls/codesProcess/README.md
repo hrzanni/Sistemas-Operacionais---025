@@ -38,7 +38,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![fork-time-v](https://github.com/user-attachments/assets/33d3229b-a9d0-4ca5-bfc6-d3d098fbd701)
 
-#### Colocar se é I/O bound ou CPU bound e por que.
+A chamada de sistema fork é tratada como CPU-bound porque ela envolve cálculos e manipulação ativa da CPU para criar um novo processo, como visto nas estatísticas fornecidas pela ferramenta 'time'. O fato de a maior parte do tempo ser consumida pela CPU (80%) e o pequeno tempo total de execução indicam que a criação de um novo processo exige uso significativo de CPU, sem envolvimento com operações de I/O, como leitura ou escrita em disco.
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
