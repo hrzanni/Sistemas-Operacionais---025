@@ -29,3 +29,6 @@ O tempo total (real) é muito maior que (user + sys), indicando que o programa e
 
 Aqui nós também conseguimos notar que o programa é I/O-bound porque a maior parte do tempo total de execução foi gasta esperando operações de leitura/escrita no disco, e não na CPU, a CPU só está sendo usada 19% do tempo. 
 O programa é limitado pela velocidade do disco, não pelo processamento da CPU. 
+<br>
+
+## CPU bound
