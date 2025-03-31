@@ -1,4 +1,3 @@
-# Colocar se o é I/O ou CPU bound em todos 
 
 ## Esse README contém as estatísticas relacionadas ao uso de chamadas ao sistema em cada um dos programas desenvolvidos no diretório "codesMemory"
 
