@@ -12,6 +12,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
+    printf("file 'myFile.txt' opened successfully\n");
+
     close(fd);
     return 0;
 }
