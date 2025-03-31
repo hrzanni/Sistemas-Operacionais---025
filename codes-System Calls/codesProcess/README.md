@@ -86,7 +86,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![sleep-time-v](https://github.com/user-attachments/assets/ac644cbb-9a86-4eb7-9f3f-f9b7047d74e7)
 
-#### Colocar se é CPU bound ou I/O bound
+Nesse caso, a chamada de sistema sleep é considerada como I/O-bound por mais que não tenha o envolvimento com operações de escrita ou leitura durante sua execução. Isso ocorre por que o processo não faz uso ativo da CPU durante sua execução fazendo com que o mesmo fique ''aguardando'' por um determinado tempo sem realizar qualquer operação computacional, o que caracteriza um processo que não depende da CPU e se mantém em estado de inatividade ou espera. 
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
@@ -133,7 +133,8 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![pause-time-v](https://github.com/user-attachments/assets/6370ee8e-76a5-4414-a898-8d4f54235c91)
 
-#### Colocar se é CPU ou I/O e por que.
+A chamada pause é classificada como I/O-bound porque, assim como a chamada sleep, o processo não utiliza a CPU durante sua execução e fica apenas aguardando por um sinal. Esse comportamento caracteriza um processo que não realiza operações ativas de cálculo ou I/O, mas sim fica em espera passiva até que um evento externo (o sinal) o interrompa.
+
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
