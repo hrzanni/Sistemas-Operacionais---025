@@ -134,7 +134,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![read_file-time-v](https://github.com/user-attachments/assets/cd5d5a4d-2727-49f4-9b9b-5da37e734e02)
 
-# Colocar aqui se é I/O ou CPU bound
+Diante do analisado conclui-se que, mesmo que a chamada read_file não tenha mostrado I/O diretamente, o comportamento do processo, com uso moderado de CPU e operações típicas de leitura de arquivo, faz com que ele seja considerado I/O-bound, uma vez que a principal limitação do desempenho vem do acesso ao arquivo (ou dispositivo) e não do uso da CPU.
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
