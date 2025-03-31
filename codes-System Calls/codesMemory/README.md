@@ -1,5 +1,5 @@
 
-## Esse README contém as estatísticas relacionadas ao uso de chamadas ao sistema em cada um dos programas desenvolvidos no diretório "codesMemory"
+## Esse README contém as estatísticas relacionadas ao uso de chamadas ao sistema em cada um dos programas desenvolvidos no diretório "codesMemory".
 
 ## Memória -> mmap
 
