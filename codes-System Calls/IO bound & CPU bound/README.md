@@ -1,6 +1,6 @@
 ## IO_Bound
 
-vamos usar ocomando 'time' para obter tempo total de execução (em segundos), tempo gasto em modo usuário, tempo gasto em modo kernel, trocas de contexto voluntárias e trocas de contexto involuntárias
+Vamos usar ocomando 'time' para obter tempo total de execução (em segundos), tempo gasto em modo usuário, tempo gasto em modo kernel, trocas de contexto voluntárias e trocas de contexto involuntárias tornando facilitada a classificação da chamada como I/O-bound ou CPU-bound.
 
 **Usando o comando:**
 ```bash
@@ -33,7 +33,7 @@ O programa é limitado pela velocidade do disco, não pelo processamento da CPU.
 
 ## CPU bound
 
-vamos usar ocomando 'time' para obter tempo total de execução (em segundos), tempo gasto em modo usuário, tempo gasto em modo kernel, trocas de contexto voluntárias e trocas de contexto involuntárias
+Novamente realizaremos o mesmo processo utilizando a ferramenta 'time' para concluir qual a classificação da chamada de sistema.
 
 **Usando o comando:**
 ```bash
