@@ -114,7 +114,7 @@ Para rodar o script executável
 Depos de criar o executável, aqui está um exeplo de como rodar o programa  
 
 
-#### Escrever aqui um resmudo do que o programa faz
+Este programa aloca dinamicamente uma página de memória (4096 bytes) usando mmap(), permitindo leitura e escrita. Ele armazena uma string nessa região e imprime seu conteúdo. Após o uso, a memória é liberada com munmap(), garantindo que o sistema operacional recupere os recursos alocados.
 <br>
 <br>
 
