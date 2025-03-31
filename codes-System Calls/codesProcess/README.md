@@ -2,7 +2,7 @@
 
 ## Processo -> fork
 
-Para criar um script executável do arquivo fork.c
+Para criar um script executável do arquivo fork.c :
 ```bash
 gcc -o <nome_arquivo_executavel> fork.c
 ```
@@ -12,7 +12,7 @@ Para rodar o script executável
 ```
 <br>
 
-Depos de criar o executável, aqui está um exeplo de como rodar o programa  
+Depois de criar o executável, aqui está um exeplo de como rodar o programa:
 
 ![fork-rodar](https://github.com/user-attachments/assets/31bf8099-13f0-4b95-929e-219040c77b76)
 
@@ -20,7 +20,7 @@ Nesse programa, cria um processo filho usando fork(). O processo pai exibe seu p
 <br>
 <br>
 
-Agora vamos utilizar a ferramenta 'strace', por ela conseguimos a relação de todas as system calls invocadas pela aplicação e tempo gasto por cada uma delas 
+Agora vamos utilizar a ferramenta 'strace', por ela conseguimos a relação de todas as system calls invocadas pela aplicação e tempo gasto por cada uma delas:
 #### Usando o comando:
 ```bash
 strace -c ./<nome_arquivo_executavel>
@@ -30,7 +30,7 @@ strace -c ./<nome_arquivo_executavel>
 <br>
 <br>
 
-Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de recursos em cada um dos programas desenvolvidos
+Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de recursos em cada um dos programas desenvolvidos:
 #### Usando o comando:
 ```bash
 /usr/bin/time -v ./<nome_arquivo_executavel>
@@ -41,7 +41,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 A chamada de sistema fork é tratada como CPU-bound porque ela envolve cálculos e manipulação ativa da CPU para criar um novo processo, como visto nas estatísticas fornecidas pela ferramenta 'time'. O fato de a maior parte do tempo ser consumida pela CPU (80%) e o pequeno tempo total de execução indicam que a criação de um novo processo exige uso significativo de CPU, sem envolvimento com operações de I/O, como leitura ou escrita em disco.
 
 <br>
-E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
+E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel: 
 
 ![fork-time](https://github.com/user-attachments/assets/a30f8c07-ff18-4ec2-8b4e-872cedf8c2da)
 
@@ -50,7 +50,7 @@ E aqui temos um número mais preciso do tempo total decorrido desde o início at
 
 ## Processo -> sleep
 
-Para criar um script executável do arquivo sleep.c
+Para criar um script executável do arquivo sleep.c :
 ```bash
 gcc -o <nome_arquivo_executavel> sleep.c
 ```
@@ -60,7 +60,7 @@ Para rodar o script executável
 ```
 <br>
 
-Depos de criar o executável, aqui está um exeplo de como rodar o programa  
+Depois de criar o executável, aqui está um exeplo de como rodar o programa: 
 
 ![sleep-rodar](https://github.com/user-attachments/assets/0d2348b4-7768-42f3-964c-65f9f093fb1b)
 
@@ -78,7 +78,7 @@ strace -c ./<nome_arquivo_executavel>
 <br>
 <br>
 
-Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de recursos em cada um dos programas desenvolvidos
+Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de recursos em cada um dos programas desenvolvidos:
 #### Usando o comando:
 ```bash
 /usr/bin/time -v ./<nome_arquivo_executavel>
@@ -89,7 +89,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 Nesse caso, a chamada de sistema sleep é considerada como I/O-bound por mais que não tenha o envolvimento com operações de escrita ou leitura durante sua execução. Isso ocorre por que o processo não faz uso ativo da CPU durante sua execução fazendo com que o mesmo fique ''aguardando'' por um determinado tempo sem realizar qualquer operação computacional, o que caracteriza um processo que não depende da CPU e se mantém em estado de inatividade ou espera. 
 
 <br>
-E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
+E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel:
 
 ![sleep-time](https://github.com/user-attachments/assets/8c4cebeb-e475-4727-9169-da028cff3a7a)
 
@@ -98,7 +98,7 @@ E aqui temos um número mais preciso do tempo total decorrido desde o início at
 
 ## Processo -> pause
 
-Para criar um script executável do arquivo pause.c
+Para criar um script executável do arquivo pause.c :
 ```bash
 gcc -o <nome_arquivo_executavel> pause.c
 ```
@@ -108,14 +108,14 @@ Para rodar o script executável
 ```
 <br>
 
-Depos de criar o executável, aqui está um exeplo de como rodar o programa  
+Depois de criar o executável, aqui está um exeplo de como rodar o programa:
 
 ![pause-rodar](https://github.com/user-attachments/assets/30b4d33d-f798-4e5a-a660-5071d52b4fcf)
 
 O programa captura o sinal SIGINT (enviado ao pressionar Ctrl+C) e executa a função handle_signal(), que imprime a mensagem "Signal X received", onde X é o número do sinal. A função pause() faz o programa aguardar indefinidamente até receber um sinal<br>
 <br>
 
-Agora vamos utilizar a ferramenta 'strace', por ela conseguimos a relação de todas as system calls invocadas pela aplicação e tempo gasto por cada uma delas 
+Agora vamos utilizar a ferramenta 'strace', por ela conseguimos a relação de todas as system calls invocadas pela aplicação e tempo gasto por cada uma delas:
 #### Usando o comando:
 ```bash
 strace -c ./<nome_arquivo_executavel>
@@ -125,7 +125,7 @@ strace -c ./<nome_arquivo_executavel>
 <br>
 <br>
 
-Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de recursos em cada um dos programas desenvolvidos
+Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de recursos em cada um dos programas desenvolvidos:
 #### Usando o comando:
 ```bash
 /usr/bin/time -v ./<nome_arquivo_executavel>
@@ -137,6 +137,6 @@ A chamada pause é classificada como I/O-bound porque, assim como a chamada slee
 
 
 <br>
-E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
+E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel: 
 
 ![pause-time](https://github.com/user-attachments/assets/9876b96f-1518-433e-bfb7-761a4fb264d4)
