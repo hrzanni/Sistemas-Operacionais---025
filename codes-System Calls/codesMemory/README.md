@@ -40,7 +40,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![mmap-time-v](https://github.com/user-attachments/assets/a11aae93-566d-44e5-93a1-ee29e74db360)
 
-#### Nesse caso, a chamada de sistema mmap é classificada como I/O-bound, uma vez que a operação interage com o sistema de arquivos para acessar dados, e o uso da CPU foi moderado utilizando 40%, sem consumir recursos intensivos de processamento.
+Nesse caso, a chamada de sistema mmap é classificada como I/O-bound, uma vez que a operação interage com o sistema de arquivos para acessar dados, e o uso da CPU foi moderado utilizando 40%, sem consumir recursos intensivos de processamento.
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
@@ -88,7 +88,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![mprotect-time-v](https://github.com/user-attachments/assets/cf8df673-fa2b-4ed6-88e8-2e42118c9e90)
 
-#### No caso aprensentado, utilizando a ferramenta time, pode-se confirmar que por mais que o mprotect() estaja manipulando permissões de memória, a leitura de dados do sistema de arquivos (32 entradas) e a baixa utilização da CPU (40%) indicam que o processo é I/O-bound. Além disso, o tempo de execução foi muito rápido, indicando que a operação foi concluída rapidamente, com o tempo sendo consumido mais pela leitura de arquivos e não por cálculos intensivos.
+No caso aprensentado, utilizando a ferramenta time, pode-se confirmar que por mais que o mprotect() estaja manipulando permissões de memória, a leitura de dados do sistema de arquivos (32 entradas) e a baixa utilização da CPU (40%) indicam que o processo é I/O-bound. Além disso, o tempo de execução foi muito rápido, indicando que a operação foi concluída rapidamente, com o tempo sendo consumido mais pela leitura de arquivos e não por cálculos intensivos.
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
@@ -134,7 +134,7 @@ Agora vamos utilizar a ferramenta 'time' para obter as estatísticas de uso de r
 
 ![munmap-time-v](https://github.com/user-attachments/assets/17182c65-cb99-4dd3-8286-bdbc7a373ac3)
 
-#### A chamada munmap, nesse caso, pode ser classificada como I/O-Bound por motivos semelhantes aos das chamadas mmap e mprotect haja vista que a mesma não utiliza a CPU de forma intensiva (40%), sendo utilizada principalmente para a interação com o sistema de arquivos manipulando a memória mapeada.
+A chamada munmap, nesse caso, pode ser classificada como I/O-Bound por motivos semelhantes aos das chamadas mmap e mprotect haja vista que a mesma não utiliza a CPU de forma intensiva (40%), sendo utilizada principalmente para a interação com o sistema de arquivos manipulando a memória mapeada.
 
 <br>
 E aqui temos um número mais preciso do tempo total decorrido desde o início até o fim da execução, do tempo gasto pelo processo em modo usuário e do tempo gasto no modo kernel  
