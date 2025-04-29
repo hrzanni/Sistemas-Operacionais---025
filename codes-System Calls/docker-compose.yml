@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  frontend:
+    build: 
+    ports:
+      - 
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+    ports:
+      - 
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=
+      - DB_PASSWORD=
+      - DB_NAME=
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: meubanco
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
