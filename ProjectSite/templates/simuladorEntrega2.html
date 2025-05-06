@@ -1,0 +1,112 @@
+{% extends 'base.html' %} {% block body %}
+<div class="backgroundSimulacao">
+  <div class="simulacao">
+    <h2>Simulação do Problema Produtor-Consumidor</h2>
+
+    <div class="respostasForms">
+      <p>Número de produtores: {{ num_produtores }}</p>
+      <p>Número de consumidores: {{ num_consumidores }}</p>
+      <p>tamanho do buffer: {{ buffer_size }}</p>
+    </div>
+
+    <div class="statusBuffer">
+      <h4>Status Atual do Buffer:</h4>
+      <p>Espaços Livres: <span id="statusEmpty"></span></p>
+      <p>Espaços Ocupados: <span id="statusFull"></span></p>
+      <p>Buffer:</p>
+      <ul id="statusBuffer" class="bufferList"></ul>
+    </div>
+
+    <h4><strong>Passos da simulação:</strong></h4>
+
+    <div id="simulationSteps"></div>
+
+    <br />
+
+    <div class="relatorioSimulator">
+      <h3>Resultados do simulador</h3>
+      <p>
+        <strong>Total de Produções:</strong> <span id="totalProducoes"></span>
+      </p>
+      <p>
+        <strong>Total de Consumos:</strong> <span id="totalConsumos"></span>
+      </p>
+      <p>
+        <strong>Tempo de Execução:</strong>
+        <span id="tempoExecucao"></span> segundos
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let simulationSteps = {{ simulation_steps | tojson | safe }};
+    let totalProducoes = {{ total_producoes }};
+    let totalConsumos = {{ total_consumos }};
+    let tempoExecucao = {{ tempo_execucao }};
+    let buffer_size = {{ buffer_size }};
+
+    let currentStep = 0;
+    const stepsContainer = document.getElementById('simulationSteps');
+    const totalProducoesElement = document.getElementById('totalProducoes');
+    const totalConsumosElement = document.getElementById('totalConsumos');
+    const tempoExecucaoElement = document.getElementById('tempoExecucao');
+
+    const emptySpan = document.getElementById('statusEmpty');
+    const fullSpan = document.getElementById('statusFull');
+    const bufferList = document.getElementById('statusBuffer');
+
+    // Atualiza a visualização do buffer
+    function updateBuffer(buffer_status) {
+      emptySpan.textContent = buffer_status.empty;
+      fullSpan.textContent = buffer_status.full;
+
+      bufferList.innerHTML = '';  // Limpa a lista do buffer
+      const currentBuffer = buffer_status.buffer;
+
+      // Preenche a visualização do buffer com os valores do buffer
+      for (let i = 0; i < buffer_size; i++) {
+        const item = document.createElement('li');
+        item.classList.add('bufferItem');
+
+        if (i < currentBuffer.length) {
+          // Exibe o valor real que foi colocado no buffer
+          item.textContent = currentBuffer[i];
+          item.classList.add('filled');
+        } else {
+          item.classList.add('empty');
+        }
+
+        bufferList.appendChild(item);
+      }
+    }
+
+    function showNextStep() {
+      if (currentStep < simulationSteps.length) {
+        const step = simulationSteps[currentStep];
+        console.log("Buffer Status:", step.buffer_status);
+
+        const stepElement = document.createElement('div');
+
+        stepElement.innerHTML = `Passo ${step.step}: ${step.descricao}`;
+
+        stepsContainer.appendChild(stepElement);
+
+        if (step.buffer_status) {
+          updateBuffer(step.buffer_status);  // Atualiza o status do buffer
+        }
+
+        currentStep++;
+        // Delay para mostrar o próximo passo
+        setTimeout(showNextStep, 2000);
+      } else {
+        totalProducoesElement.textContent = totalProducoes;
+        totalConsumosElement.textContent = totalConsumos;
+        tempoExecucaoElement.textContent = tempoExecucao;
+      }
+    }
+
+    // Inicia a exibição dos passos
+    setTimeout(showNextStep, 1000);  // Inicia após 1 segundo
+  </script>
+</div>
+{% endblock %}
