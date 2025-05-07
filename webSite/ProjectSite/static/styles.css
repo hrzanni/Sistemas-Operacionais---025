@@ -67,9 +67,7 @@ input[type="number"] {
   border: 2px solid #ccc;
 }
 
-/* Testes para a pagina do simulador */
-
-/* Seção de Resultados */
+/* Seção de esultados do simulador*/
 
 html,
 body {
@@ -186,6 +184,7 @@ body {
 .relatorioSimulator span {
   color: #00ff90;
 }
+
 /* Edição da home.html */
 
 .participantes {
@@ -293,7 +292,7 @@ body {
 
 /* Templates */
 
-/* Edição que serve para deixar as duas entregas padronizadas */
+/* Edição que serve para deixar as entregas padronizadas */
 
 .descricaoEntrega {
   margin: 20px 70px;
@@ -371,4 +370,31 @@ body {
 .navbar-items li a:hover {
   color: rgba(59, 175, 237, 0.848);
   border-bottom: 2px solid rgba(59, 175, 237, 0.848);
+}
+
+/* entrega 1*/
+
+.escolha {
+  color: #4caf50;
+}
+
+.container-escolha {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.buttom-escolha {
+  padding: 15px 30px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.buttom-escolha:hover {
+  background-color: #45a049;
 }

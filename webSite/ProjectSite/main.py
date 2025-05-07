@@ -32,6 +32,7 @@ def entrega1():
     return render_template('entrega1.html')
 
 
+
 @app.route('/entrega2', methods=['GET', 'POST'])
 def entrega2():
 

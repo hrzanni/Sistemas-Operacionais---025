@@ -1,0 +1,75 @@
+version: "3.8"
+services:
+  met01:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesFiles/write_file.c
+    command: sh -c "./app; tail -f /dev/null"
+    volumes:
+      - ../../dados:/app/dados
+
+  met02:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesFiles/read_file.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met03:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesFiles/write_file.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met04:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesMemory/mmap.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met05:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesMemory/mprotect.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met06:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesMemory/munmap.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met07:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesProcess/fork.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met08:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesProcess/pause.c
+    command: sh -c "./app; tail -f /dev/null"
+
+  met09:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/codesProcess/sleep.c
+    command: sh -c "./app; tail -f /dev/null"
