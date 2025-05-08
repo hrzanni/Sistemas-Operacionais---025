@@ -1,7 +1,7 @@
-## 🧵 Problema Produtor-Consumidor — Simulação em C
+## 🧵 Problema Produtor-Consumidor — Simulação em C:
 Essa etapa do projeto apresenta uma simulação da clássica solução de concorrência do problema Produtor-Consumidor, no qual múltiplos processos ou threads compartilham um recurso comum (normalmente um buffer), e os mesmos precisam coordenar o acesso a esse recurso entre si de forma que não ocorra conflito entre ambas as faces, podendo levar a problemas como Overflow e Underflow.
 
-## 🎯 Objetivo
+## 🎯 Objetivo:
 Modelar um sistema onde múltiplos produtores e consumidores compartilham um buffer limitado, garantindo que haja:
 
 Sincronização correta entre os processos e threads.
@@ -10,14 +10,14 @@ Evitar condição de corrida e acesso simultâneo, evitando a descoordenação d
 
 Controle de ciclos de produção/consumo, fazendo com que cada um acesse o buffer na sua vez (sem conflitos).
 
-## ⚙️ Funcionalidades  
+## ⚙️ Funcionalidades:  
 
 - Controle de **número de ciclos** de produção/consumo
 - **Logs** das ações realizadas por produtores e consumidores
 - **Exibição de ocupação** do buffer
 - Finalização automática após 3 ciclos completos
 
-## 📐 Estrutura da Solução  
+## 📐 Estrutura da Solução:
 
 - **Buffer compartilhado** implementado como vetor circular
 - **Semáforos:**
@@ -28,15 +28,17 @@ Controle de ciclos de produção/consumo, fazendo com que cada um acesse o buffe
 - **Consumidores:** retiram elementos do buffer e processam
 - **Contador de ciclos:** incrementado a cada esvaziamento total do buffer
 
-# Como executar
+# 🧪 Como Compilar e Executar:
 
 formulario  
+A partir disso, pode-se ver a interface do simulador do WebSite no qual o usuário pode inserir os parâmetros necessários para iniciar uma simulação do problema em questão.
 
 ![Captura de tela de 2025-05-07 21-39-07](https://github.com/user-attachments/assets/7a7b1f3a-b57e-4003-b18e-a8465fde3259)
 
 
 tela inicial  
 
+Logo, inicia-se a simulação apresentaod ao usuário o Status completo da simulação, com o número de produtores e consumidores selecionados pelo mesmo, o tamanho do buffer, além dos espaços livre e ocupados no buffer até tal momento.
 
 ![Captura de tela de 2025-05-07 21-47-54](https://github.com/user-attachments/assets/1d83814b-2a93-4682-b02c-b6584a09f510)
 
