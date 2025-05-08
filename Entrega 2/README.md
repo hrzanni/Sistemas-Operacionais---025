@@ -34,16 +34,17 @@ Dentro da pasta WebSite, há o arquivo main.py, que contém as rotas do nosso pr
 
 Após ser compilado, o programa vai liberar um link no terminal, basta copiar e colar o link em um navegador que aparecerá nosso site.
 
-Essa é a tela inicial do nosso aplicativo web  
+Essa é a tela inicial do nosso aplicativo web:
+
 ![Captura de tela de 2025-05-07 21-33-36](https://github.com/user-attachments/assets/6a015860-49b9-409b-8b37-4fb4631ab082)
 
 
-Após isso, para acessar a Entrega 2 de nosso projeto há 2 jeitos. A primeira maneira é apertar no card que fizemos localizado no centro da tela e outra maneira é através da barra de navegação localizada na parte superior da guia.
+Após isso, para acessar a Entrega 2 de nosso projeto há 2 formas. A primeira é apertar no card que fizemos localizado no centro da tela e outra é através da barra de navegação localizada na parte superior da guia.
 
-Acessando a paginá da Entrega 2, o usuário perceberá uma pequena descrição sobre nosso projeto e nossa solução. Rolando um pouco para baixo, é possível perceber um formulário que levará ao nosso simulador Produtor/Consumidor. Nesse formulário, o usuário consegue decidir dinamicamente a quantidade de produtores, a quantidade de consumidores e o tamanho do buffer que será utilizado.
+Acessando a paginá da Entrega 2, o usuário perceberá uma pequena descrição sobre nosso projeto e nossa solução. Rolando um pouco para baixo, é possível perceber um formulário que levará ao nosso simulador Produtor/Consumidor. 
+Nesse formulário, o usuário consegue decidir dinamicamente a quantidade de produtores, a quantidade de consumidores e o tamanho do buffer que será utilizado.
  
- 
-A partir disso, pode-se ver a interface do simulador do WebSite no qual o usuário pode inserir os parâmetros necessários para iniciar uma simulação do problema em questão.
+A partir disso, pode-se ver a interface do simulador do WebSite, no qual o usuário pode inserir os parâmetros necessários para iniciar uma simulação do problema em questão.
 
 ![Captura de tela de 2025-05-07 21-39-07](https://github.com/user-attachments/assets/7a7b1f3a-b57e-4003-b18e-a8465fde3259)
 
