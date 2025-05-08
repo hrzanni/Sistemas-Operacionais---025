@@ -10,16 +10,12 @@ Evitar condição de corrida e acesso simultâneo, evitando a descoordenação d
 
 Controle de ciclos de produção/consumo, fazendo com que cada um acesse o buffer na sua vez (sem conflitos).
 
-## ⚙️ Funcionalidades
-Controle de número de ciclos de produção/consumo.
+## ⚙️ Funcionalidades  
 
-Logs das ações realizadas por produtores e consumidores.
-
-Exibição de ocupação do buffer de forma interativa, mostrando para o usuário o passo a passo.
-
-Finalização automática após 3 ciclos completos.
-
-Sincronização eficiente com uso de semaforos, evitando condições de corrida e garantindo que os processos sejam executados de forma coordenada.
+- Controle de **número de ciclos** de produção/consumo
+- **Logs** das ações realizadas por produtores e consumidores
+- **Exibição de ocupação** do buffer
+- Finalização automática após 3 ciclos completos
 
 ## 📐 Estrutura da Solução  
 
