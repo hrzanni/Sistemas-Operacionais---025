@@ -21,17 +21,16 @@ Finalização automática após 3 ciclos completos.
 
 Sincronização eficiente com uso de semaforos, evitando condições de corrida e garantindo que os processos sejam executados de forma coordenada.
 
-## 📐 Estrutura da Solução
-Buffer compartilhado implementado como vetor circular.
+## 📐 Estrutura da Solução  
 
-Semáforos:
-*mutex*: Exclusão mútua para garantir que apenas um processo acesse o buffer por vez.
-*empty*: Controla quantos espaços estão livres no buffer.
-*full*: Controla quantos itens estão disponíveis para consumo no buffer.
-
-Produtores: Geram números aleatórios e os colocam no buffer.
-Consumidores: Retiram elementos do buffer e processam (simulando consumo).
-Contador de ciclos: Incrementado a cada esvaziamento total do buffer, para gerenciar a quantidade de ciclos completos.
+- **Buffer compartilhado** implementado como vetor circular
+- **Semáforos:**
+  - `mutex`: exclusão mútua para acesso ao buffer
+  - `empty`: controla quantos espaços estão livres
+  - `full`: controla quantos itens estão disponíveis
+- **Produtores:** geram números aleatórios e os colocam no buffer
+- **Consumidores:** retiram elementos do buffer e processam
+- **Contador de ciclos:** incrementado a cada esvaziamento total do buffer
 
 # Como executar
 
