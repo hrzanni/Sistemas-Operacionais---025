@@ -32,3 +32,28 @@ Semáforos:
 Produtores: Geram números aleatórios e os colocam no buffer.
 Consumidores: Retiram elementos do buffer e processam (simulando consumo).
 Contador de ciclos: Incrementado a cada esvaziamento total do buffer, para gerenciar a quantidade de ciclos completos.
+
+# Como executar
+
+formulario  
+
+![Captura de tela de 2025-05-07 21-39-07](https://github.com/user-attachments/assets/7a7b1f3a-b57e-4003-b18e-a8465fde3259)
+
+
+tela inicial  
+
+
+![Captura de tela de 2025-05-07 21-47-54](https://github.com/user-attachments/assets/1d83814b-2a93-4682-b02c-b6584a09f510)
+
+
+
+após a 1 interação  
+
+![Captura de tela de 2025-05-07 21-48-39](https://github.com/user-attachments/assets/203c8b3a-6c1b-4aca-805a-074cffac653d)
+
+
+Resultados  
+
+![Captura de tela de 2025-05-07 21-52-25](https://github.com/user-attachments/assets/47e4c7c9-1f5f-463f-bc13-79c635762de4)
+
+
