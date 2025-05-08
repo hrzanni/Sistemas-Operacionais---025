@@ -4,11 +4,9 @@ Essa etapa do projeto apresenta uma simulação da clássica solução de concor
 ## 🎯 Objetivo:
 Modelar um sistema onde múltiplos produtores e consumidores compartilham um buffer limitado, garantindo que haja:
 
-Sincronização correta entre os processos e threads.
-
-Evitar condição de corrida e acesso simultâneo, evitando a descoordenação do acesso ao buffer.
-
-Controle de ciclos de produção/consumo, fazendo com que cada um acesse o buffer na sua vez (sem conflitos).
+- **Sincronização** correta entre as threads
+- **Evitar condição de corrida** e acesso simultâneo
+- **Controle de ciclos de produção/consumo**
 
 ## ⚙️ Funcionalidades:  
 
