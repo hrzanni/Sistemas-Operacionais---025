@@ -30,9 +30,9 @@ Controle de ciclos de produção/consumo, fazendo com que cada um acesse o buffe
 
 # 🧪 Como Compilar e Executar:
 
-Para rodar o nosso projeto é necessário baixar as pastas "code-system-calls" e "webSite".  
+Para rodar o nosso projeto é necessário baixar as pastas "code-system-calls" e "WebSite".  
 
-Dentro da pasta webSite, há o arquivo main.py, que contém as rotas do nosso projeto, ou seja, as abas de navagação do nosso site. Sendo assim, esse é o arquivo que precisa ser compilado.  
+Dentro da pasta WebSite, há o arquivo main.py, que contém as rotas do nosso projeto, ou seja, as abas de navagação do nosso site. Sendo assim, esse é o arquivo que precisa ser compilado.  
 
 Após ser compilado, o programa vai liberar um link no terminal, basta copiar e colar o link em um navegador que aparecerá nosso site.
 
@@ -57,13 +57,14 @@ Logo, inicia-se a simulação na qual é apresentada ao usuário o status comple
 
 
 
-após a 1 interação, conseguimos perceber que o espaço reservado para o status do buffer é totalmente configurado, apresentando a quantidade de espaços livres no buffer,  a quantidade de espaços ocupados no buffer e a vizualização do buffer em tempo real. A cada interação, ou seja, a cada passo, esses status são atualizados.
+Após a 1 interação, conseguimos perceber que o espaço reservado para o status do buffer é totalmente configurado, apresentando a quantidade de espaços livres no buffer, ocupados no buffer e a vizualização do buffer em tempo real. A cada interação, ou seja, a cada passo, esses status são atualizados.
+
+Como apresentado abaixo, o simulador apresenta de forma interativa para o usúario todas as informações sobre o problema. São mostrados ao final o total de Produções, Consumos e o Tempo de execução que foi levado para completar o problema do caso escolhido pelo usuário. **Observação:** o tempo de duração da simulação é o tempo que o computador leva para fazer todo o processo e não o tempo que é necessário para a interface completa carregar para o usuário.
 
 ![Captura de tela de 2025-05-07 21-48-39](https://github.com/user-attachments/assets/203c8b3a-6c1b-4aca-805a-074cffac653d)
 
 
-Por fim, após a simulação completa, é mostrado para o usuário o resultado de suas simulações. Nela podemos perceber a quantidade de itens produzidos, a quantidade de itens consumidos e o tempo de duração da simulação.  
-**Observação:** o tempo de duração da simulação é o tempo que o computador leva para fazer todo o processo e não o tempo que é necessário para a interface completa carregar para o usuário.
+Dessa forma, tem-se a solução apresentada de forma de um simulador do WebSite simples e prático,  resolvendo a empecilho referido pela questão e evitando maiores complicações que já foram mencionadas nesse README com o passo a passo realizado pelo simulador, servindo como uma forma didática e de fácil acesso para o usuário que busca compreender como funciona a questão referida e ao mesmo tempo mostrando como a mesma pode ser resolvida interativamente.
 
 ![Captura de tela de 2025-05-07 21-52-25](https://github.com/user-attachments/assets/47e4c7c9-1f5f-463f-bc13-79c635762de4)
 
