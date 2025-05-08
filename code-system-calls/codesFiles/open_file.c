@@ -6,7 +6,7 @@
 int main() {
     int fd;
 
-    fd = open("/app/dados/myFile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    fd = open("./dados/myFile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (fd < 0) {
         perror("Error opening file");
         exit(EXIT_FAILURE);

@@ -7,9 +7,9 @@ void handle_signal(int sig) {
 }
 
 int main() {
-    signal(SIGINT, handle_signal);
-
     printf("Press (Ctrl+C) to send a signal\n");
+    
+    signal(SIGINT, handle_signal);
 
     pause();
 
