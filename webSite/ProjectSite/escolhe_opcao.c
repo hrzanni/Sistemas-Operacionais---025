@@ -32,60 +32,37 @@ int main()
     printf("<h1>Você escolheu a opção %d!</h1>", opcao);
     printf("<p>Agora, você pode ver o resultado baseado nessa escolha.</p>");
 
-    // Aqui, você pode colocar a lógica para cada opção (1-9)
-    if (opcao == 1)
-    {
-      system("docker start -ai met01");
-      system("docker exec -it sistemas-operacionais_met01 ./app");
+    switch(opcao) {
+      case 1:
+          system("docker exec sistemas-operacionais-025_met01_1 ./app");
+          break;
+      case 2:
+          system("docker exec sistemas-operacionais-025_met02_1 ./app");
+          break;
+      case 3:
+          system("docker exec sistemas-operacionais-025_met03_1 ./app");
+          break;
+      case 4:
+          system("docker exec sistemas-operacionais-025_met04_1 ./app");
+          break;
+      case 5:
+          system("docker exec sistemas-operacionais-025_met05_1 ./app");
+          break;
+      case 6:
+          system("docker exec sistemas-operacionais-025_met06_1 ./app");
+          break;
+      case 7:
+          system("docker exec sistemas-operacionais-025_met07_1 ./app");
+          break;
+      case 8:
+          system("docker exec sistemas-operacionais-025_met08_1 ./app");
+          break;
+      case 9:
+          system("docker exec sistemas-operacionais-025_met09_1 ./app");
+          break;
+      default:
+          printf("Opção inválida.\n");
     }
-    else if (opcao == 2)
-    {
-      system("docker start -ai met02");
-      system("docker exec -it sistemas-operacionais_met02 ./app");
-    }
-    else if (opcao == 3)
-    {
-      system("docker start -ai met03");
-      system("docker exec -it sistemas-operacionais_met03 ./app");
-    }
-    else if (opcao == 4)
-    {
-      system("docker start -ai met04");
-      system("docker exec -it sistemas-operacionais_met04 ./app");
-    }
-    else if (opcao == 5)
-    {
-      system("docker start -ai met05");
-      system("docker exec -it sistemas-operacionais_met05 ./app");
-    }
-    else if (opcao == 6)
-    {
-      system("docker start -ai met06");
-      system("docker exec -it sistemas-operacionais_met06 ./app");
-    }
-    else if (opcao == 7)
-    {
-      system("docker start -ai met07");
-      system("docker exec -it sistemas-operacionais_met07 ./app");
-    }
-    else if (opcao == 8)
-    {
-      system("docker start -ai met08");
-      system("docker exec -it sistemas-operacionais_met08 ./app");
-    }
-    else if (opcao == 9)
-    {
-      system("docker start -ai met09");
-      system("docker exec -it sistemas-operacionais_met09 ./app");
-    }
-    else
-    {
-      printf("<p>Opção inválida.</p>");
-    }
-  }
-  else
-  {
-    printf("<h1>Erro: Nenhuma opção foi selecionada.</h1>");
   }
 
   // Rodapé

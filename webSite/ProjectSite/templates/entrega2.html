@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block body %}
 <div class="descricaoEntrega">
-  <h2>arrumar essa descrição</h2>
   <p>
     Nessa segunda entrega de módulo, o problema apresentado foi do
     produtor-consumidor, que é um clássico da programação concorrente onde um ou
@@ -14,14 +13,14 @@
   <div class="topicosEntrega">
     <ul>
       <li>
-        - mutex: pra garantir que só uma thread (produtor ou consumidor) mexa no
+        mutex: pra garantir que só uma thread (produtor ou consumidor) mexa no
         buffer por vez.
       </li>
       <li>
-        - empty: pra contar espaços vazios (se ficar zero, o produtor espera).
+        empty: pra contar espaços vazios (se ficar zero, o produtor espera).
       </li>
       <li>
-        - full: pra contar espaços ocupados (se ficar zero, o consumidor espera).
+        full: pra contar espaços ocupados (se ficar zero, o consumidor espera).
       </li>
     </ul>
   </div>
@@ -29,15 +28,16 @@
     Além disso, implementamos um buffer circular com filas pra saber onde o
     próximo dado deve ser escrito ou lido. As threads usam a biblioteca
     ''pthreads'', e evitamos a espera ociosa fazendo com que elas "dormissem"
-    (wait) quando não podiam agir, e "acordassem" (signal) quando o buffer ficava
-    disponível.
+    (wait) quando não podiam agir, e "acordassem" (signal) quando o buffer
+    ficava disponível.
   </p>
   <p>
-    No fim, o programa controla coerentemente a quantidade de espaços que estão livres ou
-    ocupados, evita acessos simultâneos que poderiam corromper dados e garante que
-    produtores e consumidores trabalhem de forma sincronizada e eficiente, sem
-    gastar processamento de forma desnecessária. Essa é a base para entender como sistemas operacionais
-    e aplicações multitarefa gerenciam recursos compartilhados!
+    No fim, o programa controla coerentemente a quantidade de espaços que estão
+    livres ou ocupados, evita acessos simultâneos que poderiam corromper dados e
+    garante que produtores e consumidores trabalhem de forma sincronizada e
+    eficiente, sem gastar processamento de forma desnecessária. Essa é a base
+    para entender como sistemas operacionais e aplicações multitarefa gerenciam
+    recursos compartilhados!
   </p>
 
   <br />
