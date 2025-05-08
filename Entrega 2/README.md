@@ -30,26 +30,40 @@ Controle de ciclos de produção/consumo, fazendo com que cada um acesse o buffe
 
 # 🧪 Como Compilar e Executar:
 
-formulario  
+Para rodar o nosso projeto é necessário baixar as pastas "code-system-calls" e "webSite".  
+
+Dentro da pasta webSite, há o arquivo main.py, que contém as rotas do nosso projeto, ou seja, as abas de navagação do nosso site. Sendo assim, esse é o arquivo que precisa ser compilado.  
+
+Após ser compilado, o programa vai liberar um link no terminal, basta copiar e colar o link em um navegador que aparecerá nosso site.
+
+Essa é a tela inicial do nosso aplicativo web  
+![Captura de tela de 2025-05-07 21-33-36](https://github.com/user-attachments/assets/6a015860-49b9-409b-8b37-4fb4631ab082)
+
+
+Após isso, para acessar a Entrega 2 de nosso projeto há 2 jeitos. A primeira maneira é apertar no card que fizemos localizado no centro da tela e outra maneira é através da barra de navegação localizada na parte superior da guia.
+
+Acessando a paginá da Entrega 2, o usuário perceberá uma pequena descrição sobre nosso projeto e nossa solução. Rolando um pouco para baixo, é possível perceber um formulário que levará ao nosso simulador Produtor/Consumidor. Nesse formulário, o usuário consegue decidir dinamicamente a quantidade de produtores, a quantidade de consumidores e o tamanho do buffer que será utilizado.
+ 
+ 
 A partir disso, pode-se ver a interface do simulador do WebSite no qual o usuário pode inserir os parâmetros necessários para iniciar uma simulação do problema em questão.
 
 ![Captura de tela de 2025-05-07 21-39-07](https://github.com/user-attachments/assets/7a7b1f3a-b57e-4003-b18e-a8465fde3259)
 
 
-tela inicial  
 
-Logo, inicia-se a simulação apresentaod ao usuário o Status completo da simulação, com o número de produtores e consumidores selecionados pelo mesmo, o tamanho do buffer, além dos espaços livre e ocupados no buffer até tal momento.
+Logo, inicia-se a simulação na qual é apresentada ao usuário o status completo da simulação, com o número de produtores, consumidores e o tamanho do buffer, selecionados pelo mesmo.
 
 ![Captura de tela de 2025-05-07 21-47-54](https://github.com/user-attachments/assets/1d83814b-2a93-4682-b02c-b6584a09f510)
 
 
 
-após a 1 interação  
+após a 1 interação, conseguimos perceber que o espaço reservado para o status do buffer é totalmente configurado, apresentando a quantidade de espaços livres no buffer,  a quantidade de espaços ocupados no buffer e a vizualização do buffer em tempo real. A cada interação, ou seja, a cada passo, esses status são atualizados.
 
 ![Captura de tela de 2025-05-07 21-48-39](https://github.com/user-attachments/assets/203c8b3a-6c1b-4aca-805a-074cffac653d)
 
 
-Resultados  
+Por fim, após a simulação completa, é mostrado para o usuário o resultado de suas simulações. Nela podemos perceber a quantidade de itens produzidos, a quantidade de itens consumidos e o tempo de duração da simulação.  
+**Observação:** o tempo de duração da simulação é o tempo que o computador leva para fazer todo o processo e não o tempo que é necessário para a interface completa carregar para o usuário.
 
 ![Captura de tela de 2025-05-07 21-52-25](https://github.com/user-attachments/assets/47e4c7c9-1f5f-463f-bc13-79c635762de4)
 
