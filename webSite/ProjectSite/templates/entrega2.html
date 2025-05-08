@@ -6,37 +6,37 @@
     produtor-consumidor, que é um clássico da programação concorrente onde um ou
     mais produtores enchem um buffer compartilhado com dados, enquanto um ou
     mais consumidores retiram esses dados. O desafio era garantir que tudo
-    acontecesse sem conflitos—ou seja, sem dois produtores tentando gravar no
+    acontecesse sem conflitos — ou seja, sem dois produtores tentando gravar no
     mesmo lugar ao mesmo tempo, ou um consumidor pegando um dado que ainda não
     estava pronto.
   </p>
-  <p>Pra isso, nós usamos semáforos pra controlar o acesso:</p>
+  <p>Para isso, nós usamos semáforos pra controlar o acesso:</p>
   <div class="topicosEntrega">
     <ul>
       <li>
-        mutex pra garantir que só uma thread (produtor ou consumidor) mexa no
+        - mutex: pra garantir que só uma thread (produtor ou consumidor) mexa no
         buffer por vez.
       </li>
       <li>
-        empty pra contar espaços vazios (se ficar zero, o produtor espera).
+        - empty: pra contar espaços vazios (se ficar zero, o produtor espera).
       </li>
       <li>
-        full pra contar espaços ocupados (se ficar zero, o consumidor espera).
+        - full: pra contar espaços ocupados (se ficar zero, o consumidor espera).
       </li>
     </ul>
   </div>
   <p>
     Além disso, implementamos um buffer circular com filas pra saber onde o
     próximo dado deve ser escrito ou lido. As threads usam a biblioteca
-    pthreads, e a gente evitou espera ociosa fazendo com que elas "durmissem"
-    (wait) quando não podiam agir e "acordassem" (signal) quando o buffer ficava
+    ''pthreads'', e evitamos a espera ociosa fazendo com que elas "dormissem"
+    (wait) quando não podiam agir, e "acordassem" (signal) quando o buffer ficava
     disponível.
   </p>
   <p>
-    No fim, o programa controla direitinho quantos espaços tão livres ou
-    ocupados, evita acessos simultâneos que corromperiam os dados e garante que
+    No fim, o programa controla coerentemente a quantidade de espaços que estão livres ou
+    ocupados, evita acessos simultâneos que poderiam corromper dados e garante que
     produtores e consumidores trabalhem de forma sincronizada e eficiente, sem
-    gastar processamento à toa. É a base pra entender como sistemas operacionais
+    gastar processamento de forma desnecessária. Essa é a base para entender como sistemas operacionais
     e aplicações multitarefa gerenciam recursos compartilhados!
   </p>
 
