@@ -6,7 +6,7 @@ import time
 app = Flask(__name__)
 
 #Load the C library
-lib = CDLL('./ProjectSite/libpc_lib.so')
+lib = CDLL('./webSite/ProjectSite/libpc_lib.so')
 
 
 # Define tipos das funções
