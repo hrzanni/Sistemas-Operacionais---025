@@ -1,58 +1,150 @@
 {% extends 'base.html' %} {% block body %}
-<div class="descricaoEntrega">
-  <p>
-    Nessa primeira entrega de módulo, o projeto visa introduzir a ideia de
-    primitivas de chamadas de sistemas disponíveis no Linux para os alunos,
-    apresentando algumas das principais utilizações das mesmas nas categorias
-    de:
-  </p>
-  <div class="topicosEntrega">
-    <ul>
-      <li>Gerenciamento de memória</li>
-      <li>Gerenciamento de processos</li>
-      <li>Gerenciamento de arquivos</li>
-      <li>Gerenciamento de E/S</li>
-    </ul>
-  </div>
-  <p>
-    No projeto estarão apresentados programas, na linguagem C, juntamente com
-    breves relatórios contendo explicações sobre a funcionalidade de cada um dos
-    mesmos e com a aprensentação estatísticas fornecidas pelas ferramentas
-    'strace' e 'time'.
-  </p>
+<div class="pagina-entrega1">
+  <div class="descricaoEntrega">
+    <p>
+      Nessa primeira entrega de módulo, o projeto visa introduzir a ideia de
+      primitivas de chamadas de sistemas disponíveis no Linux para os alunos,
+      apresentando algumas das principais utilizações das mesmas nas categorias
+      de:
+    </p>
+    <div class="topicosEntrega">
+      <ul>
+        <li>Gerenciamento de memória</li>
+        <li>Gerenciamento de processos</li>
+        <li>Gerenciamento de arquivos</li>
+        <li>Gerenciamento de E/S</li>
+      </ul>
+    </div>
+    <p>
+      No projeto estarão apresentados programas, na linguagem C, juntamente com
+      breves relatórios contendo explicações sobre a funcionalidade de cada um
+      dos mesmos e com a aprensentação estatísticas fornecidas pelas ferramentas
+      'strace' e 'time'.
+    </p>
 
-  <h1 class="escolha">Escolha uma opção 1 entre 9</h1>
+    <div class="container-escolha">
+      <h1>Escolha uma chamada de sistema para simular</h1>
+      <form
+        class="form-entrega1"
+        action="/cgi-bin/processa_opcao.cgi"
+        method="GET"
+        class="cards-wrapper"
+      >
+        <div class="cards-systemcalls-files">
+          <div class="card">
+            <h2>open_file.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="1"
+            >
+              Aperte aqui
+            </button>
+          </div>
 
-  <div class="container-escolha">
-    <form action="/cgi-bin/processa_opcao.cgi" method="GET">
-      <button class="buttom-escolha" type="submit" name="opcao" value="1">
-        Opção 1
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="2">
-        Opção 2
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="3">
-        Opção 3
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="4">
-        Opção 4
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="5">
-        Opção 5
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="6">
-        Opção 6
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="7">
-        Opção 7
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="8">
-        Opção 8
-      </button>
-      <button class="buttom-escolha" type="submit" name="opcao" value="9">
-        Opção 9
-      </button>
-    </form>
+          <div class="card">
+            <h2>write_file.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="2"
+            >
+              Aperte aqui
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>read_file.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="3"
+            >
+              Aperte aqui
+            </button>
+          </div>
+        </div>
+
+        <div class="cards-systemcalls-memory">
+          <div class="card">
+            <h2>create_process.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="4"
+            >
+              Aperte aqui
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>create_process.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="5"
+            >
+              Aperte aqui
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>create_process.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="6"
+            >
+              Aperte aqui
+            </button>
+          </div>
+        </div>
+
+        <div class="cards-systemcalls-process">
+          <div class="card">
+            <h2>create_process.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="7"
+            >
+              Aperte aqui
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>create_process.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="8"
+            >
+              Aperte aqui
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>create_process.c</h2>
+            <button
+              class="button-entrega1"
+              type="submit"
+              name="opcao"
+              value="9"
+            >
+              Aperte aqui
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

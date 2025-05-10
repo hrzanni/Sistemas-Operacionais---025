@@ -1,6 +1,248 @@
-/* Teste da entrega 2*/
+/* Edição da home.html */
 
-form {
+.participantes {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  margin-top: 161px;
+}
+
+.cardHome-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.cardHome-container2 {
+  display: flex;
+  justify-content: center;
+  margin-top: -180px;
+}
+
+.cardHome-container3 {
+  display: flex;
+  justify-content: center;
+  margin-top: -180px;
+  margin-left: 750px;
+  margin-bottom: 25px;
+}
+
+.cardHome {
+  text-decoration: none;
+  background-color: rgb(226, 226, 226);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 300px;
+  height: 121px;
+  margin-left: -750px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #2c3e50;
+}
+
+.cardHome2 {
+  text-decoration: none;
+  background-color: rgb(226, 226, 226);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #2c3e50;
+}
+
+.cardHome3 {
+  text-decoration: none;
+  background-color: rgb(226, 226, 226);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #2c3e50;
+}
+
+.cardHome:hover {
+  transform: translateX(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardHome2:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardHome3:hover {
+  transform: translateX(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardHome h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.cardHome p {
+  font-size: 16px;
+  color: #000000;
+}
+
+.cardHome2 p {
+  font-size: 16px;
+  color: #000000;
+}
+
+.cardHome3 p {
+  font-size: 16px;
+  color: #000000;
+}
+
+/* Templates */
+
+/* Edição que serve para deixar as entregas padronizadas */
+
+.descricaoEntrega {
+  margin: 20px 70px;
+}
+
+.topicosEntrega {
+  display: flex;
+  margin: 20px 70px;
+}
+
+.topicosEntrega ul {
+  list-style-type: disc;
+  /* bolinha padrão */
+  text-align: left;
+}
+
+.topicosEntrega li {
+  margin: 10px 0;
+  font-family: "Arial", sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Estilo da navbar */
+.navbar {
+  background-color: rgb(226, 226, 226);
+  padding: 15px 0;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-home {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+.navbar-home:hover {
+  color: rgba(59, 175, 237, 0.848);
+}
+
+.navbar-items {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-items li a {
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.navbar-items li a:hover {
+  color: rgba(59, 175, 237, 0.848);
+  border-bottom: 2px solid rgba(59, 175, 237, 0.848);
+}
+
+/* entrega 1*/
+
+.pagina-entrega1 {
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.container-escolha {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.container-escolha h1 {
+  display: flex;
+  justify-content: center; /* centraliza horizontalmente */
+  gap: 30px; /* espaçamento entre os formulários */
+  flex-wrap: wrap; /* permite que quebrem em telas pequenas */
+  margin: 40px 0;
+}
+
+.cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  margin-top: 30px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card button {
+  margin-top: 15px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #2563eb;
+}
+
+/* entrega 2*/
+
+.form-entrega2 {
   margin: 20px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -183,218 +425,4 @@ body {
 
 .relatorioSimulator span {
   color: #00ff90;
-}
-
-/* Edição da home.html */
-
-.participantes {
-  background-color: #333;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  position: relative;
-  bottom: 0;
-  margin-top: 161px;
-}
-
-.card-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.card-container2 {
-  display: flex;
-  justify-content: center;
-  margin-top: -180px;
-}
-
-.card-container3 {
-  display: flex;
-  justify-content: center;
-  margin-top: -180px;
-  margin-left: 750px;
-  margin-bottom: 25px;
-}
-
-.card {
-  text-decoration: none;
-  background-color: rgb(226, 226, 226);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 300px;
-  height: 121px;
-  margin-left: -750px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #2c3e50;
-}
-
-.card2 {
-  text-decoration: none;
-  background-color: rgb(226, 226, 226);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 300px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #2c3e50;
-}
-
-.card3 {
-  text-decoration: none;
-  background-color: rgb(226, 226, 226);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 300px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #2c3e50;
-}
-
-.card:hover {
-  transform: translateX(-10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card2:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card3:hover {
-  transform: translateX(10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.card p {
-  font-size: 16px;
-  color: #000000;
-}
-
-.card2 p {
-  font-size: 16px;
-  color: #000000;
-}
-
-.card3 p {
-  font-size: 16px;
-  color: #000000;
-}
-
-/* Templates */
-
-/* Edição que serve para deixar as entregas padronizadas */
-
-.descricaoEntrega {
-  margin: 20px 70px;
-}
-
-.topicosEntrega {
-  display: flex;
-  margin: 20px 70px;
-}
-
-.topicosEntrega ul {
-  list-style-type: disc;
-  /* bolinha padrão */
-  text-align: left;
-}
-
-.topicosEntrega li {
-  margin: 10px 0;
-  font-family: "Arial", sans-serif;
-  font-size: 18px;
-  color: #333;
-}
-
-body {
-  margin: 0;
-  font-family: "Montserrat", sans-serif;
-  background-color: #f9f9f9;
-}
-
-/* Estilo da navbar */
-.navbar {
-  background-color: rgb(226, 226, 226);
-  padding: 15px 0;
-  top: 0;
-  z-index: 999;
-}
-
-.navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar-home {
-  font-size: 22px;
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-}
-
-.navbar-home:hover {
-  color: rgba(59, 175, 237, 0.848);
-}
-
-.navbar-items {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-items li a {
-  text-decoration: none;
-  color: #2c3e50;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
-}
-
-.navbar-items li a:hover {
-  color: rgba(59, 175, 237, 0.848);
-  border-bottom: 2px solid rgba(59, 175, 237, 0.848);
-}
-
-/* entrega 1*/
-
-.escolha {
-  color: #4caf50;
-}
-
-.container-escolha {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.buttom-escolha {
-  padding: 15px 30px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.buttom-escolha:hover {
-  background-color: #45a049;
 }
