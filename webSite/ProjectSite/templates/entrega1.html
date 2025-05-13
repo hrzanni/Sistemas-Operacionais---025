@@ -1,11 +1,13 @@
 {% extends 'base.html' %} {% block body %}
 <div class="pagina-entrega1">
   <div class="descricaoEntrega">
+    <h3>
+      A primeira entrega de módulo do nosso projeto é dividido em duas partes.
+    </h3>
     <p>
-      Nessa primeira entrega de módulo, o projeto visa introduzir a ideia de
-      primitivas de chamadas de sistemas disponíveis no Linux para os alunos,
-      apresentando algumas das principais utilizações das mesmas nas categorias
-      de:
+      A primeira parte tem como objetivo introduzir a ideia de chamadas
+      primitivas de sistemas disponíveis no Linux, apresentando algumas das
+      principais utilizações, das mesmas, nas categorias de:
     </p>
     <div class="topicosEntrega">
       <ul>
@@ -16,135 +18,79 @@
       </ul>
     </div>
     <p>
-      No projeto estarão apresentados programas, na linguagem C, juntamente com
-      breves relatórios contendo explicações sobre a funcionalidade de cada um
-      dos mesmos e com a aprensentação estatísticas fornecidas pelas ferramentas
-      'strace' e 'time'.
+      Logo abaixo estão apresentados programas, na linguagem C, juntamente com
+      breves interações, no formato de vídeos, contendo explicações sobre a
+      funcionalidade de cada uma das primitivas juntamente com a aprensentação
+      de estatísticas fornecidas pelas ferramentas 'strace' e 'time'.
     </p>
 
     <div class="container-escolha">
-      <h1>Escolha uma chamada de sistema para simular</h1>
-      <form
-        class="form-entrega1"
-        action="/cgi-bin/processa_opcao.cgi"
-        method="GET"
-        class="cards-wrapper"
-      >
-        <div class="cards-systemcalls-files">
+      <h1>Escolha uma chamada de sistema para explorar:</h1>
+      <div class="cards-systemcalls">
+        <h3>Arquivos</h3>
+        <div class="cards-systemcalls-group">
           <div class="card">
             <h2>open_file.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="1"
-            >
-              Aperte aqui
-            </button>
+            <a href="/entrega1/open_file">Explorar open()</a>
           </div>
 
           <div class="card">
             <h2>write_file.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="2"
-            >
-              Aperte aqui
-            </button>
+            <a href="/entrega1/write_file">Explorar write()</a>
           </div>
 
           <div class="card">
             <h2>read_file.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="3"
-            >
-              Aperte aqui
-            </button>
+            <a href="/entrega1/read_file">Explorar read()</a>
           </div>
         </div>
+      </div>
 
-        <div class="cards-systemcalls-memory">
+      <div class="cards-systemcalls">
+        <h3>Memória</h3>
+        <div class="cards-systemcalls-group">
           <div class="card">
-            <h2>create_process.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="4"
-            >
-              Aperte aqui
-            </button>
+            <h2>mmap.c</h2>
+            <a href="/entrega1/mmap">Explorar mmap()</a>
           </div>
 
           <div class="card">
-            <h2>create_process.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="5"
-            >
-              Aperte aqui
-            </button>
+            <h2>mprotect.c</h2>
+            <a href="/entrega1/mprotect">Explorar mprotect()</a>
           </div>
 
           <div class="card">
-            <h2>create_process.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="6"
-            >
-              Aperte aqui
-            </button>
+            <h2>munmap.c</h2>
+            <a href="/entrega1/munmap">Explorar munmap()</a>
           </div>
         </div>
+      </div>
 
-        <div class="cards-systemcalls-process">
+      <div class="cards-systemcalls">
+        <h3>Processos</h3>
+        <div class="cards-systemcalls-group">
           <div class="card">
-            <h2>create_process.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="7"
-            >
-              Aperte aqui
-            </button>
+            <h2>fork.c</h2>
+            <a href="/entrega1/fork">Explorar fork()</a>
           </div>
 
           <div class="card">
-            <h2>create_process.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="8"
-            >
-              Aperte aqui
-            </button>
+            <h2>pause.c</h2>
+            <a href="/entrega1/pause">Explorar pause()</a>
           </div>
 
           <div class="card">
-            <h2>create_process.c</h2>
-            <button
-              class="button-entrega1"
-              type="submit"
-              name="opcao"
-              value="9"
-            >
-              Aperte aqui
-            </button>
+            <h2>sleep.c</h2>
+            <a href="/entrega1/sleep">Explorar sleep()</a>
           </div>
         </div>
-      </form>
+      </div>
     </div>
+
+    <p>
+      A Segunda parte tem como objetivo a criação de 2 programas que exibam o
+      comportamento esperado para processos CPU-bound e I-O bound.
+    </p>
   </div>
 </div>
 {% endblock %}

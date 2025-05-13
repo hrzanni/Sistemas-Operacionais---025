@@ -31,6 +31,43 @@ def home():
 def entrega1():
     return render_template('entrega1.html')
 
+@app.route("/entrega1/open_file")
+def entrega1_open_file():
+    return render_template('entrega1-open_file.html')
+
+@app.route("/entrega1/write_file")
+def entrega1_write_file():
+    return render_template('entrega1-write_file.html')
+
+@app.route("/entrega1/read_file")
+def entrega1_read_file():
+    return render_template('entrega1-read_file.html')
+
+@app.route("/entrega1/mmap")
+def entrega1_mmap():
+    return render_template('entrega1-mmap.html')
+
+@app.route("/entrega1/mprotect")
+def entrega1_mprotect():
+    return render_template('entrega1-mprotect.html')
+
+@app.route("/entrega1/munmap")
+def entrega1_munmap():
+    return render_template('entrega1-munmap.html')
+
+@app.route("/entrega1/fork")
+def entrega1_fork():
+    return render_template('entrega1-fork.html')
+
+@app.route("/entrega1/pause")
+def entrega1_pause():
+    return render_template('entrega1-pause.html')
+
+@app.route("/entrega1/sleep")
+def entrega1_sleep():
+    return render_template('entrega1-sleep.html')
+    
+
 
 
 @app.route('/entrega2', methods=['GET', 'POST'])

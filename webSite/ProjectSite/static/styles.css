@@ -192,52 +192,87 @@ body {
   min-height: 100vh;
 }
 
+.cards-systemcalls {
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.cards-systemcalls h3 {
+  margin-bottom: 40px;
+  font-size: 1.8rem;
+}
+
+.cards-systemcalls h2 {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  color: #1f2937;
+  text-align: center;
+}
+
+.cards-systemcalls-group {
+  display: flex;
+  gap: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .container-escolha {
-  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
 
 .container-escolha h1 {
   display: flex;
-  justify-content: center; /* centraliza horizontalmente */
+  justify-content: center; /*  horizontalmente */
   gap: 30px; /* espaçamento entre os formulários */
   flex-wrap: wrap; /* permite que quebrem em telas pequenas */
   margin: 40px 0;
 }
 
-.cards-wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 50px;
-  margin-top: 30px;
-}
-
 .card {
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 25px 20px;
   text-align: center;
   transition: transform 0.2s ease;
+  height: 150px;
+  width: 150px;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
-.card button {
-  margin-top: 15px;
+.card a {
+  display: inline-block;
+  margin-top: 40px;
   background-color: #3b82f6;
   color: white;
+  text-decoration: none;
   border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
+  padding: 10px 20px;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.card button:hover {
+.card a:hover {
   background-color: #2563eb;
+}
+
+.card a:active {
+  transform: scale(0.98);
 }
 
 /* entrega 2*/

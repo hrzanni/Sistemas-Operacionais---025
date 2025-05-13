@@ -1,26 +1,30 @@
 {% extends 'base.html' %} {% block body %}
 <div class="descricaoEntrega">
   <p>
-    Nessa segunda entrega de módulo, o problema apresentado foi do
-    produtor-consumidor, que é um clássico da programação concorrente onde um ou
-    mais produtores enchem um buffer compartilhado com dados, enquanto um ou
-    mais consumidores retiram esses dados. O desafio era garantir que tudo
-    acontecesse sem conflitos — ou seja, sem dois produtores tentando gravar no
-    mesmo lugar ao mesmo tempo, ou um consumidor pegando um dado que ainda não
-    estava pronto.
+    Nessa segunda entrega de módulo, foi apresentado a questão do problema
+    Produtor-Consumidor, que é um clássico da programação concorrente, no qual
+    alguns processos compartilhem um recurso em comum, como um buffer. E, ao
+    longo do tempo, enchem um buffer compartilhado com dados, e ao mesmo tempo
+    consomem as informações contidas nesse, causando certo conflitos. O desafio
+    era garantir que tudo acontecesse sem esses conflitos, ou seja, sem dois
+    produtores tentando gravar, no mesmo lugar ao mesmo tempo, ou um consumidor
+    pegando um dado que ainda não estava pronto.
   </p>
-  <p>Para isso, nós usamos semáforos pra controlar o acesso:</p>
+  <p>
+    Para isso, são utilizadas combinações de semáforos pra controlar o acesso,
+    como:
+  </p>
   <div class="topicosEntrega">
     <ul>
       <li>
-        mutex: pra garantir que só uma thread (produtor ou consumidor) mexa no
+        mutex: para garantir que só uma thread (produtor ou consumidor) mexa no
         buffer por vez.
       </li>
       <li>
-        empty: pra contar espaços vazios (se ficar zero, o produtor espera).
+        empty: para contar espaços vazios (se ficar zero, o produtor espera).
       </li>
       <li>
-        full: pra contar espaços ocupados (se ficar zero, o consumidor espera).
+        full: para contar espaços ocupados (se ficar zero, o consumidor espera).
       </li>
     </ul>
   </div>
@@ -28,16 +32,16 @@
     Além disso, implementamos um buffer circular com filas pra saber onde o
     próximo dado deve ser escrito ou lido. As threads usam a biblioteca
     ''pthreads'', e evitamos a espera ociosa fazendo com que elas "dormissem"
-    (wait) quando não podiam agir, e "acordassem" (signal) quando o buffer
-    ficava disponível.
+    (utilizando 'wait') quando não podiam agir, e "acordassem" (utilizando
+    'signal') quando o buffer ficava disponível.
   </p>
   <p>
-    No fim, o programa controla coerentemente a quantidade de espaços que estão
-    livres ou ocupados, evita acessos simultâneos que poderiam corromper dados e
-    garante que produtores e consumidores trabalhem de forma sincronizada e
-    eficiente, sem gastar processamento de forma desnecessária. Essa é a base
-    para entender como sistemas operacionais e aplicações multitarefa gerenciam
-    recursos compartilhados!
+    Com isso, o programa controla coerentemente a quantidade de espaços que
+    estão livres ou ocupados, evitando acessos simultâneos que poderiam
+    corromper dados e garantindo que produtores e consumidores trabalhem de
+    forma sincronizada e eficiente, sem gastar processamento de forma
+    desnecessária. Essa é a base para entender como sistemas operacionais e
+    aplicações multitarefa gerenciam recursos compartilhados!
   </p>
 
   <br />
