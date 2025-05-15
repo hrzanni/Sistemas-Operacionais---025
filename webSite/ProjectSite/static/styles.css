@@ -275,6 +275,36 @@ body {
   transform: scale(0.98);
 }
 
+.cards-ProcessosIO-CPU {
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.cards-ProcessosIO-CPU h3 {
+  margin-bottom: 40px;
+  font-size: 1.8rem;
+}
+
+.cards-ProcessosIO-CPU h2 {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  color: #1f2937;
+  text-align: center;
+}
+
+.cards-ProcessosIO-CPU-group {
+  display: flex;
+  gap: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 /* entrega 2*/
 
 .form-entrega2 {

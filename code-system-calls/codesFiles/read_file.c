@@ -5,7 +5,7 @@
 
 int main() {
 
-    int fd = open("./dados/myFile.txt", O_RDONLY);
+    int fd = open("dados/myFile.txt", O_RDONLY);
     if (fd < 0) {
         perror("Error opening file for reading");
         exit(EXIT_FAILURE);

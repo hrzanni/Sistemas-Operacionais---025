@@ -1,1 +1,21 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>FORK()</h2>
+  <p>
+    A primitiva fork() é uma das primitivas fundamentais para criação de
+    processos e concorrência em sistemas operacionais. Ao ser chamada, essa
+    primitiva cria uma cópia de um processo inicial (chamado de processo pai),
+    permitindo que o novo processo criado (processo filho) execute tarefas
+    independentes.
+  </p>
+  <p>
+    Para controlar o comportamento do processo pai e filho, o sistema
+    operacional oferece outras ferramentas, como wait() e exec(), que ajudam a
+    gerenciar e finalizar processos corretamente. A fork() é fundamental para
+    sistemas multitarefa e permite a execução paralela de diferentes partes de
+    um programa.
+  </p>
+</div>
+
+{% endblock %}

@@ -11,7 +11,7 @@ int main() {
 
     switch(opcao) {
         case 1:
-            system("docker exec sistemas-operacionais-025_met01_1 ./app");
+            system("docker exec sistemas-operacionais-025_met01_1 ./app"); 
             break;
         case 2:
             system("docker exec sistemas-operacionais-025_met02_1 ./app");

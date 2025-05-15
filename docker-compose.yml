@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        SOURCE_FILE: code-system-calls/codesFiles/write_file.c
+        SOURCE_FILE: code-system-calls/codesFiles/open_file.c
     command: sh -c "./app; tail -f /dev/null"
     volumes:
       - ./webSite/dados:/app/dados
@@ -16,6 +16,8 @@ services:
       args:
         SOURCE_FILE: code-system-calls/codesFiles/read_file.c
     command: sh -c "./app; tail -f /dev/null"
+    volumes:
+      - ./webSite/dados:/app/dados
 
   met03:
     build:
@@ -24,6 +26,8 @@ services:
       args:
         SOURCE_FILE: code-system-calls/codesFiles/write_file.c
     command: sh -c "./app; tail -f /dev/null"
+    volumes:
+      - ./webSite/dados:/app/dados
 
   met04:
     build:

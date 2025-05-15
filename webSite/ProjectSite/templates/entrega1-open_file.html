@@ -1,1 +1,21 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>OPEN()</h2>
+  <p>
+    A primitiva open() é uma chamada na qual um programa abre um arquivo. Isso
+    significa que o sistema operacional reserva certos recursos para que o
+    arquivo possa ser manipulado, seja sendo lido, escrito, etc. Essa primitiva
+    retorna um identificador de arquivo, geralmente um número inteiro, o qual
+    será usado pelo programa para fazer outras operações no arquivo, como
+    leitura e escrita, por exemplo.
+  </p>
+  <p>
+    De forma didática, o open() diz ao sistema operacional: "Quero começar a
+    trabalhar com esse arquivo aqui". E o sistema operacional então fornece ao
+    programa um identificador próprio desse mesmo arquivo para que ele possa
+    acessá-lo.
+  </p>
+</div>
+
+{% endblock %}

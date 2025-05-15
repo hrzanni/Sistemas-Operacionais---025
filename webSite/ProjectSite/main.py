@@ -67,7 +67,13 @@ def entrega1_pause():
 def entrega1_sleep():
     return render_template('entrega1-sleep.html')
     
+@app.route("/entrega1/Processos_I/O-bound")
+def entrega1_IOBound():
+    return render_template('entrega1-IOBound.html')
 
+@app.route("/entrega1/Processos_CPU-bound")
+def entrega1_CPUBound():
+    return render_template('entrega1-CPUBound.html')
 
 
 @app.route('/entrega2', methods=['GET', 'POST'])

@@ -1,1 +1,18 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>MUNMAP()</h2>
+  <p>
+    AA primitiva munmap() é uma chamada de sistema em sistemas operacionais
+    usada para desmapear uma região de memória previamente mapeada com mmap().
+    Ela permite que o sistema operacional libere os recursos associados à
+    memória que foi mapeada no espaço de memória do processo, encerrando o uso
+    dessa área de memória.
+  </p>
+  <p>
+    Didaticamente, é uma espécie de função antagônica a mmap(), ''Enquanto uma
+    inicializa o processo, a outra encerra''.
+  </p>
+</div>
+
+{% endblock %}

@@ -1,1 +1,15 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>MMAP()</h2>
+  <p>
+    A primitiva mmap() é uma chamada q qual permite mapear arquivos ou
+    dispositivos diretamente para o espaço de memória do processo. Em vez de ler
+    e escrever arquivos byte a byte (como as primitivas read() e write()), a
+    mmap() mapeia o conteúdo de um arquivo para um endereço de memória virtual.
+    Isso permite que o processo manipule os dados diretamente na memória, como
+    se fosse uma parte do seu próprio espaço de memória.
+  </p>
+</div>
+
+{% endblock %}

@@ -6,7 +6,8 @@
 int main() {
     int fd;
 
-    fd = open("./dados/myFile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    printf("Tentando abrir: myFile.txt\n");
+    fd = open("dados/myFile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (fd < 0) {
         perror("Error opening file");
         exit(EXIT_FAILURE);

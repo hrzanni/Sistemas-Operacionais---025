@@ -8,7 +8,7 @@ int main() {
     int fd;
     char *message = "writing in my file!!\n";
 
-    fd = open("myFile.txt", O_WRONLY | O_APPEND);
+    fd = open("dados/myFile.txt", O_WRONLY | O_APPEND);
     if (fd < 0) {
         perror("Error opening file for writing");
         exit(EXIT_FAILURE);

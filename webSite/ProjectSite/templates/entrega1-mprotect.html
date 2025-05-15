@@ -1,1 +1,20 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>MPROTECT()</h2>
+  <p>
+    A primitiva mprotect() é utilizada em sistemas operacionais para modificar
+    as permissões de acesso de uma área de memória já mapeada (pela mmap()). Ela
+    permite alterar as permissões de leitura, escrita e execução de uma região
+    de memória, oferecendo um controle maximizado sobre quais processos ou
+    threads podem acessar a memória de diferentes formas.
+  </p>
+  <p>
+    mprotect() é frequentemente usada em cenários em que há necessidade de uma
+    proteção maior da memória, como em sistemas que implementam segurança,
+    compartilhamento de memória ou em situações que exigem modificação das
+    permissões de memória durante a execução do programa.
+  </p>
+</div>
+
+{% endblock %}
