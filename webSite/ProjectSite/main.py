@@ -2,6 +2,8 @@ from flask import Flask, render_template, jsonify, request
 from ctypes import CDLL, c_int, c_char_p, create_string_buffer, byref, POINTER
 import re
 import time
+import subprocess
+import os
 
 app = Flask(__name__)
 
@@ -31,9 +33,21 @@ def home():
 def entrega1():
     return render_template('entrega1.html')
 
-@app.route("/entrega1/open_file")
+@app.route("/entrega1/open_file", methods=["GET", "POST"])
 def entrega1_open_file():
-    return render_template('entrega1-open_file.html')
+    resultado = None
+
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 1 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-open_file.html', resultado=resultado)
 
 @app.route("/entrega1/write_file")
 def entrega1_write_file():

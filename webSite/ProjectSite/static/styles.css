@@ -491,3 +491,33 @@ body {
 .relatorioSimulator span {
   color: #00ff90;
 }
+
+/* template de codigo */
+
+.exemplo-codigo {
+  max-width: 600px; /* ou 100%, dependendo do layout */
+  margin: 0 auto;
+}
+
+.exemplo-codigo pre code {
+  display: block;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+.saida-codigo {
+  background: #1e1e1e;
+  color: #0f0;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  overflow-x: auto;
+  font-family: monospace;
+}
