@@ -10,6 +10,64 @@
     dispositivo de armazenamento (disco rígido, SSD, etc) ou outro tipo de
     destino de arquivo.
   </p>
+
+  <div class="container-imagem">
+    <h4>Ilustração da chamada de sistema write()</h4>
+    <video width="640" height="360" controls>
+      <source
+        src="{{ url_for('static', filename='videos/video_read_write.mp4') }}"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>Veja o exemplo de código a seguir da função write():</h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+  #include &lt;fcntl.h&gt;  
+  #include &lt;unistd.h&gt;    
+  #include &lt;stdio.h&gt;   
+  #include &lt;stdlib.h&gt;  
+  #include &lt;string.h&gt; 
+  
+  int main() {
+    int fd;
+    char *message = "writing in my file!!\n";
+
+    fd = open("dados/myFile.txt", O_WRONLY | O_APPEND);
+    if (fd < 0) {
+        perror("Error opening file for writing");
+        exit(EXIT_FAILURE);
+    }
+
+    if (write(fd, message, strlen(message)) < 0) {
+        perror("Error writing to file");
+        close(fd);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Message written to 'myFile.txt'.\n");
+
+    close(fd);
+    return 0;
+}
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

@@ -11,6 +11,70 @@
     fundamentais para a interação com arquivos e dispositivos no sistema
     operacional.
   </p>
+
+  <div class="container-imagem">
+    <h4>Ilustração da chamada de sistema read()</h4>
+    <video width="640" height="360" controls>
+      <source
+        src="{{ url_for('static', filename='videos/video_read_write.mp4') }}"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>Veja o exemplo de código a seguir da função read():</h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+  #include &lt;fcntl.h&gt;  
+  #include &lt;unistd.h&gt;    
+  #include &lt;stdio.h&gt;   
+  #include &lt;stdlib.h&gt;  
+  
+  int main() {
+
+    printf("O conteúdo do arquivo é:\n\n");
+
+    int fd = open("dados/myFile.txt", O_RDONLY);
+    if (fd < 0) {
+        perror("Error opening file for reading");
+        exit(EXIT_FAILURE);
+    }
+
+    char buffer[BUFSIZ + 1];
+    ssize_t bytesRead;
+
+    while ((bytesRead = read(fd, buffer, BUFSIZ)) > 0){
+        buffer[bytesRead] = '\0';
+        printf("%s", buffer);
+    }
+
+    if (bytesRead < 0) {
+        perror("Error reading file");
+        close(fd);
+        exit(EXIT_FAILURE);
+    }
+
+
+    close(fd);
+    return 0;
+  }
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

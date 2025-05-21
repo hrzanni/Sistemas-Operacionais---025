@@ -494,8 +494,56 @@ body {
 
 /* template de codigo */
 
+.container-imagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.container-imagem h4 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.imagem-ajustada {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.codigo-container {
+  position: relative;
+}
+
+.botao-compilar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-compilar:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+.exemplo-codigo h4 {
+  text-align: center;
+}
+
 .exemplo-codigo {
-  max-width: 600px; /* ou 100%, dependendo do layout */
+  max-width: 600px;
   margin: 0 auto;
 }
 

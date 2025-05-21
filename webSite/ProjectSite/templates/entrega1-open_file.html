@@ -17,9 +17,25 @@
     acessá-lo.
   </p>
 
+  <div class="container-imagem">
+    <h4>Ilustração da chamada de sistema open()</h4>
+    <img
+      src="{{ url_for('static', filename='img/imagem_open.jpeg') }}"
+      class="imagem-ajustada"
+    />
+  </div>
+
+  <br />
+  <br />
+
   <div class="exemplo-codigo">
-    <p>Veja o exemplo a seguir:</p>
-    <pre><code>
+    <h4>Veja o exemplo de código a seguir da função open():</h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
   #include &lt;fcntl.h&gt;  
   #include &lt;unistd.h&gt;    
   #include &lt;stdio.h&gt;   
@@ -42,11 +58,7 @@
   }
 
   </code></pre>
-
-    <form method="POST">
-      <button class="botao-compilar" type="submit">Executar código</button>
-    </form>
-
+    </div>
     {% if resultado %}
     <pre class="saida-codigo">
       {{ resultado }}
@@ -54,5 +66,4 @@
     {% endif %}
   </div>
 </div>
-
 {% endblock %}

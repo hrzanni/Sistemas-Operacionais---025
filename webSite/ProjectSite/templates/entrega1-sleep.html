@@ -10,6 +10,53 @@
     processo aguarde antes de continuar a execução, sem precisar de intervenção
     ativa.
   </p>
+
+  <div class="container-imagem">
+    <h4>Ilustração da chamada de sistema sleep()</h4>
+    <video width="640" height="360" controls>
+      <source
+        src="{{ url_for('static', filename='videos/video_sleep.mp4') }}"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>Veja o exemplo de código a seguir da função sleep():</h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+  #include &lt;stdio.h&gt;  
+  #include &lt;sys/time.h&gt;    
+  #include &lt;unistd.h&gt;    
+  
+  int main() {
+    for(int i = 1; i < 6; i++) {
+	    printf("\r%d", i);
+	    fflush(stdout);
+	    if (i < 5) {
+        sleep(1);
+	    }
+    }  
+    
+    printf("\n");
+    return 0;
+}
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

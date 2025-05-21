@@ -4,11 +4,11 @@
 
 void handle_signal(int sig) {
     printf("\nSignal %d received\n", sig);
-    fflush(stdout);  // Garante que o printf dentro do signal handler seja exibido
+    fflush(stdout);  
 }
 
 int main() {
-    setbuf(stdout, NULL);  // Desabilita buffer da saída padrão
+    setbuf(stdout, NULL);  
 
     printf("Press (Ctrl+Z) to send a signal\n");
 

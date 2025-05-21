@@ -10,6 +10,55 @@
     de fluxo em programas que precisam aguardar a chegada de eventos
     assíncronos, como sinais de interrupção.
   </p>
+
+  <div class="container-imagem">
+    <h4>Ilustração da chamada de sistema pause()</h4>
+    <img
+      src="{{ url_for('static', filename='img/imagem_pause.jpeg') }}"
+      class="imagem-ajustada"
+    />
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>Veja o exemplo de código a seguir da função pause():</h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+  #include &lt;stdio.h&gt;  
+  #include &lt;signal.h&gt;    
+  #include &lt;unistd.h&gt;  
+  
+  void handle_signal(int sig) {
+    printf("\nSignal %d received\n", sig);
+    fflush(stdout);  
+  }
+
+  int main() {
+    setbuf(stdout, NULL);  
+
+    printf("Press (Ctrl+Z) to send a signal\n");
+
+    signal(SIGTSTP, handle_signal);
+
+    pause();
+
+    return 0;
+  }
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

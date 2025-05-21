@@ -16,6 +16,64 @@
     sistemas multitarefa e permite a execução paralela de diferentes partes de
     um programa.
   </p>
+
+  <div class="container-imagem">
+    <h4>Ilustração da chamada de sistema fork()</h4>
+    <video width="640" height="360" controls>
+      <source
+        src="{{ url_for('static', filename='videos/video_fork.mp4') }}"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>Veja o exemplo de código a seguir da função fork():</h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+  #include &lt;stdio.h&gt;  
+  #include &lt;sys/types.h&gt;    
+  #include &lt;unistd.h&gt;   
+  #include &lt;stdlib.h&gt;  
+  #include &lt;sys/wait.h&gt;  
+  
+  int main() {
+    pid_t pid;
+    pid = fork();
+
+    if ( pid < 0 ) {
+	    fprintf(stderr,"erro in fork()\n"); 
+	    exit(1);
+    }
+
+    if ( pid == 0 ) {
+	    printf("CHILD: My ID is %d, pid (value)is %d\n",getpid(), pid);
+    }
+    else {
+	    printf("PARENT: My ID is %d, pid (child)is %d\n", getpid(), pid);
+	    wait(NULL);
+    }
+
+    system("date");
+
+    return 0;
+}
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

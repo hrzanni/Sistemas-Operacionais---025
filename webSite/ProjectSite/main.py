@@ -49,37 +49,137 @@ def entrega1_open_file():
 
     return render_template('entrega1-open_file.html', resultado=resultado)
 
-@app.route("/entrega1/write_file")
-def entrega1_write_file():
-    return render_template('entrega1-write_file.html')
 
-@app.route("/entrega1/read_file")
+@app.route("/entrega1/read_file", methods=["GET", "POST"])
 def entrega1_read_file():
-    return render_template('entrega1-read_file.html')
+    resultado = None
 
-@app.route("/entrega1/mmap")
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 2 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-read_file.html', resultado=resultado)
+
+
+@app.route("/entrega1/write_file", methods=["GET", "POST"])
+def entrega1_write_file():
+    resultado = None
+
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 3 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-write_file.html', resultado=resultado)
+
+
+
+@app.route("/entrega1/mmap", methods=["GET", "POST"])
 def entrega1_mmap():
-    return render_template('entrega1-mmap.html')
+    resultado = None
 
-@app.route("/entrega1/mprotect")
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 4 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-mmap.html', resultado=resultado)
+
+@app.route("/entrega1/mprotect", methods=["GET", "POST"])
 def entrega1_mprotect():
-    return render_template('entrega1-mprotect.html')
+    resultado = None
 
-@app.route("/entrega1/munmap")
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 5 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-mprotect.html', resultado=resultado)
+
+@app.route("/entrega1/munmap", methods=["GET", "POST"])
 def entrega1_munmap():
-    return render_template('entrega1-munmap.html')
+    resultado = None
 
-@app.route("/entrega1/fork")
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 6 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-munmap.html', resultado=resultado)
+
+@app.route("/entrega1/fork", methods=["GET", "POST"])
 def entrega1_fork():
-    return render_template('entrega1-fork.html')
+    resultado = None
 
-@app.route("/entrega1/pause")
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 7 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-fork.html', resultado=resultado)
+
+@app.route("/entrega1/pause", methods=["GET", "POST"])
 def entrega1_pause():
-    return render_template('entrega1-pause.html')
+    resultado = None
 
-@app.route("/entrega1/sleep")
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 8 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-pause.html', resultado=resultado)
+
+@app.route("/entrega1/sleep", methods=["GET", "POST"])
 def entrega1_sleep():
-    return render_template('entrega1-sleep.html')
+    resultado = None
+
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 8 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
+    return render_template('entrega1-sleep.html', resultado=resultado)
     
 @app.route("/entrega1/Processos_I/O-bound")
 def entrega1_IOBound():

@@ -5,6 +5,8 @@
 
 int main() {
 
+    printf("O conteúdo do arquivo é:\n\n");
+
     int fd = open("dados/myFile.txt", O_RDONLY);
     if (fd < 0) {
         perror("Error opening file for reading");

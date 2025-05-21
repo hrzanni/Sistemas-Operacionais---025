@@ -4,10 +4,8 @@
 int main() {
     int opcao;
 
-    printf("Escolha uma opção (1-9): ");
     scanf("%d", &opcao);
 
-    printf("Você escolheu a opção %d!\n", opcao);
 
     switch(opcao) {
         case 1:
