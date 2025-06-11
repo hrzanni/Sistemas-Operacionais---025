@@ -79,7 +79,6 @@
     <button type="submit">Executar Simulação</button>
   </form>
 
-  <!-- Resultados da Simulação -->
   {% if dados_simulacao %}
   <div class="resultados-simulacao">
     <h2>Resultados da Simulação</h2>
@@ -105,21 +104,21 @@
 
     <!-- Visualização da Memória Física -->
     <div class="memoria-fisica">
-      <h3>Estado da Memória Física</h3>
+      <h3>Estado da Memória Física (último step)</h3>
       <div class="memory-grid">
         {% for frame in dados_simulacao.memoria_fisica %}
         <div
-          class="frame 
-                  {{ 'frame-modificado' if frame.modificado else '' }}
-                  {{ 'frame-referenciado' if frame.referenciado else '' }}"
+          class="frame
+                    {{ 'frame-modificado' if frame['modified'] else '' }}
+                    {{ 'frame-referenciado' if frame['referenced'] else '' }}"
         >
-          <div class="frame-id">Frame {{ frame.id }}</div>
-          {% if frame.alocado %}
-          <div class="frame-pid">PID: {{ frame.pid }}</div>
-          <div class="frame-pagina">Pág: {{ frame.pagina }}</div>
+          <div class="frame-id">Frame {{ frame['id'] }}</div>
+          {% if frame['pid'] is not none %}
+          <div class="frame-pid">PID: {{ frame['pid'] }}</div>
+          <div class="frame-pagina">Pág: {{ frame['page'] }}</div>
           <div class="frame-flags">
-            R: {{ '✓' if frame.referenciado else '✗' }} M: {{ '✓' if
-            frame.modificado else '✗' }}
+            R: {{ '✓' if frame['referenced'] else '✗' }} M: {{ '✓' if
+            frame['modified'] else '✗' }}
           </div>
           {% else %}
           <div class="frame-livre">LIVRE</div>
@@ -131,7 +130,7 @@
 
     <!-- Tabelas de Páginas -->
     <div class="tabelas-paginas">
-      <h3>Tabelas de Páginas por Processo</h3>
+      <h3>Tabelas de Páginas por Processo (último step)</h3>
       {% for pid, tabela in dados_simulacao.tabelas_paginas.items() %}
       <div class="processo-tabela">
         <h4>Processo {{ pid }} ({{ tabela.estado }})</h4>
@@ -163,11 +162,13 @@
 
     <!-- Log de Eventos -->
     <div class="event-log">
-      <h3>Eventos da Simulação</h3>
+      <h3>Eventos da Simulação (todos os steps)</h3>
       <div class="log-container">
         {% for evento in dados_simulacao.log_eventos %}
-        <div class="log-entry {{ 'log-falta' if 'Falta' in evento else '' }}">
-          [{{ evento.timestamp }}] {{ evento.mensagem }}
+        <div
+          class="log-entry {{ 'log-falta' if 'Falta' in evento.mensagem else '' }}"
+        >
+          [Step {{ evento.timestamp }}] {{ evento.mensagem }}
         </div>
         {% endfor %}
       </div>

@@ -1,452 +1,55 @@
 {% extends 'base.html' %} {% block body %}
-<div class="backgroundSimulacao">
-  <div class="simulacao">
-    <h2>Simulação de Gerenciamento de Memória Virtual</h2>
 
-    <!-- Configuração Inicial (se não tiver sido submetida) -->
-    {% if not dados_simulacao %}
-    <form
-      class="form-entrega3"
-      method="POST"
-      action="/simuladorEntrega3"
-      enctype="multipart/form-data"
-    >
-      <div class="param-group">
-        <label for="tamanho_pagina">Tamanho da Página (bytes):</label>
-        <input
-          type="number"
-          id="tamanho_pagina"
-          name="tamanho_pagina"
-          value="4096"
-          min="256"
-          required
-        />
-
-        <label for="bits_endereco">Bits de Endereço Lógico:</label>
-        <input
-          type="number"
-          id="bits_endereco"
-          name="bits_endereco"
-          value="32"
-          min="16"
-          max="64"
-          required
-        />
-      </div>
-
-      <div class="param-group">
-        <label for="memoria_fisica">Memória Física (KB):</label>
-        <input
-          type="number"
-          id="memoria_fisica"
-          name="memoria_fisica"
-          value="1024"
-          min="64"
-          required
-        />
-
-        <label for="memoria_secundaria">Memória Secundária (MB):</label>
-        <input
-          type="number"
-          id="memoria_secundaria"
-          name="memoria_secundaria"
-          value="10"
-          min="1"
-          required
-        />
-      </div>
-
-      <div class="param-group">
-        <label for="algoritmo">Algoritmo de Substituição:</label>
-        <select id="algoritmo" name="algoritmo" required>
-          <option value="LRU">Least Recently Used (LRU)</option>
-          <option value="RELOGIO">Algoritmo do Relógio</option>
-        </select>
-      </div>
-
-      <div class="file-upload">
-        <label for="arquivo_operacoes">Arquivo de Operações:</label>
-        <input
-          type="file"
-          id="arquivo_operacoes"
-          name="arquivo_operacoes"
-          accept=".txt"
-          required
-        />
-        <small>Formato: P1 C 500 | P1 R (0)2 | P1 W (1024)2</small>
-      </div>
-
-      <button type="submit">Executar Simulação</button>
-    </form>
-
-    {% else %}
-    <!-- Exibição da Simulação -->
-    <div class="respostasForms">
-      <p>Tamanho da Página: {{ config.tamanho_pagina }} bytes</p>
-      <p>Algoritmo: {{ config.algoritmo }}</p>
-      <p>Memória Física: {{ config.memoria_fisica }} KB</p>
-      <p>Memória Secundária: {{ config.memoria_secundaria }} MB</p>
-    </div>
-
-    <!-- Visualização da Memória Física -->
-    <div class="statusMemoria">
-      <h3>Memória Física</h3>
-      <div id="memoriaFisica" class="memory-grid"></div>
-    </div>
-
-    <!-- Tabelas de Páginas -->
-    <div class="tabelasContainer">
-      <h3>Tabelas de Páginas</h3>
-      <div id="tabelasPaginas"></div>
-    </div>
-
-    <!-- Log de Eventos -->
-    <div class="eventosContainer">
-      <h3>Eventos da Simulação</h3>
-      <div id="eventosLog" class="log-container"></div>
-    </div>
-
-    <h4><strong>Passos da simulação:</strong></h4>
-    <div id="simulationSteps"></div>
-
-    <!-- Relatório Final (oculto inicialmente) -->
-    <div class="relatorioSimulator" id="relatorioFinal" style="display: none">
-      <h3>Resultados da Simulação</h3>
-      <p>
-        <strong>Total de Faltas de Página:</strong>
-        <span id="totalFaltas"></span>
-      </p>
-      <p>
-        <strong>Total de Operações de Swap:</strong>
-        <span id="totalSwaps"></span>
-      </p>
-      <p>
-        <strong>Tempo de Execução:</strong>
-        <span id="tempoExecucao"></span> segundos
-      </p>
-    </div>
-
-    <script>
-      // Dados da simulação passados do Flask
-      const simulationSteps = {{ dados_simulacao.steps | tojson | safe }};
-      const config = {{ config | tojson | safe }};
-      const resumo = {{ dados_simulacao.resumo | tojson | safe }};
-
-      let currentStep = 0;
-      const stepsContainer = document.getElementById('simulationSteps');
-      const memoriaFisicaContainer = document.getElementById('memoriaFisica');
-      const tabelasPaginasContainer = document.getElementById('tabelasPaginas');
-      const eventosLogContainer = document.getElementById('eventosLog');
-
-      // Elementos do relatório final
-      const totalFaltasElement = document.getElementById('totalFaltas');
-      const totalSwapsElement = document.getElementById('totalSwaps');
-      const tempoExecucaoElement = document.getElementById('tempoExecucao');
-      const relatorioFinal = document.getElementById('relatorioFinal');
-
-      // Função para atualizar a visualização da memória física
-      function updatePhysicalMemory(memoria) {
-        memoriaFisicaContainer.innerHTML = '';
-
-        memoria.forEach(frame => {
-          const frameElement = document.createElement('div');
-          frameElement.className = 'frame';
-
-          if (frame.alocado) {
-            frameElement.innerHTML = `
-              <div class="frame-id">Frame ${frame.id}</div>
-              <div class="frame-pid">PID: ${frame.pid}</div>
-              <div class="frame-pagina">Pág: ${frame.pagina}</div>
-              <div class="frame-flags">
-                R: ${frame.referenciado ? '✓' : '✗'}
-                M: ${frame.modificado ? '✓' : '✗'}
-              </div>
-            `;
-
-            if (frame.modificado) {
-              frameElement.classList.add('frame-modificado');
-            }
-            if (frame.referenciado) {
-              frameElement.classList.add('frame-referenciado');
-            }
-          } else {
-            frameElement.innerHTML = `
-              <div class="frame-id">Frame ${frame.id}</div>
-              <div class="frame-livre">LIVRE</div>
-            `;
-          }
-
-          memoriaFisicaContainer.appendChild(frameElement);
-        });
-      }
-
-      // Função para atualizar as tabelas de páginas
-      function updatePageTables(tabelas) {
-        tabelasPaginasContainer.innerHTML = '';
-
-        for (const [pid, tabela] of Object.entries(tabelas)) {
-          const tabelaDiv = document.createElement('div');
-          tabelaDiv.className = 'processo-tabela';
-          tabelaDiv.innerHTML = `<h4>Processo ${pid} (${tabela.estado})</h4>`;
-
-          const table = document.createElement('table');
-          table.innerHTML = `
-            <thead>
-              <tr>
-                <th>Página</th>
-                <th>Presente</th>
-                <th>Frame</th>
-                <th>Referenciada</th>
-                <th>Modificada</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${tabela.paginas.map(pagina => `
-                <tr>
-                  <td>${pagina.numero}</td>
-                  <td>${pagina.presente ? '✓' : '✗'}</td>
-                  <td>${pagina.presente ? pagina.frame : '-'}</td>
-                  <td>${pagina.referenciada ? '✓' : '✗'}</td>
-                  <td>${pagina.modificada ? '✓' : '✗'}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          `;
-
-          tabelaDiv.appendChild(table);
-          tabelasPaginasContainer.appendChild(tabelaDiv);
-        }
-      }
-
-      // Função para adicionar um evento ao log
-      function addEventToLog(evento) {
-        const eventElement = document.createElement('div');
-        eventElement.className = 'log-entry';
-
-        if (evento.tipo === 'falta') {
-          eventElement.classList.add('log-falta');
-          eventElement.innerHTML = `<strong>[FALTA]</strong> ${evento.mensagem}`;
-        } else {
-          eventElement.innerHTML = evento.mensagem;
-        }
-
-        eventosLogContainer.appendChild(eventElement);
-        // Rolagem automática para o final
-        eventosLogContainer.scrollTop = eventosLogContainer.scrollHeight;
-      }
-
-      // Função para mostrar o próximo passo
-      function showNextStep() {
-        if (currentStep < simulationSteps.length) {
-          const step = simulationSteps[currentStep];
-
-          const stepElement = document.createElement('div');
-          stepElement.className = 'step';
-          stepElement.innerHTML = `<strong>Passo ${currentStep + 1}:</strong> ${step.descricao}`;
-          stepsContainer.appendChild(stepElement);
-
-          // Atualizar visualizações
-          if (step.memoria_fisica) {
-            updatePhysicalMemory(step.memoria_fisica);
-          }
-
-          if (step.tabelas_paginas) {
-            updatePageTables(step.tabelas_paginas);
-          }
-
-          if (step.evento) {
-            addEventToLog(step.evento);
-          }
-
-          currentStep++;
-          // Mostrar próximo passo após 2 segundos
-          setTimeout(showNextStep, 2000);
-        } else {
-          // Fim da simulação - mostrar relatório final
-          totalFaltasElement.textContent = resumo.faltas_pagina;
-          totalSwapsElement.textContent = resumo.operacoes_swap;
-          tempoExecucaoElement.textContent = resumo.tempo_execucao;
-          relatorioFinal.style.display = 'block';
-        }
-      }
-
-      // Iniciar a simulação após 1 segundo
-      setTimeout(showNextStep, 1000);
-    </script>
-  </div>
+<!-- Parâmetros Utilizados -->
+<div class="respostasForms">
+  <p><strong>Tamanho da Página:</strong> {{ config.tamanho_pagina }} bytes</p>
+  <p><strong>Bits de Endereço Lógico:</strong> {{ config.bits_endereco }}</p>
+  <p><strong>Memória Física:</strong> {{ config.memoria_fisica }} KB</p>
+  <p><strong>Memória Secundária:</strong> {{ config.memoria_secundaria }} MB</p>
+  <p><strong>Algoritmo:</strong> {{ config.algoritmo }}</p>
 </div>
-{% endif %}
 
-<style>
-  .backgroundSimulacao {
-    background-color: #f5f7fa;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px auto;
-    max-width: 1200px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
+<!-- Área de Visualização -->
+<div class="visualizacao">
+  <!-- Estado de Memória Física -->
+  <section>
+    <h3>Memória Física</h3>
+    <div id="memoryGrid" class="memory-grid"></div>
+  </section>
 
-  .simulacao {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-  }
+  <!-- Tabelas de Páginas -->
+  <section>
+    <h3>Tabelas de Páginas</h3>
+    <div id="tablesContainer"></div>
+  </section>
 
-  .form-entrega3 {
-    display: grid;
-    gap: 15px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-  }
+  <!-- Log de Eventos -->
+  <section>
+    <h3>Eventos</h3>
+    <ul id="eventLog" class="log-list"></ul>
+  </section>
+</div>
 
-  .param-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
+<!-- Controles de Passo -->
+<div class="controls">
+  <button id="prevStep">Anterior</button>
+  <span
+    >Passo <span id="currentStep">0</span> de
+    <span id="totalSteps">0</span></span
+  >
+  <button id="nextStep">Próximo</button>
+</div>
 
-  .file-upload {
-    margin: 15px 0;
-  }
+<!-- Estatísticas Finais -->
+<div class="relatorioSimulator">
+  <h3>Resumo</h3>
+  <p><strong>Faltas de Página:</strong> {{ dados_simulacao.faltas_pagina }}</p>
+  <p>
+    <strong>Operações de Swap:</strong> {{ dados_simulacao.operacoes_swap }}
+  </p>
+  <p>
+    <strong>Processos Ativos:</strong> {{ dados_simulacao.processos_ativos }}
+  </p>
+</div>
 
-  .respostasForms {
-    background: #e9f7fe;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-  }
-
-  .memory-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    margin-top: 15px;
-  }
-
-  .frame {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .frame-id {
-    font-weight: bold;
-    font-size: 0.9em;
-    color: #555;
-  }
-
-  .frame-pid,
-  .frame-pagina {
-    font-weight: bold;
-  }
-
-  .frame-livre {
-    color: #28a745;
-    font-weight: bold;
-    margin: auto;
-  }
-
-  .frame-modificado {
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-  }
-
-  .frame-referenciado {
-    border-left: 4px solid #17a2b8;
-  }
-
-  .tabelasContainer {
-    margin: 20px 0;
-  }
-
-  .processo-tabela {
-    margin-bottom: 25px;
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  th,
-  td {
-    padding: 12px 15px;
-    text-align: center;
-    border: 1px solid #dee2e6;
-  }
-
-  th {
-    background-color: #e9ecef;
-    font-weight: bold;
-  }
-
-  tr:nth-child(even) {
-    background-color: #f8f9fa;
-  }
-
-  .eventosContainer {
-    margin: 20px 0;
-  }
-
-  .log-container {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin-top: 10px;
-    background: white;
-  }
-
-  .log-entry {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    font-family: monospace;
-  }
-
-  .log-falta {
-    color: #dc3545;
-    font-weight: bold;
-    background-color: #fff5f5;
-    border-left: 4px solid #dc3545;
-    padding-left: 12px;
-  }
-
-  .step {
-    padding: 10px;
-    margin: 10px 0;
-    background: #f0f8ff;
-    border-left: 4px solid #1e90ff;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .relatorioSimulator {
-    margin-top: 30px;
-    padding: 20px;
-    background: #e9f7ef;
-    border-radius: 8px;
-    border-left: 4px solid #28a745;
-  }
-
-  .relatorioSimulator h3 {
-    color: #28a745;
-    margin-top: 0;
-  }
-</style>
 {% endblock %}
