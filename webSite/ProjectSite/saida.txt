@@ -13,6 +13,7 @@
 [FRAME] 0|1|0|1|0
 [PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 1|pronto
+[EVENT] Erro: Endereço 1024 fora dos limites do processo 1
 [STEP_END] 2
 >>> Processando: 1 P 
 [FRAME] 0|1|0|1|0
@@ -32,85 +33,96 @@
 [EVENT] Processo 1 executando instrução CPU: 2
 [STEP_END] 5
 >>> Processando: 1 W 0x00000400
-[FRAME] 0|1|0|1|1
-[PAGE_TABLE] 1|0|1|0|1|1
+[FRAME] 0|1|0|1|0
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 1|executando
+[EVENT] Erro: Endereço 1024 fora dos limites do processo 1
 [STEP_END] 6
 >>> Processando: 7 C 3e8
-[FRAME] 0|1|0|1|1
+[FRAME] 0|1|0|1|0
 [PAGE_TABLE] 7|0|0|ffffffff|0|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|pronto
 [PROCESS] 1|executando
 [EVENT] Processo 7 criado com 1 páginas
 [STEP_END] 7
 >>> Processando: 7 R 0x00000fff
-[FRAME] 0|1|0|1|1
+[FRAME] 0|1|0|1|0
+[PAGE_TABLE] 7|0|0|ffffffff|0|0
+[PAGE_TABLE] 1|0|1|0|1|0
+[PROCESS] 7|pronto
+[PROCESS] 1|executando
+[EVENT] Erro: Endereço 4095 fora dos limites do processo 7
+[STEP_END] 8
+>>> Processando: 7 R 0x00000320
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|pronto
 [PROCESS] 1|executando
 [EVENT] Carregando página 0 do processo 7 no Frame 1
-[STEP_END] 8
->>> Processando: 7 R 0x00000320
-[FRAME] 0|1|0|1|1
-[FRAME] 1|7|0|1|0
-[PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
-[PROCESS] 7|pronto
-[PROCESS] 1|executando
 [STEP_END] 9
 >>> Processando: 7 I 2
-[FRAME] 0|1|0|1|1
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|esperando_io
 [PROCESS] 1|executando
 [EVENT] Processo 7 realizando I/O no dispositivo: 2
 [STEP_END] a
 >>> Processando: 7 R 0x00000321
-[FRAME] 0|1|0|1|1
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|esperando_io
 [PROCESS] 1|executando
 [STEP_END] b
 >>> Processando: 7 W 0x00001000
->>> Processando: 1 R 0x00000003
-[FRAME] 0|1|0|1|1
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|esperando_io
 [PROCESS] 1|executando
+[EVENT] Erro: Endereço 4096 fora dos limites do processo 7
 [STEP_END] c
->>> Processando: 1 R 0x00000004
-[FRAME] 0|1|0|1|1
+>>> Processando: 1 R 0x00000003
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|esperando_io
 [PROCESS] 1|executando
 [STEP_END] d
->>> Processando: 1 W 0x00000401
-[FRAME] 0|1|0|1|1
+>>> Processando: 1 R 0x00000004
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|esperando_io
 [PROCESS] 1|executando
 [STEP_END] e
->>> Processando: 1 W 0x00000402
-[FRAME] 0|1|0|1|1
+>>> Processando: 1 W 0x00000401
+[FRAME] 0|1|0|1|0
 [FRAME] 1|7|0|1|0
 [PAGE_TABLE] 7|0|1|1|1|0
-[PAGE_TABLE] 1|0|1|0|1|1
+[PAGE_TABLE] 1|0|1|0|1|0
 [PROCESS] 7|esperando_io
 [PROCESS] 1|executando
+[EVENT] Erro: Endereço 1025 fora dos limites do processo 1
 [STEP_END] f
+>>> Processando: 1 W 0x00000402
+[FRAME] 0|1|0|1|0
+[FRAME] 1|7|0|1|0
+[PAGE_TABLE] 7|0|1|1|1|0
+[PAGE_TABLE] 1|0|1|0|1|0
+[PROCESS] 7|esperando_io
+[PROCESS] 1|executando
+[EVENT] Erro: Endereço 1026 fora dos limites do processo 1
+[STEP_END] 10
 [SUMMARY] Faltas de página: 0
 [SUMMARY] Operações de swap: 2
 [SUMMARY] Processos ativos: 2

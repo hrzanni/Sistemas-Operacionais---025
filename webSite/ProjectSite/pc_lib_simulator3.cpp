@@ -13,6 +13,7 @@
 #include <chrono>
 #include <thread>
 
+
 class GerenciadorMemoria {
 public:
     enum AlgoritmoSubstituicao { LRU, RELOGIO };
@@ -516,6 +517,55 @@ private:
         std::cout << "[END_SIMULATION]\n";
     }
 };
+
+
+// === Funções auxiliares para log ===
+void log_event(const std::string& msg) {
+    std::cout << "[EVENT] " << msg << std::endl;
+}
+
+void log_frame(const std::vector<GerenciadorMemoria::Frame>& memoria_fisica) {
+    for (const auto& f : memoria_fisica) {
+        std::cout << "[FRAME] ID=" << f.id_frame
+                  << " | PID=" << f.id_processo
+                  << " | Página=" << f.id_pagina
+                  << " | Ref=" << f.referenciada
+                  << " | Mod=" << f.modificada << std::endl;
+    }
+}
+
+void log_page_table(const GerenciadorMemoria::Processo& p) {
+    for (const auto& [id, pg] : p.tabela_paginas) {
+        std::cout << "[PAGE_TABLE] PID=" << p.id_processo
+                  << " | Página=" << id
+                  << " | Presente=" << pg.presente
+                  << " | Frame=" << pg.frame
+                  << " | Ref=" << pg.referenciada
+                  << " | Mod=" << pg.modificada << std::endl;
+    }
+}
+
+void log_process_state(int pid, const std::string& estado) {
+    std::cout << "[PROCESS_STATE] " << pid << " | " << estado << std::endl;
+}
+
+void log_swap_out(int pid, int pagina) {
+    std::cout << "[SWAP] To Disk: PID=" << pid << " | Página=" << pagina << std::endl;
+}
+
+void log_swap_in(int pid, int pagina) {
+    std::cout << "[SWAP] From Disk: PID=" << pid << " | Página=" << pagina << std::endl;
+}
+
+void log_config(const std::string& algoritmo, int tam_pag, int bits, int mem_fis, int mem_sec) {
+    std::cout << "[INFO] Algoritmo de substituição de páginas: " << algoritmo << std::endl;
+    std::cout << "[INFO] Tamanho da página: " << tam_pag
+              << " | Bits endereço: " << bits
+              << " | Memória Física: " << mem_fis
+              << " | Memória Secundária: " << mem_sec << std::endl;
+}
+// === Fim das funções auxiliares ===
+
 
 int main(int argc, char* argv[]) {
     try {
