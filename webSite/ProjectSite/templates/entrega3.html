@@ -1,0 +1,178 @@
+{% extends 'base.html' %} {% block body %}
+<div class="descricaoEntrega">
+  <h2>Configuração do Simulador</h2>
+  <p>Preencha os parâmetros e envie o arquivo com as operações:</p>
+
+  <form
+    class="form-entrega3"
+    method="POST"
+    action="/simuladorEntrega3"
+    enctype="multipart/form-data"
+  >
+    <!-- Parâmetros de Configuração -->
+    <div class="param-group">
+      <label for="tamanho_pagina">Tamanho da Página (bytes):</label>
+      <input
+        type="number"
+        id="tamanho_pagina"
+        name="tamanho_pagina"
+        value="4096"
+        min="256"
+        required
+      />
+
+      <label for="bits_endereco">Bits de Endereço Lógico:</label>
+      <input
+        type="number"
+        id="bits_endereco"
+        name="bits_endereco"
+        value="32"
+        min="16"
+        max="64"
+        required
+      />
+    </div>
+
+    <div class="param-group">
+      <label for="memoria_fisica">Memória Física (KB):</label>
+      <input
+        type="number"
+        id="memoria_fisica"
+        name="memoria_fisica"
+        value="1024"
+        min="64"
+        required
+      />
+
+      <label for="memoria_secundaria">Memória Secundária (MB):</label>
+      <input
+        type="number"
+        id="memoria_secundaria"
+        name="memoria_secundaria"
+        value="10"
+        min="1"
+        required
+      />
+    </div>
+
+    <div class="param-group">
+      <label for="algoritmo">Algoritmo de Substituição:</label>
+      <select id="algoritmo" name="algoritmo" required>
+        <option value="LRU">Least Recently Used (LRU)</option>
+        <option value="RELOGIO">Algoritmo do Relógio</option>
+      </select>
+    </div>
+
+    <!-- Upload do Arquivo de Operações -->
+    <div class="file-upload">
+      <label for="arquivo_operacoes">Arquivo de Operações:</label>
+      <input
+        type="file"
+        id="arquivo_operacoes"
+        name="arquivo_operacoes"
+        accept=".txt"
+        required
+      />
+      <small>Formato: P1 C 500 | P1 R (0)2 | P1 W (1024)2</small>
+    </div>
+
+    <button type="submit">Executar Simulação</button>
+  </form>
+
+  <!-- Resultados da Simulação -->
+  {% if dados_simulacao %}
+  <div class="resultados-simulacao">
+    <h2>Resultados da Simulação</h2>
+
+    <!-- Resumo Estatístico -->
+    <div class="resumo-estatistico">
+      <h3>Estatísticas</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value">{{ dados_simulacao.faltas_pagina }}</span>
+          <span class="stat-label">Faltas de Página</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">{{ dados_simulacao.operacoes_swap }}</span>
+          <span class="stat-label">Operações de Swap</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">{{ dados_simulacao.processos_ativos }}</span>
+          <span class="stat-label">Processos Ativos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visualização da Memória Física -->
+    <div class="memoria-fisica">
+      <h3>Estado da Memória Física</h3>
+      <div class="memory-grid">
+        {% for frame in dados_simulacao.memoria_fisica %}
+        <div
+          class="frame 
+                  {{ 'frame-modificado' if frame.modificado else '' }}
+                  {{ 'frame-referenciado' if frame.referenciado else '' }}"
+        >
+          <div class="frame-id">Frame {{ frame.id }}</div>
+          {% if frame.alocado %}
+          <div class="frame-pid">PID: {{ frame.pid }}</div>
+          <div class="frame-pagina">Pág: {{ frame.pagina }}</div>
+          <div class="frame-flags">
+            R: {{ '✓' if frame.referenciado else '✗' }} M: {{ '✓' if
+            frame.modificado else '✗' }}
+          </div>
+          {% else %}
+          <div class="frame-livre">LIVRE</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Tabelas de Páginas -->
+    <div class="tabelas-paginas">
+      <h3>Tabelas de Páginas por Processo</h3>
+      {% for pid, tabela in dados_simulacao.tabelas_paginas.items() %}
+      <div class="processo-tabela">
+        <h4>Processo {{ pid }} ({{ tabela.estado }})</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Página</th>
+              <th>Presente</th>
+              <th>Frame</th>
+              <th>Referenciada</th>
+              <th>Modificada</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pagina in tabela.paginas %}
+            <tr>
+              <td>{{ pagina.numero }}</td>
+              <td>{{ '✓' if pagina.presente else '✗' }}</td>
+              <td>{{ pagina.frame if pagina.presente else '-' }}</td>
+              <td>{{ '✓' if pagina.referenciada else '✗' }}</td>
+              <td>{{ '✓' if pagina.modificada else '✗' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Log de Eventos -->
+    <div class="event-log">
+      <h3>Eventos da Simulação</h3>
+      <div class="log-container">
+        {% for evento in dados_simulacao.log_eventos %}
+        <div class="log-entry {{ 'log-falta' if 'Falta' in evento else '' }}">
+          [{{ evento.timestamp }}] {{ evento.mensagem }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 
-#Load the C library
+# biblioteca para o problema produtor-consumidor 
 lib = CDLL('./webSite/ProjectSite/libpc_lib.so')
 
 
@@ -286,7 +286,7 @@ def simulacao():
             'buffer_status': {
                 'empty': empty_count,
                 'full': full_count,
-                'buffer': buffer_content.copy()  # MUITO IMPORTANTE!
+                'buffer': buffer_content.copy() 
             }
         })
 
@@ -304,9 +304,184 @@ def simulacao():
         tempo_execucao=round(tempo_execucao, 4)
     )
 
-#@app.route('/entrega3')
-#def entrega3():
-    #return render_template('entrega3.html')
+
+@app.route('/entrega3')
+def entrega3():
+    return render_template('entrega3.html')
+
+
+def parse_memory_output(output):
+    """Converte a saída do simulador C++ em estrutura de dados Python"""
+    frames = []
+    current_frame = None
+    
+    for line in output.split('\n'):
+        if not line.strip():
+            continue
+            
+        # Identificar frames: [FRAME] id|pid|pagina|referenciado|modificado
+        if line.startswith('[FRAME]'):
+            if current_frame:
+                frames.append(current_frame)
+            parts = line.split(maxsplit=1)[1].split('|')
+            current_frame = {
+                'id': int(parts[0]),
+                'alocado': True,
+                'pid': parts[1],
+                'pagina': int(parts[2]),
+                'referenciado': parts[3] == '1',
+                'modificado': parts[4] == '1'
+            }
+        elif line.startswith('[PAGE_TABLE]'):
+            # Esta parte seria para tabelas de páginas
+            pass
+        elif line.startswith('[EVENT]'):
+            # Esta parte seria para eventos
+            pass
+            
+    if current_frame:
+        frames.append(current_frame)
+        
+    return frames
+
+def executar_simulador(config, caminho_arquivo):
+    """Executa o simulador C++ e processa os resultados"""
+    # Construir comando para o simulador
+    comando = [
+        "./simulador_memoria",  # Nome do executável C++
+        caminho_arquivo,
+        str(config['tamanho_pagina']),
+        str(config['bits_endereco']),
+        str(config['memoria_fisica'] * 1024),  # Convertendo KB para bytes
+        str(config['memoria_secundaria'] * 1024 * 1024),  # Convertendo MB para bytes
+        '0' if config['algoritmo'] == 'LRU' else '1'
+    ]
+    
+    # Executar e capturar saída
+    inicio = time.time()
+    resultado = subprocess.run(comando, capture_output=True, text=True)
+    fim = time.time()
+    
+    if resultado.returncode != 0:
+        raise RuntimeError(f"Erro no simulador: {resultado.stderr}")
+    
+    # Processar saída para formato de simulação passo a passo
+    steps = []
+    buffer = []
+    current_step = None
+    memoria_atual = []
+    
+    for line in resultado.stdout.split('\n'):
+        if not line.strip():
+            continue
+            
+        # Operação detectada
+        if line.startswith('>>> Processando:'):
+            if current_step:
+                steps.append(current_step)
+                
+            parts = line.split(':', 1)[1].strip().split()
+            pid = parts[0]
+            tipo = parts[1]
+            endereco = parts[2] if len(parts) > 2 else None
+            
+            current_step = {
+                'descricao': f"{pid} {tipo} {endereco}" if endereco else f"{pid} {tipo}",
+                'memoria_fisica': memoria_atual.copy(),
+                'evento': None
+            }
+            
+        # Frame atualizado
+        elif line.startswith('[FRAME]'):
+            parts = line.split(maxsplit=1)[1].split('|')
+            frame_id = int(parts[0])
+            frame_data = {
+                'id': frame_id,
+                'alocado': parts[1] == '1',
+                'pid': parts[2] if parts[2] != '-' else None,
+                'pagina': int(parts[3]) if parts[3] != '-' else -1,
+                'referenciado': parts[4] == '1',
+                'modificado': parts[5] == '1'
+            }
+            
+            # Atualizar frame na memória
+            for i, frame in enumerate(memoria_atual):
+                if frame['id'] == frame_id:
+                    memoria_atual[i] = frame_data
+                    break
+            else:
+                memoria_atual.append(frame_data)
+                
+        # Evento detectado
+        elif line.startswith('[EVENT]'):
+            event_type = "info"
+            if "FALTA" in line:
+                event_type = "falta"
+            elif "SWAP" in line:
+                event_type = "swap"
+                
+            current_step['evento'] = {
+                'tipo': event_type,
+                'mensagem': line.split(']', 1)[1].strip()
+            }
+            
+        # Estado do processo
+        elif line.startswith('[PROCESS]'):
+            # Formato: [PROCESS] P1:READY
+            pass
+            
+    if current_step:
+        steps.append(current_step)
+    
+    # Gerar relatório final
+    resumo = {
+        'faltas_pagina': sum(1 for step in steps if step.get('evento', {}).get('tipo') == 'falta'),
+        'operacoes_swap': sum(1 for step in steps if step.get('evento', {}).get('tipo') == 'swap'),
+        'tempo_execucao': round(fim - inicio, 4)
+    }
+    
+    return {
+        'steps': steps,
+        'resumo': resumo
+    }
+
+@app.route('/simuladorEntrega3', methods=['POST'])
+def simulador_entrega3():
+    # Obter configurações do formulário
+    config = {
+        'tamanho_pagina': int(request.form['tamanho_pagina']),
+        'bits_endereco': int(request.form['bits_endereco']),
+        'memoria_fisica': int(request.form['memoria_fisica']),
+        'memoria_secundaria': int(request.form['memoria_secundaria']),
+        'algoritmo': request.form['algoritmo']
+    }
+    
+    # Obter arquivo
+    arquivo = request.files['arquivo_operacoes']
+    
+    # Salvar arquivo temporariamente
+    upload_dir = os.path.join(os.getcwd(), 'uploads')
+    os.makedirs(upload_dir, exist_ok=True)
+    caminho_arquivo = os.path.join(upload_dir, arquivo.filename)
+    arquivo.save(caminho_arquivo)
+    
+    # Executar simulador
+    try:
+        resultado = executar_simulador(config, caminho_arquivo)
+        return render_template(
+            'simuladorEntrega3.html',
+            dados_simulacao=resultado,
+            config=config
+        )
+    except Exception as e:
+        return render_template('error.html', error_message=str(e))
+    
+    # Remover arquivo temporário após uso
+    finally:
+        if os.path.exists(caminho_arquivo):
+            os.remove(caminho_arquivo)
+
+
 
 
 if __name__ == '__main__':

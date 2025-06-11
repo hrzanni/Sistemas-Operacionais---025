@@ -187,11 +187,6 @@ body {
 
 /* entrega 1*/
 
-.pagina-entrega1 {
-  padding: 40px;
-  min-height: 100vh;
-}
-
 .cards-systemcalls {
   background: #f9fafb;
   display: flex;
@@ -492,7 +487,7 @@ body {
   color: #00ff90;
 }
 
-/* template de codigo */
+/* template de codigo(usados nos códigos da entrega 1) */
 
 .container-imagem {
   display: flex;
@@ -568,4 +563,139 @@ body {
   max-width: 600px;
   overflow-x: auto;
   font-family: monospace;
+}
+
+/* Entrega3.html */
+
+.form-entrega3 {
+  display: grid;
+  gap: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.param-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.file-upload {
+  margin: 15px 0;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.frame {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.frame-id {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.frame-pid,
+.frame-pagina {
+  font-weight: bold;
+}
+
+.frame-livre {
+  color: #28a745;
+  font-weight: bold;
+  margin: auto;
+}
+
+.frame-modificado {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.frame-referenciado {
+  border-left: 4px solid #17a2b8;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background: #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  display: block;
+  color: #007bff;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.processo-tabela {
+  margin-bottom: 25px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+th {
+  background-color: #e9ecef;
+}
+
+.log-container {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  background: #f8f9fa;
+}
+
+.log-entry {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.log-falta {
+  color: #dc3545;
+  font-weight: bold;
 }

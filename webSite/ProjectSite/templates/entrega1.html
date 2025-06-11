@@ -1,115 +1,112 @@
 {% extends 'base.html' %} {% block body %}
-<div class="pagina-entrega1">
-  <div class="descricaoEntrega">
-    <h3>
-      A primeira entrega de módulo do nosso projeto é dividido em duas partes.
-    </h3>
-    <p>
-      <strong>A primeira parte</strong> tem como objetivo introduzir a ideia de
-      chamadas primitivas de sistemas disponíveis no Linux, apresentando algumas
-      das principais utilizações, das mesmas, nas categorias de:
-    </p>
-    <div class="topicosEntrega">
-      <ul>
-        <li>Gerenciamento de memória</li>
-        <li>Gerenciamento de processos</li>
-        <li>Gerenciamento de arquivos</li>
-        <li>Gerenciamento de E/S</li>
-      </ul>
-    </div>
-    <p>
-      Logo abaixo estão apresentados programas, na linguagem C, juntamente com
-      breves interações, no formato de vídeos, contendo explicações sobre a
-      funcionalidade de cada uma das primitivas juntamente com a aprensentação
-      de estatísticas fornecidas pelas ferramentas 'strace' e 'time'.
-    </p>
+<div class="descricaoEntrega">
+  <h3>
+    A primeira entrega de módulo do nosso projeto é dividido em duas partes.
+  </h3>
+  <p>
+    <strong>A primeira parte</strong> tem como objetivo introduzir a ideia de
+    chamadas primitivas de sistemas disponíveis no Linux, apresentando algumas
+    das principais utilizações, das mesmas, nas categorias de:
+  </p>
+  <div class="topicosEntrega">
+    <ul>
+      <li>Gerenciamento de memória</li>
+      <li>Gerenciamento de processos</li>
+      <li>Gerenciamento de arquivos</li>
+      <li>Gerenciamento de E/S</li>
+    </ul>
+  </div>
+  <p>
+    Logo abaixo estão apresentados programas, na linguagem C, juntamente com
+    breves interações, no formato de vídeos, contendo explicações sobre a
+    funcionalidade de cada uma das primitivas juntamente com a aprensentação de
+    estatísticas fornecidas pelas ferramentas 'strace' e 'time'.
+  </p>
 
-    <div class="container-escolha">
-      <h1>Escolha uma chamada de sistema para explorar:</h1>
-      <div class="cards-systemcalls">
-        <h3>Arquivos</h3>
-        <div class="cards-systemcalls-group">
-          <div class="card">
-            <h2>open_file.c</h2>
-            <a href="/entrega1/open_file">Explorar open()</a>
-          </div>
-
-          <div class="card">
-            <h2>write_file.c</h2>
-            <a href="/entrega1/write_file">Explorar write()</a>
-          </div>
-
-          <div class="card">
-            <h2>read_file.c</h2>
-            <a href="/entrega1/read_file">Explorar read()</a>
-          </div>
+  <div class="container-escolha">
+    <h1>Escolha uma chamada de sistema para explorar:</h1>
+    <div class="cards-systemcalls">
+      <h3>Arquivos</h3>
+      <div class="cards-systemcalls-group">
+        <div class="card">
+          <h2>open_file.c</h2>
+          <a href="/entrega1/open_file">Explorar open()</a>
         </div>
-      </div>
 
-      <div class="cards-systemcalls">
-        <h3>Memória</h3>
-        <div class="cards-systemcalls-group">
-          <div class="card">
-            <h2>mmap.c</h2>
-            <a href="/entrega1/mmap">Explorar mmap()</a>
-          </div>
-
-          <div class="card">
-            <h2>mprotect.c</h2>
-            <a href="/entrega1/mprotect">Explorar mprotect()</a>
-          </div>
-
-          <div class="card">
-            <h2>munmap.c</h2>
-            <a href="/entrega1/munmap">Explorar munmap()</a>
-          </div>
+        <div class="card">
+          <h2>write_file.c</h2>
+          <a href="/entrega1/write_file">Explorar write()</a>
         </div>
-      </div>
 
-      <div class="cards-systemcalls">
-        <h3>Processos</h3>
-        <div class="cards-systemcalls-group">
-          <div class="card">
-            <h2>fork.c</h2>
-            <a href="/entrega1/fork">Explorar fork()</a>
-          </div>
-
-          <div class="card">
-            <h2>pause.c</h2>
-            <a href="/entrega1/pause">Explorar pause()</a>
-          </div>
-
-          <div class="card">
-            <h2>sleep.c</h2>
-            <a href="/entrega1/sleep">Explorar sleep()</a>
-          </div>
+        <div class="card">
+          <h2>read_file.c</h2>
+          <a href="/entrega1/read_file">Explorar read()</a>
         </div>
       </div>
     </div>
 
-    <br />
-    <br />
-    <p>
-      <strong>A segunda parte</strong> tem como objetivo a criação de 2
-      programas que exibam o comportamento esperado para processos CPU-bound e
-      I-O bound.
-    </p>
-    <br />
-    <br />
-
-    <div class="cards-ProcessosIO-CPU">
-      <div class="cards-ProcessosIO-CPU-group">
+    <div class="cards-systemcalls">
+      <h3>Memória</h3>
+      <div class="cards-systemcalls-group">
         <div class="card">
-          <h2>I/O bound</h2>
-          <a href="/entrega1/Processos_I/O-bound">Explorar I/O-bound()</a>
+          <h2>mmap.c</h2>
+          <a href="/entrega1/mmap">Explorar mmap()</a>
         </div>
 
         <div class="card">
-          <h2>CPU bound</h2>
-          <a href="/entrega1/Processos_CPU-bound">Explorar CPU-bound()</a>
+          <h2>mprotect.c</h2>
+          <a href="/entrega1/mprotect">Explorar mprotect()</a>
+        </div>
+
+        <div class="card">
+          <h2>munmap.c</h2>
+          <a href="/entrega1/munmap">Explorar munmap()</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-systemcalls">
+      <h3>Processos</h3>
+      <div class="cards-systemcalls-group">
+        <div class="card">
+          <h2>fork.c</h2>
+          <a href="/entrega1/fork">Explorar fork()</a>
+        </div>
+
+        <div class="card">
+          <h2>pause.c</h2>
+          <a href="/entrega1/pause">Explorar pause()</a>
+        </div>
+
+        <div class="card">
+          <h2>sleep.c</h2>
+          <a href="/entrega1/sleep">Explorar sleep()</a>
         </div>
       </div>
     </div>
   </div>
-  {% endblock %}
+
+  <br />
+  <br />
+  <p>
+    <strong>A segunda parte</strong> tem como objetivo a criação de 2 programas
+    que exibam o comportamento esperado para processos CPU-bound e I-O bound.
+  </p>
+  <br />
+  <br />
+
+  <div class="cards-ProcessosIO-CPU">
+    <div class="cards-ProcessosIO-CPU-group">
+      <div class="card">
+        <h2>I/O bound</h2>
+        <a href="/entrega1/Processos_I/O-bound">Explorar I/O-bound()</a>
+      </div>
+
+      <div class="card">
+        <h2>CPU bound</h2>
+        <a href="/entrega1/Processos_CPU-bound">Explorar CPU-bound()</a>
+      </div>
+    </div>
+  </div>
 </div>
+{% endblock %}
