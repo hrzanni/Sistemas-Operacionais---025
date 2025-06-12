@@ -1,1 +1,214 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>Processos IO/Bound()</h2>
+
+  <p>
+    Processos I/O Bound: um processo pode ser denominado como I/O Bound quando o
+    mesmo possui uma performance limitada pela certa taxa de entrada/saída, como
+    operações relacionadas a dispositivos periféricos, disco e até mesmo redes,
+    ou seja, esse tipo de processo passa uma grande parte do tempo esperando por
+    operações desse tipo para que possam ser finalmente concluídos.
+  </p>
+
+  <p>Principais características do I/O Bound:</p>
+
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        Processos desse tipo tem uma predominância grande para realizar
+        operações de escrita e leitura em dispositivos de armazenamento (como
+        discos rígidos, SDDs), ou esperar por dados de redes, e sistemas de
+        arquivos.
+      </li>
+      <li>
+        Em casos pertinentes, a velocidade de execução dos processos de I/O são
+        de certa forma defasados por um fator limitante que é o tempo de espera
+        para que operações desse tipo sejam recebidas pelo usuário.
+      </li>
+      <li>
+        Como o próprio nome diz, o processo faz um uso excessivo e intensivo de
+        I/O em relação ao uso de CPU, o qual é consideravelmente menor.
+      </li>
+    </ul>
+  </div>
+
+  <p>
+    Servidores de Arquivos: geralmente esses servidores lidam com grandes
+    volumes de leituras e gravações (escritas) de dados, especialmente quando
+    muitos usuários acessam arquivos simultaneamente, fazendo com que o sistema
+    sempre aguarde/dependa da entrada e saída de dados para funcionar.
+  </p>
+
+  <p>
+    Serviços de Banco de Dados (I/O Pesado): Esse tipo de ocasião geralmente
+    requer a utilização de muitas operações que são baseadas em entradas e
+    saídas em disco (mas não apenas memória).Tal tipo de processo é utilizado
+    por que os dados não cabem totalmente na memória RAM, e o acesso ao disco se
+    torna o gargalo, tornando o desempenho limitado pela capacidade de
+    leitura/escrita do disco.
+  </p>
+
+  <br />
+
+  <p>Vantagens:</p>
+
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        Menor Uso de CPU: Processos I/O Bound não utilizam intensivamente a CPU,
+        o que permite que o sistema aloque recursos de CPU para outros processos
+        CPU enquanto o processo I/O Bound está esperando por dados ou aguardando
+        a conclusão de uma operação de entrada/saída, podendo aumentar o
+        desempenho de alguns sistemas.
+      </li>
+      <li>
+        Baixo Impacto de Computação: Como o processo não envolve cálculos
+        pesados, ele tende a ter um impacto menor no uso de recursos
+        computacionais, podendo ser executado em sistemas com recursos limitados
+        de CPU.
+      </li>
+      <li>
+        Boa Utilização de Sistema com Múltiplos Processos: Como dito acima, como
+        I/O Bound não utiliza intensivamente a CPU, em sistemas de Múltiplos
+        Processos é possível alocar os recursos que não estão sendo utilizados
+        pelo processos de I/O, devido ao aguardo de entradas e saídas de dados,
+        para outros processos de CPU aumentando a eficiência nesses tipos de
+        sistema.
+      </li>
+    </ul>
+  </div>
+
+  <p>Desvantagens:</p>
+
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        Dependência de Dispositivos Lentos: O desempenho é limitado pela
+        velocidade de dispositivos de I/O como discos rígidos (HDD), redes ou
+        sistemas de arquivos, o que pode aumentar a latência e resultar em
+        gargalos de desempenho.
+      </li>
+      <li>
+        Desempenho Prejudicado com Alta Carga de I/O: Quando muitos processos
+        I/O Bound competem por recursos de I/O, como leitura e escrita em
+        discos, o desempenho pode ser drasticamente afetado devido ao
+        congestionamento nos dispositivos de I/O.
+      </li>
+      <li>
+        Subutilização de CPU: Em sistemas com poucos processos CPU Bound, o
+        processo I/O Bound pode fazer com que a CPU fique ociosa, já que o
+        processo está esperando por dados de I/O.
+      </li>
+    </ul>
+  </div>
+
+  <div class="container-imagem">
+    <h4>Ilustração de processos I/O bound()</h4>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>
+      Veja o exemplo de código a seguir que ilustra um algoritmo I/O bound():
+    </h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+        #include &lt;stdio.h&gt;  
+        #include &lt;stdlib.h&gt;    
+        #include &lt;string.h&gt;   
+        #include &lt;time.h&gt;  
+        #include &lt;unistd.h&gt;  
+        
+        #define FILENAME "IO_bound.txt"
+          #define FILE_SIZE_MB 1024
+          #define CHUNK_SIZE (4 * 1024 * 1024)
+      
+          void generate_file() {
+              FILE *file = fopen(FILENAME, "wb");
+              if (file == NULL) {
+                  perror("Erro ao criar o arquivo");
+                  exit(1);
+              }
+      
+              printf("Gerando arquivo de %d MB...\n", FILE_SIZE_MB);
+              
+              char *buffer = (char *)malloc(CHUNK_SIZE);
+              if (buffer == NULL) {
+                  perror("Erro ao alocar memória");
+                  fclose(file);
+                  exit(1);
+              }
+              memset(buffer, 'a', CHUNK_SIZE);
+              
+              setvbuf(file, NULL, _IOFBF, CHUNK_SIZE);
+      
+              size_t total_chunks = (FILE_SIZE_MB * 1024 * 1024) / CHUNK_SIZE;
+              
+              for (size_t i = 0; i < total_chunks; i++) {
+                  fwrite(buffer, sizeof(char), CHUNK_SIZE, file);
+              }
+      
+              fflush(file);
+              fsync(fileno(file));
+      
+              fclose(file);
+              free(buffer);
+              printf("Arquivo gerado com sucesso!\n");
+          }
+      
+          void read_file() {
+              FILE *file = fopen(FILENAME, "rb");
+              if (file == NULL) {
+                  perror("Erro ao abrir o arquivo para leitura");
+                  exit(1);
+              }
+      
+              printf("Lendo arquivo de %d MB...\n", FILE_SIZE_MB);
+              
+              char *buffer = (char *)malloc(CHUNK_SIZE);
+              if (buffer == NULL) {
+                  perror("Erro ao alocar memória");
+                  fclose(file);
+                  exit(1);
+              }
+              
+              setvbuf(file, NULL, _IOFBF, CHUNK_SIZE);
+      
+              size_t total_read = 0;
+      
+              while (fread(buffer, sizeof(char), CHUNK_SIZE, file) > 0) {
+                  total_read += CHUNK_SIZE;
+              }
+      
+              fclose(file);
+              free(buffer);
+      
+          }
+      
+          int main() {
+              for (int i = 0; i < 3; i++) {
+                  printf("\n### Iteração %d ###\n", i + 1);
+                  generate_file();
+                  read_file();
+              }
+              return 0;
+          }
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

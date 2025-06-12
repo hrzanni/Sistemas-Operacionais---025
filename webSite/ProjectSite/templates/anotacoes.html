@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block title %}Anotações{% endblock %} {% block
+styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/anotacoes.css') }}"
+/>
+{% endblock %} {% block body %}
+<div class="anotacoes">
+  <div class="container">
+    <h1>Anotações do Professor</h1>
+    <form method="POST">
+      <input type="text" name="nome" placeholder="Nome do professor" required />
+      <textarea
+        name="anotacao"
+        rows="5"
+        placeholder="Escreva sua anotação aqui..."
+        required
+      ></textarea>
+      <button type="submit">Enviar Anotação</button>
+    </form>
+
+    <div class="notes">
+      {% for nota in anotacoes %}
+      <div class="note"><strong>{{ nota.nome }}</strong>{{ nota.texto }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

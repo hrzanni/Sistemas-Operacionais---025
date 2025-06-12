@@ -699,3 +699,91 @@ th {
   color: #dc3545;
   font-weight: bold;
 }
+
+/* Area de anotação do professor */
+
+.anotacoes {
+  background-color: #1e1e2f;
+  padding: 40px 20px;
+  color: #f1f1f1;
+  min-height: 100vh;
+}
+
+.anotacoes .container {
+  max-width: 700px;
+  margin: auto;
+  background: #2c2c3e;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.anotacoes h1 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.anotacoes form {
+  display: flex;
+  flex-direction: column;
+}
+
+.anotacoes input,
+.anotacoes textarea {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #1e1e2f;
+  color: #f1f1f1;
+  box-sizing: border-box;
+}
+
+.anotacoes textarea {
+  resize: vertical;
+  min-height: 150px;
+  line-height: 1.6;
+}
+
+.anotacoes button {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.anotacoes button:hover {
+  background-color: #3e9b42;
+}
+
+.anotacoes .notes {
+  margin-top: 40px;
+}
+
+.anotacoes .note {
+  background: #3b3b50;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 6px solid #4caf50;
+  border-radius: 6px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: #f1f1f1;
+}
+
+.anotacoes .note strong {
+  color: #88ff88;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+}

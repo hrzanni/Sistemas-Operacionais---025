@@ -1,39 +1,26 @@
-from flask import Flask, config, render_template, jsonify, request
+from flask import Flask, config, render_template, jsonify, request, redirect, url_for
 from ctypes import CDLL, c_int, c_char_p, create_string_buffer, byref, POINTER
 import re
 import time
 import subprocess
 import os
+import json
+
 
 app = Flask(__name__)
 
-# biblioteca para o problema produtor-consumidor 
-lib = CDLL('./webSite/ProjectSite/libpc_lib.so')
 
-
-# Define tipos das funções
-lib.iniciar_simulacao.argtypes = [c_int, c_int, c_int]
-lib.get_step_count.restype = c_int
-lib.get_step.argtypes = [c_int]
-lib.get_step.restype = c_char_p
-
-lib.get_simulation_log.argtypes = [c_char_p, c_int]
-lib.get_simulation_log.restype = c_int
-
-# Definir os tipos de argumentos corretamente
-lib.get_status.argtypes = [POINTER(c_int), POINTER(c_int), POINTER(c_int), c_int]
-lib.get_status.restype = None
-
-
+# Página da home do projeto
 @app.route('/')
 def home():
     return render_template('home.html')
     
-
+# Página da entrega 1 do projeto, contém a descrição da entrega e as system calls
 @app.route('/entrega1')
 def entrega1():
     return render_template('entrega1.html')
 
+# Página da system call open()
 @app.route("/entrega1/open_file", methods=["GET", "POST"])
 def entrega1_open_file():
     resultado = None
@@ -51,6 +38,7 @@ def entrega1_open_file():
     return render_template('entrega1-open_file.html', resultado=resultado)
 
 
+# Página da system call read()
 @app.route("/entrega1/read_file", methods=["GET", "POST"])
 def entrega1_read_file():
     resultado = None
@@ -68,6 +56,7 @@ def entrega1_read_file():
     return render_template('entrega1-read_file.html', resultado=resultado)
 
 
+# Página da system call write()
 @app.route("/entrega1/write_file", methods=["GET", "POST"])
 def entrega1_write_file():
     resultado = None
@@ -85,7 +74,7 @@ def entrega1_write_file():
     return render_template('entrega1-write_file.html', resultado=resultado)
 
 
-
+# Página da system call mmap()
 @app.route("/entrega1/mmap", methods=["GET", "POST"])
 def entrega1_mmap():
     resultado = None
@@ -102,6 +91,8 @@ def entrega1_mmap():
 
     return render_template('entrega1-mmap.html', resultado=resultado)
 
+
+# Página da system call mprotect()
 @app.route("/entrega1/mprotect", methods=["GET", "POST"])
 def entrega1_mprotect():
     resultado = None
@@ -118,6 +109,8 @@ def entrega1_mprotect():
 
     return render_template('entrega1-mprotect.html', resultado=resultado)
 
+
+# Página da system call munmap()
 @app.route("/entrega1/munmap", methods=["GET", "POST"])
 def entrega1_munmap():
     resultado = None
@@ -134,6 +127,8 @@ def entrega1_munmap():
 
     return render_template('entrega1-munmap.html', resultado=resultado)
 
+
+# Página da system call fork()
 @app.route("/entrega1/fork", methods=["GET", "POST"])
 def entrega1_fork():
     resultado = None
@@ -150,6 +145,8 @@ def entrega1_fork():
 
     return render_template('entrega1-fork.html', resultado=resultado)
 
+
+# Página da system call pause()
 @app.route("/entrega1/pause", methods=["GET", "POST"])
 def entrega1_pause():
     resultado = None
@@ -166,6 +163,8 @@ def entrega1_pause():
 
     return render_template('entrega1-pause.html', resultado=resultado)
 
+
+# Página da system call sleep()
 @app.route("/entrega1/sleep", methods=["GET", "POST"])
 def entrega1_sleep():
     resultado = None
@@ -182,19 +181,47 @@ def entrega1_sleep():
 
     return render_template('entrega1-sleep.html', resultado=resultado)
     
+
+# Página do processo I/O bound()
 @app.route("/entrega1/Processos_I/O-bound")
 def entrega1_IOBound():
     return render_template('entrega1-IOBound.html')
 
+
+# Página do processo CPU bound()
 @app.route("/entrega1/Processos_CPU-bound")
 def entrega1_CPUBound():
     return render_template('entrega1-CPUBound.html')
 
 
+# FIM DA ENTREGA 1
+
+
+# COMEÇO DA ENTREGA 2
+
+
+# biblioteca para o problema produtor-consumidor 
+lib = CDLL('./webSite/ProjectSite/libpc_lib.so')
+
+
+# Define tipos das funções
+lib.iniciar_simulacao.argtypes = [c_int, c_int, c_int]
+lib.get_step_count.restype = c_int
+lib.get_step.argtypes = [c_int]
+lib.get_step.restype = c_char_p
+
+lib.get_simulation_log.argtypes = [c_char_p, c_int]
+lib.get_simulation_log.restype = c_int
+
+lib.get_status.argtypes = [POINTER(c_int), POINTER(c_int), POINTER(c_int), c_int]
+lib.get_status.restype = None
+
+
+# página que contém a descrição da entrega 2 e o formulário para ir para o simulador do probblema produtor/consumidor 
 @app.route('/entrega2', methods=['GET', 'POST'])
 def entrega2():
 
-    buffer_status = None  # Define a variável antes do bloco condicional
+    buffer_status = None  
 
     if request.method == 'POST':
         # Receber os dados do formulário
@@ -209,9 +236,7 @@ def entrega2():
 
         # Iniciar produtores e consumidores com os parâmetros recebidos
         lib.start_producer(num_produtores)
-        
         lib.start_consumer(num_consumidores)
-
 
         # Obter o status do buffer
         lib.get_status(byref(empty), byref(full), byref(buffer), buffer_size)
@@ -226,6 +251,7 @@ def entrega2():
     return render_template('entrega2.html', buffer_status=buffer_status)
 
 
+# Página do simulador do problema produtor/consumidor
 @app.route('/simuladorEntrega2', methods=['POST'])
 def simulacao():
     
@@ -240,6 +266,8 @@ def simulacao():
         lib.iniciar_simulacao(num_produtores, num_consumidores, buffer_size)
 
         fim = time.time()
+
+        # Calcula o tempo de execução da simulação
         tempo_execucao = fim - inicio
 
         # Cria o buffer para receber o log da simulação
@@ -298,8 +326,6 @@ def simulacao():
         return render_template('error.html', error_message=str(e)), 500
 
 
-
-    # Passa para o template
     return render_template(
         'simuladorEntrega2.html',
         num_produtores=num_produtores,
@@ -312,6 +338,13 @@ def simulacao():
     )
 
 
+# FIM DA ENTREGA 2
+
+
+# COMEÇO DA ENTREGA 3
+
+
+# página que contém a descrição da entrega 3 e o formulário para ir para o simulador de memória 
 @app.route('/entrega3')
 def entrega3():
     return render_template('entrega3.html')
@@ -399,13 +432,8 @@ def parse_memory_output(stdout: str):
     return steps
 
 
-
+# Função que executa o simulador em C++
 def executar_simulador(config, caminho_arquivo):
-    """
-    Chama o seu binário C++ e retorna um dict com:
-      - steps: saída de parse_memory_output
-      - resumo: dict preenchido a partir de SUMMARY
-    """
 
     phys_bytes = config['memoria_fisica'] * 1024
     swap_bytes = config['memoria_secundaria'] * 1024 * 1024
@@ -423,7 +451,7 @@ def executar_simulador(config, caminho_arquivo):
     inicio = time.time()
     proc = subprocess.run(cmd, capture_output=True, text=True)
 
-    # DEBUG: exibe na saída do Flask o que o simulador imprimiu
+    # DEBUG: exibe na saída do Flask 
     print("=== SIM STDOUT ===")
     print(proc.stdout)
     print("=== SIM STDERR ===")
@@ -440,14 +468,11 @@ def executar_simulador(config, caminho_arquivo):
 
     stdout = proc.stdout
 
-    # parse dos steps
     steps = parse_memory_output(stdout)
 
-    # parse do summary
     resumo = {}
     for line in stdout.splitlines():
         if line.startswith('[SUMMARY]'):
-            # ex: [SUMMARY] Faltas de página: 2
             m = re.match(r'\[SUMMARY\]\s*(.*?):\s*(\d+)', line)
             if m:
                 chave = m.group(1).strip().lower().replace(' ', '_').replace('á','a')
@@ -457,9 +482,10 @@ def executar_simulador(config, caminho_arquivo):
     return {'steps': steps, 'resumo': resumo}
 
 
+# Página do simulador de memória
 @app.route('/simuladorEntrega3', methods=['POST'])
 def simulador_entrega3():
-    # 1. Recupera configuração do form
+    # Recupera configuração do form
     config = {
         'tamanho_pagina':    int(request.form['tamanho_pagina']),
         'bits_endereco':      int(request.form['bits_endereco']),
@@ -468,7 +494,7 @@ def simulador_entrega3():
         'algoritmo':          request.form['algoritmo']
     }
 
-    # 2. Recupera e salva o arquivo enviado
+    # Recupera e salva o arquivo enviado
     arquivo = request.files.get('arquivo_operacoes')
     print(request.files)
     if not arquivo:
@@ -483,18 +509,18 @@ def simulador_entrega3():
     arquivo.save(caminho_arquivo)
 
     try:
-        # 3. Executa o simulador C++
+        # Executa o simulador C++
         resultado = executar_simulador(config, caminho_arquivo)
         steps = resultado['steps']
         resumo = resultado['resumo']
 
-        # 4. Monta dados_simulacao a partir do último step
+        # Monta dados_simulacao a partir do último step
         ultima = steps[-1]
 
-        # 4a. Memória física
+        # Memória física
         memoria_fisica = ultima['frames']
 
-        # 4b. Tabelas de páginas agrupadas por PID
+        # Tabelas de páginas agrupadas por PID
         tabelas_paginas = {}
         for pt in ultima['page_tables']:
             pid = pt['pid']
@@ -513,7 +539,7 @@ def simulador_entrega3():
                 'modificada':   pt['modified']
             })
 
-        # 4c. Log de eventos: timestamp = índice do step
+        # Log de eventos: timestamp = índice do step
         log_eventos = []
         for idx, step in enumerate(steps):
             for ev in step['events']:
@@ -522,7 +548,7 @@ def simulador_entrega3():
                     'mensagem':  ev
                 })
 
-        # 5. Prepara o dicionário para o template
+        # Prepara o dicionário para o template
         dados_simulacao = {
             'faltas_pagina':   resumo.get('faltas_de_pagina', 0),
             'operacoes_swap':  resumo.get('operacoes_de_swap', 0),
@@ -532,7 +558,6 @@ def simulador_entrega3():
             'log_eventos':     log_eventos
         }
 
-        # 6. Renderiza o template passando config, dados_simulacao e os steps
         return render_template(
             'simuladorEntrega3.html',
             config=config,
@@ -544,6 +569,46 @@ def simulador_entrega3():
         # Limpeza: remove o arquivo temporário
         if os.path.exists(caminho_arquivo):
             os.remove(caminho_arquivo)
+
+
+# FIM DA ENTREGA 3
+
+
+# Configuração da página da anotação dos professores
+
+
+ARQUIVO = 'webSite/ProjectSite/data/anotacoes.json'
+
+# Função para carregar anotações do arquivo
+def carregar_anotacoes():
+    if not os.path.exists(ARQUIVO):
+        return []
+    with open(ARQUIVO, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+# Função para salvar anotações no arquivo
+def salvar_anotacoes(anotacoes):
+    print(f"Salvando no arquivo: {ARQUIVO}")
+    with open(ARQUIVO, 'w', encoding='utf-8') as f:
+        json.dump(anotacoes, f, ensure_ascii=False, indent=2)
+
+
+@app.route('/anotacoes_professor', methods=['GET', 'POST'])
+def anotacoes():
+    if request.method == 'POST':
+        nome = request.form['nome'].strip()
+        texto = request.form['anotacao'].strip()
+
+        if nome and texto:
+            nova = {'nome': nome, 'texto': texto}
+            anotacoes = carregar_anotacoes()
+            anotacoes.insert(0, nova)   # anotação mais recente primeiro
+            salvar_anotacoes(anotacoes)
+        return redirect(url_for('anotacoes'))
+ 
+    anotacoes = carregar_anotacoes()
+    return render_template('anotacoes.html', anotacoes=anotacoes)
+
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)

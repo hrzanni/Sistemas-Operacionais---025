@@ -1,1 +1,149 @@
-{% extends 'base.html' %} {% block body %} {% endblock %}
+{% extends 'base.html' %} {% block body %}
+
+<div class="descricaoEntrega">
+  <h2>Processos CPU/Bound()</h2>
+
+  <p>
+    Processos CPU Bound: um processo do tipo CPU é denominado por essa tipagem
+    pois, diferente do I/O Bound, a limitação do mesmo é dada pelo desempenho da
+    CPU, ou seja, o processo utiliza intensamente o processador e passa grande
+    parte do tempo executando cálculos e operações que exigem poder
+    intensificado da CPU.
+  </p>
+
+  <p>Principais características do CPU Bound:</p>
+
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        O processo utiliza intensivamente a CPU para realizar cálculos ou
+        processar dados nos sistemas.
+      </li>
+      <li>
+        O tempo de execução do processo é limitado pela velocidade da CPU e pela
+        capacidade do processador de realizar operações rapidamente.
+      </li>
+      <li>
+        Uso intensivo de CPU, e com uso relativamente menor de operações de I/O.
+      </li>
+    </ul>
+  </div>
+
+  <p>
+    Simulações Científicas e Computacionais: Utiliza-se esse tipo de processo em
+    situações nas quais realizam-se simulações matemáticas ou físicas, como
+    modelagem de fluidos, simulações de partículas ou estudos climáticos. Nesse
+    caso, o desempenho é limitado pela capacidade de processamento da CPU, pois
+    os cálculos envolvidos exigem intenso uso de cálculos numéricos e complexos,
+    não dependendo intensamente do recebimento de entradas/saídas.
+  </p>
+
+  <p>
+    Aprendizado de Máquina e Inteligência Artificial: No caso de sistemas que
+    utilizem muitos algoritmos de treinamento de redes neurais, processamento de
+    dados de big data, ou modelos de aprendizado supervisionado, torna-se
+    totalmente necessário nesse caso. O treinamento de modelos de IA ou análise
+    de dados com algoritmos complexos consome muito poder de CPU, especialmente
+    em modelos grandes ou com muitos dados.
+  </p>
+
+  <br />
+
+  <p>Vantagens:</p>
+
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        Alta Performance em Cálculos: Processos CPU Bound são ideais para
+        tarefas computacionalmente intensivas que exigem grande potência de
+        processamento, como simulações científicas, renderização 3D ou
+        processamento de grandes volumes de dados.
+      </li>
+      <li>
+        Previsibilidade de Desempenho: Como o processo depende mais de cálculos
+        internos do que de I/O, o desempenho tende a ser mais previsível e menos
+        suscetível erros e interferências externas (como a I/O).
+      </li>
+      <li>
+        Otimização para Processadores Multinúcleos: Em sistemas com múltiplos
+        núcleos de CPU, os processos CPU Bound podem ser paralelizados para
+        aproveitar ao máximo os recursos de processamento, o que pode resultar
+        em ganhos significativos de desempenho.
+      </li>
+    </ul>
+  </div>
+
+  <p>Desvantagens:</p>
+
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        Alta Utilização de CPU: Processos desse tipo consomem muita CPU, o que
+        pode prejudicar a performance de outros processos concorrentes no
+        sistema, especialmente se o sistema não tiver recursos suficientes de
+        CPU, podendo atrapalhar outras áreas do mesmo.
+      </li>
+      <li>
+        Limitado por Performance do Processador: O desempenho de um processo CPU
+        Bound está fortemente limitado pela capacidade do processador, o que
+        significa que, para tarefas altamente intensivas, o aumento de
+        performance só pode ser alcançado com upgrade de hardware ou otimizações
+        do código que podem auxiliar em certos cenários.
+      </li>
+      <li>
+        Sistemas Mononúcleo: Em sistemas com apenas um núcleo de CPU, os
+        processos CPU Bound podem monopolizar os recursos da máquina, tornando
+        outros processos lentos ou mesmo não responsivos.
+      </li>
+    </ul>
+  </div>
+
+  <div class="container-imagem">
+    <h4>Ilustração de processos CPU bound()</h4>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="exemplo-codigo">
+    <h4>
+      Veja o exemplo de código a seguir que ilustra um algoritmo CPU bound():
+    </h4>
+    <div class="codigo-container">
+      <form method="POST">
+        <button class="botao-compilar" type="submit">▶ Executar</button>
+      </form>
+
+      <pre><code>
+        #include <stdio.h>
+        #include <stdlib.h>
+          
+          #define ITERATIONS 10000000000LL
+          
+          int main() {
+              __uint128_t sum = 0;    
+          
+              printf("Iniciando cálculos...\n");
+              for (__uint128_t i = 1; i <= ITERATIONS; i++) {
+                  sum += i;
+              }
+              
+              unsigned long long high = (unsigned long long)(sum >> 64);  // Parte mais alta
+              unsigned long long low = (unsigned long long)(sum);  // Parte mais baixa
+          
+              printf("%llu%llu\n", high, low);
+              
+              return 0;
+          }
+
+  </code></pre>
+    </div>
+    {% if resultado %}
+    <pre class="saida-codigo">
+      {{ resultado }}
+    </pre>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
