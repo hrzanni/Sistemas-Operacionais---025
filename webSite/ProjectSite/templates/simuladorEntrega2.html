@@ -39,11 +39,11 @@
   </div>
 
   <script>
-    let simulationSteps = {{ simulation_steps | tojson | safe }};
-    let totalProducoes = {{ total_producoes }};
-    let totalConsumos = {{ total_consumos }};
-    let tempoExecucao = {{ tempo_execucao }};
-    let buffer_size = {{ buffer_size }};
+    const simulationSteps = {{ simulation_steps | tojson | safe }};
+    const totalProducoes  = {{ total_producoes | tojson | safe }};
+    const totalConsumos   = {{ total_consumos | tojson | safe }};
+    const tempoExecucao   = {{ tempo_execucao | tojson | safe }};
+    const buffer_size     = {{ buffer_size | tojson | safe }};
 
     let currentStep = 0;
     const stepsContainer = document.getElementById('simulationSteps');
@@ -80,33 +80,26 @@
       }
     }
 
-    function showNextStep() {
-      if (currentStep < simulationSteps.length) {
-        const step = simulationSteps[currentStep];
-        console.log("Buffer Status:", step.buffer_status);
-
-        const stepElement = document.createElement('div');
-
-        stepElement.innerHTML = `Passo ${step.step}: ${step.descricao}`;
-
-        stepsContainer.appendChild(stepElement);
-
-        if (step.buffer_status) {
-          updateBuffer(step.buffer_status);  // Atualiza o status do buffer
+    function startAnimation() {
+      const intervalId = setInterval(() => {
+        if (currentStep < simulationSteps.length) {
+          const step = simulationSteps[currentStep];
+          const stepElement = document.createElement('div');
+          stepElement.innerHTML = `Passo ${step.step}: ${step.descricao}`;
+          stepsContainer.appendChild(stepElement);
+          if (step.buffer_status) updateBuffer(step.buffer_status);
+          currentStep++;
+        } else {
+          clearInterval(intervalId);
+          totalProducoesElement.textContent = totalProducoes;
+          totalConsumosElement.textContent  = totalConsumos;
+          tempoExecucaoElement.textContent  = tempoExecucao;
         }
-
-        currentStep++;
-        // Delay para mostrar o próximo passo
-        setTimeout(showNextStep, 2000);
-      } else {
-        totalProducoesElement.textContent = totalProducoes;
-        totalConsumosElement.textContent = totalConsumos;
-        tempoExecucaoElement.textContent = tempoExecucao;
-      }
+      }, 2000);
     }
 
-    // Inicia a exibição dos passos
-    setTimeout(showNextStep, 1000);  // Inicia após 1 segundo
+    // Delay inicial antes de começar
+    setTimeout(startAnimation, 1000);
   </script>
+  {% endblock %}
 </div>
-{% endblock %}

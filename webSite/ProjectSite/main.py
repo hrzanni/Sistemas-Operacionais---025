@@ -16,6 +16,7 @@ lib.iniciar_simulacao.argtypes = [c_int, c_int, c_int]
 lib.get_step_count.restype = c_int
 lib.get_step.argtypes = [c_int]
 lib.get_step.restype = c_char_p
+
 lib.get_simulation_log.argtypes = [c_char_p, c_int]
 lib.get_simulation_log.restype = c_int
 
@@ -227,68 +228,74 @@ def entrega2():
 
 @app.route('/simuladorEntrega2', methods=['POST'])
 def simulacao():
-    num_produtores = int(request.form['num_produtores'])
-    num_consumidores = int(request.form['num_consumidores'])
-    buffer_size = int(request.form['buffer_size'])
+    
+    try:
+        num_produtores = int(request.form['num_produtores'])
+        num_consumidores = int(request.form['num_consumidores'])
+        buffer_size = int(request.form['buffer_size'])
 
-    inicio = time.time()
+        inicio = time.time()
 
-    # Chama a simulação em C
-    lib.iniciar_simulacao(num_produtores, num_consumidores, buffer_size)
+        # Chama a simulação em C
+        lib.iniciar_simulacao(num_produtores, num_consumidores, buffer_size)
 
-    fim = time.time()
-    tempo_execucao = fim - inicio
+        fim = time.time()
+        tempo_execucao = fim - inicio
 
-    # Cria o buffer para receber o log da simulação
-    log_buffer = create_string_buffer(1024 * 10)  # 10 KB de buffer
-    log_len = lib.get_simulation_log(log_buffer, len(log_buffer))
+        # Cria o buffer para receber o log da simulação
+        log_buffer = create_string_buffer(1024 * 10)  # 10 KB de buffer
+        log_len = lib.get_simulation_log(log_buffer, len(log_buffer))
 
-    # Converte o buffer C em uma string Python
-    log_content = log_buffer.value.decode('utf-8')
+        # Converte o buffer C em uma string Python
+        log_content = log_buffer.value.decode('utf-8')
 
-    # Divide o log em passos
-    simulation_steps = []
-    total_producoes = 0
-    total_consumos = 0
+        # Divide o log em passos
+        simulation_steps = []
+        total_producoes = 0
+        total_consumos = 0
 
-    empty_count = buffer_size
-    full_count = 0
-    buffer_content = []
+        empty_count = buffer_size
+        full_count = 0
+        buffer_content = []
 
-    for i, line in enumerate(log_content.split('\n')):
-        descricao = line.strip()
-        if not descricao:
-            continue
+        for i, line in enumerate(log_content.split('\n')):
+            descricao = line.strip()
+            if not descricao:
+                continue
 
-        if 'colocou' in descricao:
-            total_producoes += 1
-            if empty_count > 0:
-                # Tenta extrair o número que foi produzido 
-                match = re.search(r'colocou (\d+(?:\.\d+)?)', descricao)
-                if match:
-                    valor = float(match.group(1))
-                else:
-                    valor = '?'
-                buffer_content.append(valor)
-                empty_count -= 1
-                full_count += 1
-        elif 'retirou' in descricao:
-            total_consumos += 1
-            if full_count > 0:
-                buffer_content.pop(0)  # Simula o consumo (FIFO)
-                full_count -= 1
-                empty_count += 1
+            if 'colocou' in descricao:
+                total_producoes += 1
+                if empty_count > 0:
+                    # Tenta extrair o número que foi produzido 
+                    match = re.search(r'colocou (\d+(?:\.\d+)?)', descricao)
+                    if match:
+                        valor = float(match.group(1))
+                    else:
+                        valor = '?'
+                    buffer_content.append(valor)
+                    empty_count -= 1
+                    full_count += 1
+            elif 'retirou' in descricao:
+                total_consumos += 1
+                if full_count > 0:
+                    buffer_content.pop(0)  # Simula o consumo (FIFO)
+                    full_count -= 1
+                    empty_count += 1
 
-        # Registra o estado nesse passo
-        simulation_steps.append({
-            'step': i + 1,
-            'descricao': descricao,
-            'buffer_status': {
-                'empty': empty_count,
-                'full': full_count,
-                'buffer': buffer_content.copy() 
-            }
-        })
+            # Registra o estado nesse passo
+            simulation_steps.append({
+                'step': i + 1,
+                'descricao': descricao,
+                'buffer_status': {
+                    'empty': empty_count,
+                    'full': full_count,
+                    'buffer': buffer_content.copy() 
+                }
+            })
+
+    except Exception as e:
+        print("[ERRO NA SIMULAÇÃO]", e)
+        return render_template('error.html', error_message=str(e)), 500
 
 
 
@@ -470,7 +477,7 @@ def simulador_entrega3():
     upload_dir = os.path.join(os.getcwd(), 'uploads')
     os.makedirs(upload_dir, exist_ok=True)
     caminho_arquivo = os.path.join(upload_dir, arquivo.filename)
-    
+
     print("Received file:", arquivo, "Filename:", arquivo.filename)
 
     arquivo.save(caminho_arquivo)
