@@ -135,7 +135,8 @@ body {
   background-color: #f9f9f9;
 }
 
-/* Estilo da navbar */
+/* Estilo da barra de navegação */
+
 .navbar {
   background-color: rgb(226, 226, 226);
   padding: 15px 0;
@@ -185,7 +186,7 @@ body {
   border-bottom: 2px solid rgba(59, 175, 237, 0.848);
 }
 
-/* entrega 1*/
+/* Página - entrega 1 */
 
 .cards-systemcalls {
   background: #f9fafb;
@@ -300,7 +301,7 @@ body {
   justify-content: center;
 }
 
-/* entrega 2*/
+/* Página - entrega 2*/
 
 .form-entrega2 {
   margin: 20px;
@@ -369,7 +370,7 @@ input[type="number"] {
   border: 2px solid #ccc;
 }
 
-/* Seção de esultados do simulador*/
+/* Seção de resultados dos simuladores */
 
 html,
 body {
@@ -565,7 +566,7 @@ body {
   font-family: monospace;
 }
 
-/* Entrega3.html */
+/* Página - Entrega3 e alguns para o simulador de memória */
 
 .form-entrega3 {
   display: grid;
