@@ -415,6 +415,17 @@ def executar_simulador(config, caminho_arquivo):
 
     inicio = time.time()
     proc = subprocess.run(cmd, capture_output=True, text=True)
+
+    # DEBUG: exibe na saída do Flask o que o simulador imprimiu
+    print("=== SIM STDOUT ===")
+    print(proc.stdout)
+    print("=== SIM STDERR ===")
+    print(proc.stderr)
+    print("=================")
+
+    if proc.returncode != 0:
+        raise RuntimeError(f"Erro no simulador: {proc.stderr}")
+
     fim = time.time()
 
     if proc.returncode != 0:
@@ -452,12 +463,16 @@ def simulador_entrega3():
 
     # 2. Recupera e salva o arquivo enviado
     arquivo = request.files.get('arquivo_operacoes')
+    print(request.files)
     if not arquivo:
         return render_template('error.html', error_message="Nenhum arquivo enviado")
 
     upload_dir = os.path.join(os.getcwd(), 'uploads')
     os.makedirs(upload_dir, exist_ok=True)
     caminho_arquivo = os.path.join(upload_dir, arquivo.filename)
+    
+    print("Received file:", arquivo, "Filename:", arquivo.filename)
+
     arquivo.save(caminho_arquivo)
 
     try:

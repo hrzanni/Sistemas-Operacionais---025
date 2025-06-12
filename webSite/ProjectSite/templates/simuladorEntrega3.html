@@ -1,55 +1,140 @@
 {% extends 'base.html' %} {% block body %}
+<div class="backgroundSimulacao">
+  <div class="simulacao">
+    <h2>Simulador - Gerenciador de Memória</h2>
 
-<!-- Parâmetros Utilizados -->
-<div class="respostasForms">
-  <p><strong>Tamanho da Página:</strong> {{ config.tamanho_pagina }} bytes</p>
-  <p><strong>Bits de Endereço Lógico:</strong> {{ config.bits_endereco }}</p>
-  <p><strong>Memória Física:</strong> {{ config.memoria_fisica }} KB</p>
-  <p><strong>Memória Secundária:</strong> {{ config.memoria_secundaria }} MB</p>
-  <p><strong>Algoritmo:</strong> {{ config.algoritmo }}</p>
+    <div class="respostasForms">
+      <p>
+        <strong>Tamanho da Página:</strong> {{ config.tamanho_pagina }} bytes
+      </p>
+      <p>
+        <strong>Bits de Endereço Lógico:</strong> {{ config.bits_endereco }}
+      </p>
+      <p><strong>Memória Física:</strong> {{ config.memoria_fisica }} KB</p>
+      <p>
+        <strong>Memória Secundária:</strong> {{ config.memoria_secundaria }} MB
+      </p>
+      <p><strong>Algoritmo:</strong> {{ config.algoritmo }}</p>
+    </div>
+
+    <div class="statusBuffer">
+      <h4>Memória Física</h4>
+      <div id="memoryGrid" class="bufferList"></div>
+
+      <h4 style="margin-top: 20px">Tabelas de Páginas</h4>
+      <div id="tablesContainer"></div>
+
+      <h4 style="margin-top: 20px">Eventos</h4>
+      <ul id="eventLog" class="log-list"></ul>
+    </div>
+
+    <div class="controls" style="margin-top: 20px">
+      <button id="prevStep">Anterior</button>
+      <span style="margin: 0 10px">
+        Passo <span id="currentStep">0</span> de <span id="totalSteps">0</span>
+      </span>
+      <button id="nextStep">Próximo</button>
+    </div>
+
+    <div class="relatorioSimulator">
+      <h3>Resumo</h3>
+      <p>
+        <strong>Faltas de Página:</strong> {{ dados_simulacao.faltas_pagina }}
+      </p>
+      <p>
+        <strong>Operações de Swap:</strong> {{ dados_simulacao.operacoes_swap }}
+      </p>
+      <p>
+        <strong>Processos Ativos:</strong> {{ dados_simulacao.processos_ativos
+        }}
+      </p>
+    </div>
+  </div>
 </div>
 
-<!-- Área de Visualização -->
-<div class="visualizacao">
-  <!-- Estado de Memória Física -->
-  <section>
-    <h3>Memória Física</h3>
-    <div id="memoryGrid" class="memory-grid"></div>
-  </section>
+<script>
+  const simulationSteps = {{ steps|tojson|safe }};
+  const totalStepsSpan = document.getElementById('totalSteps');
+  const currentStepSpan = document.getElementById('currentStep');
+  const prevButton = document.getElementById('prevStep');
+  const nextButton = document.getElementById('nextStep');
 
-  <!-- Tabelas de Páginas -->
-  <section>
-    <h3>Tabelas de Páginas</h3>
-    <div id="tablesContainer"></div>
-  </section>
+  const memoryGrid = document.getElementById('memoryGrid');
+  const tablesContainer = document.getElementById('tablesContainer');
+  const eventLog = document.getElementById('eventLog');
 
-  <!-- Log de Eventos -->
-  <section>
-    <h3>Eventos</h3>
-    <ul id="eventLog" class="log-list"></ul>
-  </section>
-</div>
+  let currentIndex = 0;
+  totalStepsSpan.textContent = simulationSteps.length;
 
-<!-- Controles de Passo -->
-<div class="controls">
-  <button id="prevStep">Anterior</button>
-  <span
-    >Passo <span id="currentStep">0</span> de
-    <span id="totalSteps">0</span></span
-  >
-  <button id="nextStep">Próximo</button>
-</div>
+  function renderStep(index) {
+    const step = simulationSteps[index];
+    currentStepSpan.textContent = index;
 
-<!-- Estatísticas Finais -->
-<div class="relatorioSimulator">
-  <h3>Resumo</h3>
-  <p><strong>Faltas de Página:</strong> {{ dados_simulacao.faltas_pagina }}</p>
-  <p>
-    <strong>Operações de Swap:</strong> {{ dados_simulacao.operacoes_swap }}
-  </p>
-  <p>
-    <strong>Processos Ativos:</strong> {{ dados_simulacao.processos_ativos }}
-  </p>
-</div>
+    // Memória física
+    memoryGrid.innerHTML = '';
+    if (step.frames) {
+      step.frames.forEach(frame => {
+        const el = document.createElement('li');
+        el.classList.add('bufferItem', 'filled');
+        el.textContent = `F${frame.id} P${frame.page} P${frame.pid}`;
+        memoryGrid.appendChild(el);
+      });
+    }
 
+    // Tabelas de páginas
+    tablesContainer.innerHTML = '';
+    if (step.page_tables) {
+      const pids = [...new Set(step.page_tables.map(p => p.pid))];
+      pids.forEach(pid => {
+        const tableTitle = document.createElement('h5');
+        tableTitle.textContent = `PID ${pid}`;
+        tablesContainer.appendChild(tableTitle);
+
+        const list = document.createElement('ul');
+        list.classList.add('bufferList');
+
+        step.page_tables.filter(p => p.pid === pid).forEach(p => {
+          const li = document.createElement('li');
+          li.classList.add('bufferItem');
+          li.textContent = `P${p.page_id} F${p.frame}`;
+          if (p.present) li.classList.add('filled');
+          else li.classList.add('empty');
+          list.appendChild(li);
+        });
+
+        tablesContainer.appendChild(list);
+      });
+    }
+
+    // Eventos
+    eventLog.innerHTML = '';
+    if (step.events) {
+      step.events.forEach(ev => {
+        const li = document.createElement('li');
+        li.textContent = ev;
+        eventLog.appendChild(li);
+      });
+    }
+  }
+
+  prevButton.onclick = () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderStep(currentIndex);
+    }
+  };
+
+  nextButton.onclick = () => {
+    if (currentIndex < simulationSteps.length - 1) {
+      currentIndex++;
+      renderStep(currentIndex);
+    }
+  };
+
+  if (simulationSteps.length > 0) {
+    renderStep(0);
+  } else {
+    memoryGrid.textContent = "Nenhum passo para exibir.";
+  }
+</script>
 {% endblock %}
