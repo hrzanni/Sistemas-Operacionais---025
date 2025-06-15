@@ -76,3 +76,13 @@ services:
       args:
         SOURCE_FILE: code-system-calls/codesProcess/sleep.c
     command: sh -c "./app; tail -f /dev/null"
+  
+  projectsite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: webSite/ProjectSite/pc_lib_simulator3.cpp
+    command: sh -c "./app; tail -f /dev/null"
+    volumes:
+      - ./webSite/ProjectSite:/app/projectsite
