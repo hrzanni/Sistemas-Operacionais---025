@@ -1,7 +1,60 @@
 {% extends 'base.html' %} {% block body %}
 <div class="descricaoEntrega">
-  <h2>Configuração do Simulador</h2>
-  <p>Preencha os parâmetros e envie o arquivo com as operações:</p>
+  <p>
+    Nesta terceira entrega de módulo, foi proposto o desenvolvimento de um
+    simulador de gerenciamento de memória virtual com paginação, uma técnica
+    amplamente utilizada por sistemas operacionais para controlar o uso
+    eficiente da memória.
+  </p>
+  <p>
+    A ideia principal é simular o comportamento de processos que acessam
+    endereços de memória ao longo do tempo — realizando leituras, gravações,
+    operações de CPU e I/O — e fazer com que o sistema administre esses acessos
+    de forma segura e organizada. Para isso, cada processo possui uma tabela de
+    páginas e os acessos são traduzidos de endereços lógicos para quadros
+    físicos.
+  </p>
+  <p>
+    O desafio está em lidar com a falta de páginas (quando uma página não está
+    na memória principal no momento do acesso) e com a substituição de páginas,
+    que exige escolher qual página existente será removida para dar lugar à
+    nova. Para resolver isso, implementamos o algoritmo do Relógio, e também o
+    LRU, ambos usados na substituição de páginas em sistemas reais.
+  </p>
+  <p>
+    As instruções de simulação são lidas de um arquivo, com linhas indicando
+    ações como criação de processos (C), leitura (R), escrita (W), operações de
+    CPU (P) e I/O (I), em um formato padronizado.
+  </p>
+  <p>A interface do simulador apresenta:</p>
+  <div class="topicosEntrega">
+    <ul>
+      <li>
+        O estado da memória principal (quais páginas estão carregadas e em qual
+        quadro);
+      </li>
+      <li>As tabelas de páginas por processo;</li>
+      <li>
+        O log de eventos da simulação, incluindo faltas de página e trocas;
+      </li>
+      <li>
+        Um resumo final com estatísticas como número de faltas e operações de
+        swap.
+      </li>
+    </ul>
+  </div>
+
+  <p>
+    Com isso, a entrega permite visualizar de forma clara como sistemas
+    operacionais controlam a memória de diversos processos de forma eficiente e
+    segura, mesmo com recursos limitados.
+  </p>
+
+  <h2>Simulador do Problema de Memória</h2>
+  <p>
+    Defina os parâmetros para a nossa simulação e envie o arquivo com as
+    operações:
+  </p>
 
   <form
     class="form-entrega3"
