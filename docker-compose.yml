@@ -86,3 +86,11 @@ services:
     command: sh -c "./app; tail -f /dev/null"
     volumes:
       - ./webSite/ProjectSite:/app/projectsite
+  
+  producer_consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: Entrega_2/producerConsumer.c
+    command: sh -c "./app; tail -f /dev/null"
