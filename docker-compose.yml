@@ -94,3 +94,19 @@ services:
       args:
         SOURCE_FILE: Entrega_2/producerConsumer.c
     command: sh -c "./app; tail -f /dev/null"
+
+  IOBound:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/IO_bound_CPU_bound/IO_bound.c
+    command: sh -c "./app; tail -f /dev/null"
+  
+  CPUBound:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: code-system-calls/IO_bound_CPU_bound/CPU_bound.c
+    command: sh -c "./app; tail -f /dev/null"

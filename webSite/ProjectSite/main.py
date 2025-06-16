@@ -205,7 +205,7 @@ lib = CDLL('./webSite/ProjectSite/libpc_lib.so')
 
 
 # Define tipos das funções
-lib.iniciar_simulacao.argtypes = [c_int, c_int, c_int]
+lib.main.argtypes = [c_int, c_int, c_int]
 lib.get_step_count.restype = c_int
 lib.get_step.argtypes = [c_int]
 lib.get_step.restype = c_char_p

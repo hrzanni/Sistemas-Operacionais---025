@@ -131,7 +131,7 @@ void* consumidor(void* arg) {
     return NULL;
 }
 
-void iniciar_simulacao(int num_prod, int num_cons, int tam_buf) {
+void main(int num_prod, int num_cons, int tam_buf) {
     printf("🚀 imulação C iniciada!\n");  
 
     buffer_size = tam_buf;
