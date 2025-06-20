@@ -701,6 +701,37 @@ th {
   font-weight: bold;
 }
 
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.controls button {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: white;
+  color: #444;
+  cursor: pointer;
+}
+
+.controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controls button:not(:disabled):hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.controls span {
+  font-size: 0.9rem;
+  color: #333;
+  user-select: none;
+}
+
 /* Area de anotação do professor */
 
 .anotacoes {

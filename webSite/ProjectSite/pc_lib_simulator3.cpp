@@ -334,10 +334,11 @@ private:
     }
 
     void emitir_resumo() {
-        std::cout<<"[SUMMARY] Faltas: "<<faltas_pagina_<<"\n";
-        std::cout<<"[SUMMARY] Swaps: "<<operacoes_swap_<<"\n";
-        std::cout<<"[SUMMARY] Ativos: "<<processos_.size()<<"\n";
-        std::cout<<"[END_SIMULATION]\n";
+        // Sem acentos e com palavras exatas para gerar as chaves certas:
+        std::cout << "[SUMMARY] Faltas de pagina: "  << faltas_pagina_   << "\n";
+        std::cout << "[SUMMARY] Operacoes de swap: " << operacoes_swap_   << "\n";
+        std::cout << "[SUMMARY] Processos ativos: "   << processos_.size() << "\n";
+        std::cout << "[END_SIMULATION]\n";
     }
 };
 
