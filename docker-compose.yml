@@ -85,17 +85,20 @@ services:
         SOURCE_FILE: webSite/ProjectSite/pc_lib_simulator3.cpp
     command: sh -c "./app; tail -f /dev/null"
     volumes:
-      - ./webSite/ProjectSite:/app/projectsite
+      - ./webSite/dados:/app/dados
+
   
   producer_consumer:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        SOURCE_FILE: Entrega_2/producerConsumer.c
-    command: sh -c "./app; tail -f /dev/null"
+        SOURCE_FILE:  Entrega_2/producerConsumer.c
+    command: tail -f /dev/null
+    volumes:
+      - ./webSite/dados:/app/dados
 
-  IOBound:
+  iobound:
     build:
       context: .
       dockerfile: Dockerfile
@@ -103,7 +106,7 @@ services:
         SOURCE_FILE: code-system-calls/IO_bound_CPU_bound/IO_bound.c
     command: sh -c "./app; tail -f /dev/null"
   
-  CPUBound:
+  cpubound:
     build:
       context: .
       dockerfile: Dockerfile

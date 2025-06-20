@@ -1,3 +1,4 @@
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +38,8 @@ int get_buffer_occupancy() {
 
 void* produtor(void* arg) {
     int id = *((int*)arg);
+    free(arg);
+    printf("Produtor %d iniciado\n", id);
 
     pthread_mutex_lock(&prod_mutex);
     produtores_ativos++;
@@ -61,17 +64,10 @@ void* produtor(void* arg) {
         snprintf(msg, STEP_MSG_SIZE, "Produtor %d colocou %d no buffer", id, item);
         registrar_step(msg);
 
-        if (get_buffer_occupancy() == buffer_size) {
-            pthread_mutex_lock(&ciclo_mutex);
-            if (ciclos < 3) {
-            }
-            pthread_mutex_unlock(&ciclo_mutex);
-        }
-
         sem_post(&mutex);
         sem_post(&full);
 
-        usleep(100000);  // Simula o tempo de produção
+        usleep(100000);
     }
 
     pthread_mutex_lock(&prod_mutex);
@@ -86,6 +82,9 @@ void* produtor(void* arg) {
 
 void* consumidor(void* arg) {
     int id = *((int*)arg);
+    free(arg);
+    printf("Consumidor %d iniciado\n", id);
+
     while (1) {
         pthread_mutex_lock(&ciclo_mutex);
         int fim_ciclos = (ciclos >= 3);
@@ -120,6 +119,7 @@ void* consumidor(void* arg) {
             pthread_mutex_lock(&ciclo_mutex);
             if (ciclos < 3) {
                 ciclos++;
+                printf("Ciclo atual: %d\n", ciclos);
             }
             pthread_mutex_unlock(&ciclo_mutex);
         }
@@ -131,8 +131,8 @@ void* consumidor(void* arg) {
     return NULL;
 }
 
-void main(int num_prod, int num_cons, int tam_buf) {
-    printf("🚀 imulação C iniciada!\n");  
+void simular(int num_prod, int num_cons, int tam_buf) {
+    printf("🚀 Simulação C iniciada!\n");
 
     buffer_size = tam_buf;
     buffer = malloc(sizeof(int) * buffer_size);
@@ -149,22 +149,47 @@ void main(int num_prod, int num_cons, int tam_buf) {
 
     pthread_t prod_threads[num_prod];
     pthread_t cons_threads[num_cons];
-    int prod_ids[num_prod], cons_ids[num_cons];
 
     for (int i = 0; i < num_prod; i++) {
-        prod_ids[i] = i + 1;
-        pthread_create(&prod_threads[i], NULL, produtor, &prod_ids[i]);
+        int* id = malloc(sizeof(int));
+        *id = i + 1;
+        pthread_create(&prod_threads[i], NULL, produtor, id);
+        printf("Thread produtora %d criada\n", *id);
     }
 
     for (int i = 0; i < num_cons; i++) {
-        cons_ids[i] = i + 1;
-        pthread_create(&cons_threads[i], NULL, consumidor, &cons_ids[i]);
+        int* id = malloc(sizeof(int));
+        *id = i + 1;
+        pthread_create(&cons_threads[i], NULL, consumidor, id);
+        printf("Thread consumidora %d criada\n", *id);
     }
 
     for (int i = 0; i < num_prod; i++)
         pthread_join(prod_threads[i], NULL);
     for (int i = 0; i < num_cons; i++)
         pthread_join(cons_threads[i], NULL);
+
+    FILE *fp = fopen("dados/saidaProducer.txt", "w");
+    if (fp) {
+        for (int i = 0; i < step_count; i++) {
+            fprintf(fp, "%s\n", steps[i]);
+        }
+        fclose(fp);
+    }
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        fprintf(stderr, "Uso: %s <num_produtores> <num_consumidores> <tam_buffer>\n", argv[0]);
+        return 1;
+    }
+
+    int num_prod = atoi(argv[1]);
+    int num_cons = atoi(argv[2]);
+    int tam_buf = atoi(argv[3]);
+
+    simular(num_prod, num_cons, tam_buf);
+    return 0;
 }
 
 int get_step_count() {
