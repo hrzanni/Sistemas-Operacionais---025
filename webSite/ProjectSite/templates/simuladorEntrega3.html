@@ -18,11 +18,18 @@
     </div>
 
     <div class="statusBuffer">
+      <!-- Descrição do passo atual -->
+      <h4>Descrição-Processo</h4>
+      <div id="stepDesc" class="step-description"></div>
+
       <h4>Memória Física</h4>
       <div id="memoryGrid" class="bufferList"></div>
 
       <h4 style="margin-top: 20px">Tabelas de Páginas</h4>
       <div id="tablesContainer"></div>
+
+      <h4 style="margin-top: 20px">Processos</h4>
+      <div id="processesContainer" class="processes-list"></div>
 
       <h4 style="margin-top: 20px">Eventos</h4>
       <ul id="eventLog" class="log-list"></ul>
@@ -54,87 +61,82 @@
 
 <script>
   const simulationSteps = {{ steps|tojson|safe }};
-  const totalStepsSpan = document.getElementById('totalSteps');
-  const currentStepSpan = document.getElementById('currentStep');
-  const prevButton = document.getElementById('prevStep');
-  const nextButton = document.getElementById('nextStep');
-
-  const memoryGrid = document.getElementById('memoryGrid');
-  const tablesContainer = document.getElementById('tablesContainer');
-  const eventLog = document.getElementById('eventLog');
+  const totalStepsSpan     = document.getElementById('totalSteps');
+  const currentStepSpan     = document.getElementById('currentStep');
+  const prevButton          = document.getElementById('prevStep');
+  const nextButton          = document.getElementById('nextStep');
+  const memoryGrid          = document.getElementById('memoryGrid');
+  const tablesContainer     = document.getElementById('tablesContainer');
+  const processesContainer  = document.getElementById('processesContainer');
+  const eventLog            = document.getElementById('eventLog');
+  const descDiv             = document.getElementById('stepDesc');
 
   let currentIndex = 0;
-  totalStepsSpan.textContent = simulationSteps.length;
+  const total = simulationSteps.length;
+  totalStepsSpan.textContent = total;
 
   function renderStep(index) {
     const step = simulationSteps[index];
     currentStepSpan.textContent = index;
+    descDiv.textContent = step.descricao || '';
 
-    // Memória física
+    // Botões
+    prevButton.disabled = (index === 0);
+    nextButton.disabled = (index === total - 1);
+
+    // Memória Física
     memoryGrid.innerHTML = '';
-    if (step.frames) {
-      step.frames.forEach(frame => {
-        const el = document.createElement('li');
-        el.classList.add('bufferItem', 'filled');
-        el.textContent = `F${frame.id} P${frame.page} P${frame.pid}`;
-        memoryGrid.appendChild(el);
-      });
-    }
+    (step.frames || []).forEach(frame => {
+      const el = document.createElement('div');
+      el.classList.add('bufferItem');
+      if (frame.modified)    el.classList.add('frame-modificado');
+      if (frame.referenced)  el.classList.add('frame-referenciado');
+      el.textContent = `Frame ${frame.id}: PID ${frame.pid}, Pág ${frame.page}`;
+      memoryGrid.appendChild(el);
+    });
 
-    // Tabelas de páginas
+    // Tabelas de Páginas
     tablesContainer.innerHTML = '';
-    if (step.page_tables) {
-      const pids = [...new Set(step.page_tables.map(p => p.pid))];
-      pids.forEach(pid => {
-        const tableTitle = document.createElement('h5');
-        tableTitle.textContent = `PID ${pid}`;
-        tablesContainer.appendChild(tableTitle);
+    const pts = step.page_tables || [];
+    const pids = [...new Set(pts.map(p => p.pid))];
+    pids.forEach(pid => {
+      const title = document.createElement('h5');
+      title.textContent = `PID ${pid}`;
+      tablesContainer.appendChild(title);
 
-        const list = document.createElement('ul');
-        list.classList.add('bufferList');
-
-        step.page_tables.filter(p => p.pid === pid).forEach(p => {
-          const li = document.createElement('li');
-          li.classList.add('bufferItem');
-          li.textContent = `P${p.page_id} F${p.frame}`;
-          if (p.present) li.classList.add('filled');
-          else li.classList.add('empty');
-          list.appendChild(li);
-        });
-
-        tablesContainer.appendChild(list);
+      const ul = document.createElement('ul');
+      ul.classList.add('bufferList');
+      pts.filter(p => p.pid === pid).forEach(p => {
+        const li = document.createElement('li');
+        li.classList.add('bufferItem', p.present ? 'filled' : 'empty');
+        li.textContent = `Pág ${p.page_id} → Frame ${p.frame}`;
+        ul.appendChild(li);
       });
-    }
+
+      tablesContainer.appendChild(ul);
+    });
+
+    // Processos
+    processesContainer.innerHTML = '';
+    (step.processes || []).forEach(p => {
+      const div = document.createElement('div');
+      div.textContent = `PID ${p.pid}: ${p.state}`;
+      processesContainer.appendChild(div);
+    });
 
     // Eventos
     eventLog.innerHTML = '';
-    if (step.events) {
-      step.events.forEach(ev => {
-        const li = document.createElement('li');
-        li.textContent = ev;
-        eventLog.appendChild(li);
-      });
-    }
+    (step.events || []).forEach(ev => {
+      const li = document.createElement('li');
+      li.textContent = ev;
+      eventLog.appendChild(li);
+    });
   }
 
-  prevButton.onclick = () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      renderStep(currentIndex);
-    }
-  };
+  prevButton.onclick = () => { if (currentIndex > 0) { currentIndex--; renderStep(currentIndex); } };
+  nextButton.onclick = () => { if (currentIndex < total - 1) { currentIndex++; renderStep(currentIndex); } };
 
-  nextButton.onclick = () => {
-    if (currentIndex < simulationSteps.length - 1) {
-      currentIndex++;
-      renderStep(currentIndex);
-    }
-  };
-
-  if (simulationSteps.length > 0) {
-    renderStep(0);
-  } else {
-    memoryGrid.textContent = "Nenhum passo para exibir.";
-  }
+  if (total > 0) renderStep(0);
+  else memoryGrid.textContent = "Nenhum passo para exibir.";
 </script>
 {% endblock %}

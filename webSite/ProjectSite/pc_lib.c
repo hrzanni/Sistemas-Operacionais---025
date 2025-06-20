@@ -145,7 +145,7 @@ void* consumidor(void* arg) {
 }
 
 // Função que inicializa a simulação com o número de produtores, consumidores e tamanho do buffer
-void iniciar_simulacao(int num_prod, int num_cons, int tam_buf) {
+void main(int num_prod, int num_cons, int tam_buf) {
     
     printf("🚀 Simulação do Produtor-Consumidor iniciada!\n"); 
 

@@ -263,7 +263,7 @@ def simulacao():
         inicio = time.time()
 
         # Chama a simulação em C
-        lib.iniciar_simulacao(num_produtores, num_consumidores, buffer_size)
+        lib.main(num_produtores, num_consumidores, buffer_size)
 
         fim = time.time()
 
