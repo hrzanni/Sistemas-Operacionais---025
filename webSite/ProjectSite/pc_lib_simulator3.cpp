@@ -566,9 +566,17 @@ void log_config(const std::string& algoritmo, int tam_pag, int bits, int mem_fis
 }
 // === Fim das funções auxiliares ===
 
-
 int main(int argc, char* argv[]) {
     try {
+        // Redirecionar saída para arquivo
+        std::ofstream out("dados/saida.txt");
+        if (!out) {
+            std::cerr << "[ERRO] Não foi possível abrir dados/saida.txt para escrita.\n";
+            return 1;
+        }
+        std::streambuf* coutbuf = std::cout.rdbuf();
+        std::cout.rdbuf(out.rdbuf());
+
         // Verificar argumentos
         if (argc < 7) {
             std::cerr << "Uso: " << argv[0] 
@@ -589,13 +597,11 @@ int main(int argc, char* argv[]) {
         const int memoria_secundaria = std::stoi(argv[5]);
         const int algoritmo = std::stoi(argv[6]);
 
-        // Validar algoritmo
         if (algoritmo != 0 && algoritmo != 1) {
             std::cerr << "Algoritmo inválido. Use 0 (Relógio) ou 1 (LRU)\n";
             return 1;
         }
 
-        // Configurar gerenciador
         GerenciadorMemoria::AlgoritmoSubstituicao algo =
             (algoritmo == 0) ? GerenciadorMemoria::RELOGIO : GerenciadorMemoria::LRU;
 
@@ -608,6 +614,8 @@ int main(int argc, char* argv[]) {
         );
 
         gerenciador.simular(arquivo_entrada);
+
+        std::cout.rdbuf(coutbuf); // Restaura o cout (opcional)
     } catch (const std::exception& e) {
         std::cerr << "[ERRO] " << e.what() << std::endl;
         return 1;

@@ -10,6 +10,8 @@ Nessa primeira entrega de módulo, o projeto visa introduzir a ideia de primitiv
 
 No projeto estarão apresentados programas, na **linguagem C**, juntamente com breves relatórios contendo explicações sobre a funcionalidade de cada um dos mesmos e com a aprensentação estatísticas fornecidas pelas ferramentas 'strace' e 'time'.
 
+docker exec -it sistemas-operacionais-025-projectsite-1 ./app dados/entrada.txt tamPage tamEndLogico tamFisicoMemoria tamMemoriaSecundaria algoritmo -> para executar a simulação
+
 
 ## ALUNOS:
 

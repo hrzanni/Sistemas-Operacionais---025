@@ -3,9 +3,14 @@ WORKDIR /app
 
 RUN mkdir -p /app/dados
 
-COPY code-system-calls /app/code-system-calls
+COPY . /app
 
 ARG SOURCE_FILE
-RUN sh -c "gcc -o app $SOURCE_FILE -lpthread"
+RUN if echo "$SOURCE_FILE" | grep -qE '\.cpp$'; then \
+      g++ -o app $SOURCE_FILE -lpthread; \
+    else \
+      gcc -o app $SOURCE_FILE -lpthread; \
+    fi
+
 
 CMD sh -c "./app; tail -f /dev/null"
