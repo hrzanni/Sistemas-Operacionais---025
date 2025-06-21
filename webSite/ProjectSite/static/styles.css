@@ -732,6 +732,85 @@ th {
   user-select: none;
 }
 
+/* MEMÓRIA FÍSICA */
+#memoryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#memoryGrid .bufferItem {
+  height: 60px;
+  background-color: #444;
+  color: #fff;
+  font-size: 0.85rem;
+  flex-direction: column;
+  text-align: center;
+  padding: 6px;
+  border: 2px solid #888;
+  border-radius: 6px;
+}
+
+#memoryGrid .frame-modificado {
+  border-color: #ff6f61;
+}
+
+#memoryGrid .frame-referenciado {
+  background-color: #007bff;
+}
+
+/* TABELAS DE PÁGINAS */
+#tablesContainer h5 {
+  margin-top: 20px;
+  color: #ffd700;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+#tablesContainer ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#tablesContainer li {
+  background-color: #333;
+  border: 2px solid #666;
+  padding: 6px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  color: #ddd;
+}
+
+#tablesContainer li.filled {
+  background-color: #28a745;
+  color: #fff;
+  border-color: #1f7a2c;
+}
+
+#tablesContainer li.empty {
+  background-color: #444;
+  color: #aaa;
+}
+
+/* Título dos processos */
+#processesContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#processesContainer div {
+  padding: 6px 10px;
+  background-color: #2e2e2e;
+  border-left: 4px solid #00c6a2;
+  border-radius: 4px;
+}
+
 /* Area de anotação do professor */
 
 .anotacoes {

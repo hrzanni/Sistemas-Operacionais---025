@@ -66,16 +66,43 @@ public:
     void simular(const std::string &arquivo_entrada) {
         std::ifstream arquivo(arquivo_entrada);
         if (!arquivo) throw std::runtime_error("Não foi possível abrir " + arquivo_entrada);
-
+    
         std::string linha;
         int step = 0;
+        char lastTipo = 0;
+        int  lastPid  = -1;
+    
         while (std::getline(arquivo, linha)) {
             if (linha.empty() || linha[0] == '#') continue;
+    
+            // --- Reset do estado “Executando” do passo anterior ---
+            if (lastTipo == 'P' && lastPid >= 0) {
+                processos_[lastPid].estado = "Pronto";
+                // gerar evento de volta a pronto, mas **será** impresso só no próximo emitir_estado:
+                eventos_.push_back(
+                    "Processo " + std::to_string(lastPid) + " voltou a Pronto após CPU"
+                );
+            }
+    
             auto op = parse_operacao(linha);
             log_op(op);
             executar_op(op);
             emitir_estado(step++);
+    
+            // guardamos para o próximo reset
+            lastTipo = op.tipo_operacao;
+            lastPid  = op.id_processo;
         }
+    
+        // ao sair do loop, não esquecer de resetar o último P
+        if (lastTipo == 'P' && lastPid >= 0) {
+            processos_[lastPid].estado = "Pronto";
+            eventos_.push_back(
+                "Processo " + std::to_string(lastPid) + " voltou a Pronto após CPU"
+            );
+            emitir_estado(step++);
+        }
+    
         emitir_resumo();
     }
 
@@ -159,7 +186,7 @@ private:
             case 'C': return "criação de processo (tamanho: " + std::to_string(op.tamanho) + ")";
             case 'R': return "leitura no endereço " + std::to_string(op.endereco);
             case 'W': return "gravação no endereço " + std::to_string(op.endereco);
-            case 'P': return "operação de CPU";
+            case 'P': return "de CPU";
             case 'I': return "operação de I/O (dispositivo: " + op.dispositivo + ")";
             default:  return "operação desconhecida";
         }
@@ -213,8 +240,20 @@ private:
             processos_[op.id_processo].estado = "FALHOU";
             return;
         }
+
         int pgid = op.endereco / tamanho_pagina_;
         auto &pg = pr.tabela_paginas.at(pgid);
+
+        if (pg.presente) {
+            eventos_.push_back(
+                "Acesso sem falta de página. Processo " + std::to_string(pr.id_processo) +
+                " na página " + std::to_string(pgid)
+            );
+        } else {
+            tratar_falta(pr, pg);
+        }
+
+        
         if (!pg.presente) tratar_falta(pr, pg);
         pg.referenciada = true;
         pg.ultimo_acesso = std::chrono::high_resolution_clock::now();
@@ -319,6 +358,13 @@ private:
     }
 
     void emitir_estado(int step) {
+
+        for (auto &kv : processos_) {
+            if (kv.second.estado == "Executando") {
+                kv.second.estado = "Pronto";
+                eventos_.push_back("Processo " + std::to_string(kv.first) + " voltou a Pronto");
+            }
+        }
         for (auto &fr : memoria_fisica_) if (fr.alocado)
             std::cout<<"[FRAME] "<<fr.id_frame<<"|"<<fr.id_processo<<"|"<<fr.id_pagina
                      <<"|"<<fr.referenciada<<"|"<<fr.modificada<<"\n";
