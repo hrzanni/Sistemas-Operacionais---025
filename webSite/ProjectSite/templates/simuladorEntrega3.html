@@ -25,6 +25,9 @@
       <h4>Memória Física</h4>
       <div id="memoryGrid" class="bufferList"></div>
 
+      <h4 style="margin-top: 20px">Memória Secundária (Swap)</h4>
+      <div id="swapInfo" class="swap-info"></div>
+
       <h4 style="margin-top: 20px">Tabelas de Páginas</h4>
       <div id="tablesContainer"></div>
 
@@ -55,6 +58,10 @@
         <strong>Processos Ativos:</strong> {{ dados_simulacao.processos_ativos
         }}
       </p>
+      <p>
+        <strong>Swap usado:</strong> {{ dados_simulacao.swap_used }} / {{
+        dados_simulacao.swap_capacity }} páginas
+      </p>
     </div>
   </div>
 </div>
@@ -70,6 +77,9 @@
   const processesContainer  = document.getElementById('processesContainer');
   const eventLog            = document.getElementById('eventLog');
   const descDiv             = document.getElementById('stepDesc');
+  const swapBar             = document.getElementById('swapUsedBar');
+  const swapText            = document.getElementById('swapText');
+  const swapInfo = document.getElementById('swapInfo');
 
   let currentIndex = 0;
   const total = simulationSteps.length;
@@ -94,6 +104,19 @@
       el.textContent = `Frame ${frame.id}: PID ${frame.pid}, Pág ${frame.page}`;
       memoryGrid.appendChild(el);
     });
+
+    // Memória Secundária
+    if (step.swap) {
+      const { used, cap } = step.swap;
+      // aqui convertemos páginas → MB
+      const pageSize = {{ config.tamanho_pagina }};
+      const mbUsed = (used * pageSize)/(1024*1024);
+      const mbCap  = (cap  * pageSize)/(1024*1024);
+      swapInfo.textContent =
+        `Swap: ${used}/${cap} páginas (${mbUsed.toFixed(1)}MB de ${mbCap.toFixed(1)}MB)`;
+    } else {
+      swapInfo.textContent = 'Swap: —';
+    }
 
     // Tabelas de Páginas
     tablesContainer.innerHTML = '';

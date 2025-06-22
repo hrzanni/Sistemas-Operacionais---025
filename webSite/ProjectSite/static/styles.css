@@ -811,6 +811,33 @@ th {
   border-radius: 4px;
 }
 
+.swap-info {
+  margin-top: 10px;
+}
+.swap-bar {
+  background: #444;
+  border-radius: 4px;
+  height: 16px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #666;
+}
+.swap-used {
+  background: #ff8c00;
+  height: 100%;
+  width: 0;
+  transition: width 0.3s;
+}
+
+.swap-info {
+  padding: 8px 12px;
+  background: #3a3a3a;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
 /* Area de anotação do professor */
 
 .anotacoes {

@@ -368,7 +368,8 @@ def parse_memory_output(stdout: str):
                 'frames': [],
                 'page_tables': [],
                 'processes': [],
-                'events': []
+                'events': [],
+                'swap': { 'used': 0, 'cap': 0 }
             }
             continue
 
@@ -382,6 +383,12 @@ def parse_memory_output(stdout: str):
                 'referenced': ref == '1',
                 'modified':   mod == '1'
             })
+            continue
+
+        if line.startswith('[SWAP_SPACE]'):
+            used, cap = line[len('[SWAP_SPACE]'):].strip().split('/')
+            current['swap']['used'] = int(used)
+            current['swap']['cap']  = int(cap)
             continue
 
         if line.startswith('[PAGE_TABLE]'):
@@ -420,6 +427,7 @@ def parse_memory_output(stdout: str):
                 pid = -1
             current['processes'].append({'pid': pid, 'state': state})
             continue
+
 
         if line.startswith('[EVENT]'):
             msg = line[len('[EVENT]'):].strip()
@@ -555,7 +563,9 @@ def simulador_entrega3():
             'processos_ativos': len(ultima['processes']),
             'memoria_fisica':  memoria_fisica,
             'tabelas_paginas': tabelas_paginas,
-            'log_eventos':     log_eventos
+            'log_eventos':     log_eventos,
+            'swap_used':     ultima['swap']['used'],
+            'swap_capacity': ultima['swap']['cap'],
         }
 
         return render_template(
