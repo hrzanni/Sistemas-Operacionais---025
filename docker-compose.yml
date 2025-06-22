@@ -77,26 +77,15 @@ services:
         SOURCE_FILE: code-system-calls/codesProcess/sleep.c
     command: sh -c "./app; tail -f /dev/null"
   
-  projectsite:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        SOURCE_FILE: webSite/ProjectSite/pc_lib_simulator3.cpp
-    command: sh -c "./app; tail -f /dev/null"
-    volumes:
-      - ./webSite/dados:/app/dados
-
-  
   producer_consumer:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        SOURCE_FILE:  Entrega_2/producerConsumer.c
-    command: tail -f /dev/null
+        SOURCE_FILE: Entrega_2/producerConsumer.c
     volumes:
       - ./webSite/dados:/app/dados
+    entrypoint: ["./app", "2", "2", "5"]
 
   iobound:
     build:
