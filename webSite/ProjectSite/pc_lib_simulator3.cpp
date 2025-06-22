@@ -147,30 +147,35 @@ private:
         std::istringstream iss(linha);
         char P; OperacaoMemoria op;
         iss >> P >> op.id_processo >> op.tipo_operacao;
+    
         if (op.tipo_operacao == 'C') {
             iss >> op.tamanho;
         } else {
-            char c; iss >> c; // '('
-            if (op.tipo_operacao == 'R' || op.tipo_operacao == 'W') {
-                std::string num;
-                std::getline(iss, num, ')');
-                // descarta o '2'
-                char next_char;
-                iss >> next_char;
-                // remove espaços, se houver
-                num.erase(std::remove_if(num.begin(), num.end(), ::isspace), num.end());
-                // tenta converter base 2, senão base 10
-                try {
-                    op.endereco = std::stoul(num, nullptr, 2);
-                } catch (...) {
-                    op.endereco = std::stoul(num, nullptr, 10);
-                }
-                if (op.endereco >= (1u << bits_endereco_))
-                    throw std::runtime_error("Endereço excede espaço lógico");
-            } else {
-                std::getline(iss, op.dispositivo, ')');
+            // Consumir espaços até '('
+            char c;
+            do { iss >> c; } while (c != '(');
+            // Agora ler TUDO até ')'
+            std::string inside;
+            std::getline(iss, inside, ')');  // inside == "1024" em "(1024)2"
+            // Jogar fora o '2' que vem logo em seguida
+            // (pode haver espaços antes, então descartamos até ver algo não-espaço)
+            while (iss.peek() == ' ' ) iss.get();
+            if (iss.peek() == '2') iss.get();
+    
+            // Agora 'inside' é exatamente o dígito sequence
+            // Interpretamos como BINÁRIO: stoi(inside, 0, 2)
+            // Se der exceção (p.ex. ranço), interpretamos em DECIMAL
+            try {
+                op.endereco = std::stoul(inside, nullptr, 2);
+            } catch (...) {
+                op.endereco = std::stoul(inside, nullptr, 10);
             }
+    
+            // Checagem opcional de overflow
+            if (op.endereco >= (1u << bits_endereco_))
+                throw std::runtime_error("Endereço excede espaço lógico");
         }
+    
         return op;
     }
 
