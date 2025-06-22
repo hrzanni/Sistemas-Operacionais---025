@@ -11,6 +11,8 @@
 #include <cmath>
 #include <algorithm>
 #include <cctype> 
+#include <regex>
+
 
 class GerenciadorMemoria {
 public:
@@ -76,22 +78,21 @@ public:
             // 1) Parse, log e execute
             auto op = parse_operacao(linha);
             log_op(op);
+
+            std::string trimmed = std::regex_replace(linha, std::regex("^\\s+|\\s+$"), "");
+            std::cout << ">>> Processando: " << trimmed << "\n";
+            
             executar_op(op);
-    
             // 2) Emite o estado **com** o processo em “Executando”
             emitir_estado(step++);
     
-            // 3) Se foi instrução de CPU, então:
             if (op.tipo_operacao == 'P') {
-                // **volta** ao estado Pronto
                 processos_[op.id_processo].estado = "Pronto";
-                // empurra apenas o evento de retorno:
                 eventos_.push_back(
                   "Processo " + std::to_string(op.id_processo)
                   + " voltou a Pronto após CPU"
                 );
-                // 4) Emite um **segundo** estado, criando um passo extra com
-                //     *mesma* memória e tabelas, mas já em Pronto:
+                
                 
             }
         }
@@ -145,39 +146,60 @@ private:
 
     OperacaoMemoria parse_operacao(const std::string &linha) {
         std::istringstream iss(linha);
-        char P; OperacaoMemoria op;
+        OperacaoMemoria op;
+        char P;
         iss >> P >> op.id_processo >> op.tipo_operacao;
     
         if (op.tipo_operacao == 'C') {
+            // criação de processo
             iss >> op.tamanho;
-        } else {
-            // Consumir espaços até '('
-            char c;
-            do { iss >> c; } while (c != '(');
-            // Agora ler TUDO até ')'
-            std::string inside;
-            std::getline(iss, inside, ')');  // inside == "1024" em "(1024)2"
-            // Jogar fora o '2' que vem logo em seguida
-            // (pode haver espaços antes, então descartamos até ver algo não-espaço)
-            while (iss.peek() == ' ' ) iss.get();
-            if (iss.peek() == '2') iss.get();
     
-            // Agora 'inside' é exatamente o dígito sequence
-            // Interpretamos como BINÁRIO: stoi(inside, 0, 2)
-            // Se der exceção (p.ex. ranço), interpretamos em DECIMAL
+        } 
+        else if (op.tipo_operacao == 'R' || op.tipo_operacao == 'W') {
+            // leitura/gravação: token "(...)" seguido de 2
+            std::string token;
+            iss >> token;  // ex: "(1024)2"
+    
+            // debug opcional
+            std::cout << "[DEBUG_PARSE] token=\"" << token << "\"\n";
+    
+            // extrai o que está entre '(' e ')'
+            auto close = token.find(')');
+            if (token.empty() || token.front() != '(' || close == std::string::npos) {
+                throw std::runtime_error("Formato inválido de endereço: " + token);
+            }
+            std::string inside = token.substr(1, close - 1);
+    
+            // debug opcional
+            std::cout << "[DEBUG_PARSE] inside=\"" << inside << "\"\n";
+    
+            // tenta converter como binário, senão como decimal
             try {
                 op.endereco = std::stoul(inside, nullptr, 2);
             } catch (...) {
                 op.endereco = std::stoul(inside, nullptr, 10);
             }
     
-            // Checagem opcional de overflow
-            if (op.endereco >= (1u << bits_endereco_))
-                throw std::runtime_error("Endereço excede espaço lógico");
+            // checa limites
+            if (op.endereco >= (1u << bits_endereco_)) {
+                throw std::runtime_error("Endereço excede espaço lógico: " + inside);
+            }
+    
+        } 
+        else if (op.tipo_operacao == 'P' || op.tipo_operacao == 'I') {
+            // CPU ou I/O: simplesmente pega o que vier até ')'
+            char c;
+            iss >> c;  // deve ser '('
+            std::getline(iss, op.dispositivo, ')');
+    
+        } 
+        else {
+            throw std::runtime_error(std::string("Tipo de operação inválido: ") + op.tipo_operacao);
         }
     
         return op;
     }
+
 
 
     std::string tipo_humana(const OperacaoMemoria &op) {
@@ -192,10 +214,7 @@ private:
     }
 
     void log_op(const OperacaoMemoria &op) {
-        // Prefixo compatível com parse_memory_output
-        std::cout << ">>> Processando: "
-                  << "P" << op.id_processo
-                  << " "  << op.tipo_operacao;
+
         eventos_.push_back("Processo " + std::to_string(op.id_processo) + " realizará operação " + tipo_humana(op));
         if (op.tipo_operacao == 'C') std::cout << " " << op.tamanho;
         else if (op.tipo_operacao=='R' || op.tipo_operacao=='W')
