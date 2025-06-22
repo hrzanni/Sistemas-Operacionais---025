@@ -69,42 +69,36 @@ public:
     
         std::string linha;
         int step = 0;
-        char lastTipo = 0;
-        int  lastPid  = -1;
     
         while (std::getline(arquivo, linha)) {
             if (linha.empty() || linha[0] == '#') continue;
     
-            // --- Reset do estado “Executando” do passo anterior ---
-            if (lastTipo == 'P' && lastPid >= 0) {
-                processos_[lastPid].estado = "Pronto";
-                // gerar evento de volta a pronto, mas **será** impresso só no próximo emitir_estado:
-                eventos_.push_back(
-                    "Processo " + std::to_string(lastPid) + " voltou a Pronto após CPU"
-                );
-            }
-    
+            // 1) Parse, log e execute
             auto op = parse_operacao(linha);
             log_op(op);
             executar_op(op);
+    
+            // 2) Emite o estado **com** o processo em “Executando”
             emitir_estado(step++);
     
-            // guardamos para o próximo reset
-            lastTipo = op.tipo_operacao;
-            lastPid  = op.id_processo;
-        }
-    
-        // ao sair do loop, não esquecer de resetar o último P
-        if (lastTipo == 'P' && lastPid >= 0) {
-            processos_[lastPid].estado = "Pronto";
-            eventos_.push_back(
-                "Processo " + std::to_string(lastPid) + " voltou a Pronto após CPU"
-            );
-            emitir_estado(step++);
+            // 3) Se foi instrução de CPU, então:
+            if (op.tipo_operacao == 'P') {
+                // **volta** ao estado Pronto
+                processos_[op.id_processo].estado = "Pronto";
+                // empurra apenas o evento de retorno:
+                eventos_.push_back(
+                  "Processo " + std::to_string(op.id_processo)
+                  + " voltou a Pronto após CPU"
+                );
+                // 4) Emite um **segundo** estado, criando um passo extra com
+                //     *mesma* memória e tabelas, mas já em Pronto:
+                
+            }
         }
     
         emitir_resumo();
     }
+    
 
 private:
     int tamanho_pagina_;
@@ -153,30 +147,35 @@ private:
         std::istringstream iss(linha);
         char P; OperacaoMemoria op;
         iss >> P >> op.id_processo >> op.tipo_operacao;
+    
         if (op.tipo_operacao == 'C') {
             iss >> op.tamanho;
         } else {
-            char c; iss >> c; // '('
-            if (op.tipo_operacao == 'R' || op.tipo_operacao == 'W') {
-                std::string num;
-                std::getline(iss, num, ')');
-                // descarta o '2'
-                char next_char;
-                iss >> next_char;
-                // remove espaços, se houver
-                num.erase(std::remove_if(num.begin(), num.end(), ::isspace), num.end());
-                // tenta converter base 2, senão base 10
-                try {
-                    op.endereco = std::stoul(num, nullptr, 2);
-                } catch (...) {
-                    op.endereco = std::stoul(num, nullptr, 10);
-                }
-                if (op.endereco >= (1u << bits_endereco_))
-                    throw std::runtime_error("Endereço excede espaço lógico");
-            } else {
-                std::getline(iss, op.dispositivo, ')');
+            // Consumir espaços até '('
+            char c;
+            do { iss >> c; } while (c != '(');
+            // Agora ler TUDO até ')'
+            std::string inside;
+            std::getline(iss, inside, ')');  // inside == "1024" em "(1024)2"
+            // Jogar fora o '2' que vem logo em seguida
+            // (pode haver espaços antes, então descartamos até ver algo não-espaço)
+            while (iss.peek() == ' ' ) iss.get();
+            if (iss.peek() == '2') iss.get();
+    
+            // Agora 'inside' é exatamente o dígito sequence
+            // Interpretamos como BINÁRIO: stoi(inside, 0, 2)
+            // Se der exceção (p.ex. ranço), interpretamos em DECIMAL
+            try {
+                op.endereco = std::stoul(inside, nullptr, 2);
+            } catch (...) {
+                op.endereco = std::stoul(inside, nullptr, 10);
             }
+    
+            // Checagem opcional de overflow
+            if (op.endereco >= (1u << bits_endereco_))
+                throw std::runtime_error("Endereço excede espaço lógico");
         }
+    
         return op;
     }
 
@@ -318,7 +317,7 @@ private:
             pg.referenciada=false; fr.referenciada=false;
             ponteiro_relogio_=(ponteiro_relogio_+1)%num_frames_;
         }
-        throw std::runtime_error("Víctima não encontrado");
+        throw std::runtime_error("Vitima não encontrada");
     }
 
     void substituir(int frame) {
@@ -359,12 +358,7 @@ private:
 
     void emitir_estado(int step) {
 
-        for (auto &kv : processos_) {
-            if (kv.second.estado == "Executando") {
-                kv.second.estado = "Pronto";
-                eventos_.push_back("Processo " + std::to_string(kv.first) + " voltou a Pronto");
-            }
-        }
+        
         for (auto &fr : memoria_fisica_) if (fr.alocado)
             std::cout<<"[FRAME] "<<fr.id_frame<<"|"<<fr.id_processo<<"|"<<fr.id_pagina
                      <<"|"<<fr.referenciada<<"|"<<fr.modificada<<"\n";
