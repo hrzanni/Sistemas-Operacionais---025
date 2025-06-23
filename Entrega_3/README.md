@@ -1,5 +1,5 @@
 ## 🗄️ Módulo 3 — Simulador de Memória Virtual por Paginação
-Essa etapa implementa um **mini‐S.O.**: um simulador de gerenciador de memória com paginação, que:
+Essa etapa implementa um simulador de gerenciador de memória com paginação, que:
 
 - Traduz endereços lógicos em páginas;
 - Carrega quadros (frames) na memória física;
@@ -40,7 +40,7 @@ P1 P (1)2 # “CPU burst”
 
 ### 🏗️ Arquitetura
 
-1. **C++ (baixo-nível)**  
+1. **C++**  
  - Classe `GerenciadorMemoria` faz toda a lógica de paginação, Clock/LRU e estatísticas.  
  - Imprime no stdout blocos como:
    ```text
@@ -65,8 +65,19 @@ Na raiz do projeto
 g++ -std=c++17 -O2 -o simulador_memoria simulador_memoria.cpp
 ```
 
-Porém, já deixamos o arquivo compilado para uso.
+Porém, já deixamos o arquivo compilado para uso.  
 
 
-Inicie o servidor Flask e vá para a tela da entrega3
+Inicie o servidor Flask e vá para a tela da entrega3  
+
+Lá, pode ser observado uma breve descrição do nosso desafio e o que fizemos para solucioná-lo. E após isso, há um formulário que contém os itens listados no **Objetivos**.
+
+Após passar pelas 2 verificações, que são:  
+
+-> Memória física (em bytes) deve ser múltipla de tamanho_pagina  
+-> tamanho_pagina não pode exceder o espaço de endereçamento lógico 2^bits_endereco  
+
+O usuário será redirecionado para a tela do simulador, onde irá ter a seguinte vizualização:
+
+
 
