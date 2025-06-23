@@ -65,5 +65,8 @@ Na raiz do projeto
 g++ -std=c++17 -O2 -o simulador_memoria simulador_memoria.cpp
 ```
 
-Inicie o servidor Flask
+Porém, já deixamos o arquivo compilado para uso.
+
+
+Inicie o servidor Flask e vá para a tela da entrega3
 
