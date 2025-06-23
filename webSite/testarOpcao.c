@@ -35,6 +35,12 @@ int main() {
         case 9:
             system("docker exec sistemas-operacionais-025_met09_1 ./app");
             break;
+        case 10:
+            system("docker exec sistemas-operacionais-025_iobound_1 ./app");
+            break;
+        case 11:
+            system("docker exec sistemas-operacionais-025_cpubound_1 ./app");
+            break;
         default:
             printf("Opção inválida.\n");
     }

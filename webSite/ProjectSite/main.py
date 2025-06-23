@@ -173,7 +173,7 @@ def entrega1_sleep():
         try:
             base_dir = os.getcwd()
             path_executavel = os.path.join(base_dir, "webSite", "teste")
-            comando = f'echo 8 | "{path_executavel}"'
+            comando = f'echo 9 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
         except Exception as e:
@@ -185,12 +185,36 @@ def entrega1_sleep():
 # Página do processo I/O bound()
 @app.route("/entrega1/Processos_I/O-bound")
 def entrega1_IOBound():
+    resultado = None
+
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 10 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
     return render_template('entrega1-IOBound.html')
 
 
 # Página do processo CPU bound()
 @app.route("/entrega1/Processos_CPU-bound")
 def entrega1_CPUBound():
+    resultado = None
+
+    if request.method == "POST":
+        try:
+            base_dir = os.getcwd()
+            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            comando = f'echo 11 | "{path_executavel}"'
+
+            resultado = subprocess.getoutput(comando)
+        except Exception as e:
+            resultado = f"Erro ao executar: {e}"
+
     return render_template('entrega1-CPUBound.html')
 
 
