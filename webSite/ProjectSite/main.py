@@ -493,31 +493,51 @@ def executar_simulador(config, caminho_arquivo):
 # Página do simulador de memória
 @app.route('/simuladorEntrega3', methods=['POST'])
 def simulador_entrega3():
-    # Primeiro, recupera configuração do form
+    # Pega dados do formulario
+    try:
+        tamanho_pagina = int(request.form['tamanho_pagina'])
+        bits_endereco = int(request.form['bits_endereco'])
+        memoria_fisica_kb = int(request.form['memoria_fisica'])  # em KB
+        memoria_secundaria = int(request.form['memoria_secundaria'])  # MB
+        algoritmo = request.form['algoritmo']
+    except Exception as e:
+        return render_template('error.html', error_message="Parâmetros inválidos.")
+
+    # Validações
+    memoria_fisica_bytes = memoria_fisica_kb * 1024
+    max_addressable = 2 ** bits_endereco
+
+    if tamanho_pagina <= 0:
+        return render_template('error.html', error_message="Tamanho de página inválido.")
+
+   # Memória física deve ser múltiplo do tamanho da página
+    if memoria_fisica_bytes % tamanho_pagina != 0:
+        return render_template(
+            'error.html',
+            error_message=(
+                f"A memória física ({memoria_fisica_bytes} bytes ou {memoria_fisica_kb} KB) "
+                f"deve ser múltiplo do tamanho da página ({tamanho_pagina} bytes)."
+            )
+        )
+
+    # Tamanho da página não pode ser maior que o espaço de endereçamento
+    if tamanho_pagina > max_addressable:
+        return render_template(
+            'error.html',
+            error_message=(
+                f"Tamanho da página ({tamanho_pagina} bytes) não pode ser maior do que "
+                f"o espaço de endereçamento lógico ({max_addressable} bytes)."
+            )
+        )
+
+    # Monta o config corretamente após validação
     config = {
-        'tamanho_pagina':    int(request.form['tamanho_pagina']),
-        'bits_endereco':     int(request.form['bits_endereco']),
-        'memoria_fisica':    int(request.form['memoria_fisica']),
-        'memoria_secundaria':int(request.form['memoria_secundaria']),
-        'algoritmo':         request.form['algoritmo']
+        'tamanho_pagina': tamanho_pagina,
+        'bits_endereco': bits_endereco,
+        'memoria_fisica': memoria_fisica_kb,
+        'memoria_secundaria': memoria_secundaria,
+        'algoritmo': algoritmo
     }
-
-    # Agora, faça as validações
-    page_size = config['tamanho_pagina']
-    phys_mem_bytes = config['memoria_fisica'] * 1024  # memória física em bytes
-
-    if phys_mem_bytes % page_size != 0:
-        return render_template(
-            'error.html',
-            error_message=f"A memória física ({phys_mem_bytes} bytes) deve ser múltiplo do tamanho da página ({page_size} bytes)."
-        )
-
-    max_addressable = 2 ** config['bits_endereco']
-    if page_size > max_addressable:
-        return render_template(
-            'error.html',
-            error_message=f"Tamanho da página ({page_size} bytes) não pode ser maior do que o espaço de endereçamento lógico ({max_addressable} bytes)."
-        )
 
     # Recupera e salva o arquivo enviado
     arquivo = request.files.get('arquivo_operacoes')
@@ -638,4 +658,4 @@ def anotacoes():
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5005, debug=True)
