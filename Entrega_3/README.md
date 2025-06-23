@@ -77,7 +77,16 @@ Após passar pelas 2 verificações, que são:
 -> Memória física (em bytes) deve ser múltipla de tamanho_pagina  
 -> tamanho_pagina não pode exceder o espaço de endereçamento lógico 2^bits_endereco  
 
-O usuário será redirecionado para a tela do simulador, onde irá ter a seguinte vizualização:
+O usuário será redirecionado para a tela do simulador, onde irá ter a seguinte vizualização:  
+![Captura de tela de 2025-06-23 00-09-00](https://github.com/user-attachments/assets/0bb085da-5180-4e2f-8ec9-a8ca9944de10)
+![Captura de tela de 2025-06-23 00-09-14](https://github.com/user-attachments/assets/1ab80b72-17bf-4686-9a6f-2d533d92d12b)  
+
+Após isso, basta ir vizualizando os próximos passos e conferindo como a simulação de como um sistema operacional faz para gerenciar memória  
+
+####Aqui vai o exemplo do passo 7 deste mesmo exemplo:  
+
+![Captura de tela de 2025-06-23 00-09-00](https://github.com/user-attachments/assets/1f67a096-b569-4819-8543-fcc2be31fe8e)
+![Captura de tela de 2025-06-23 00-09-14](https://github.com/user-attachments/assets/0a469655-8168-46d9-b427-82111e611bc4)
 
 
 
