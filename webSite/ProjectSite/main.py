@@ -28,7 +28,7 @@ def entrega1_open_file():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 1 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -46,7 +46,7 @@ def entrega1_read_file():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 2 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -64,7 +64,7 @@ def entrega1_write_file():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 3 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -82,7 +82,7 @@ def entrega1_mmap():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 4 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -100,7 +100,7 @@ def entrega1_mprotect():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 5 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -118,7 +118,7 @@ def entrega1_munmap():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 6 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -136,7 +136,7 @@ def entrega1_fork():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 7 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -154,7 +154,7 @@ def entrega1_pause():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 8 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -172,7 +172,7 @@ def entrega1_sleep():
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 9 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
@@ -183,39 +183,39 @@ def entrega1_sleep():
     
 
 # Página do processo I/O bound()
-@app.route("/entrega1/Processos_I/O-bound")
+@app.route("/entrega1/Processos_I/O-bound", methods=["GET", "POST"])
 def entrega1_IOBound():
     resultado = None
 
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 10 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
         except Exception as e:
             resultado = f"Erro ao executar: {e}"
 
-    return render_template('entrega1-IOBound.html')
+    return render_template('entrega1-IOBound.html', resultado=resultado)
 
 
 # Página do processo CPU bound()
-@app.route("/entrega1/Processos_CPU-bound")
+@app.route("/entrega1/Processos_CPU-bound", methods=["GET", "POST"])
 def entrega1_CPUBound():
     resultado = None
 
     if request.method == "POST":
         try:
             base_dir = os.getcwd()
-            path_executavel = os.path.join(base_dir, "webSite", "teste")
+            path_executavel = os.path.join(base_dir, "webSite", "opcao")
             comando = f'echo 11 | "{path_executavel}"'
 
             resultado = subprocess.getoutput(comando)
         except Exception as e:
             resultado = f"Erro ao executar: {e}"
 
-    return render_template('entrega1-CPUBound.html')
+    return render_template('entrega1-CPUBound.html', resultado=resultado)
 
 
 # FIM DA ENTREGA 1

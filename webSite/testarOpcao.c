@@ -9,37 +9,37 @@ int main() {
 
     switch(opcao) {
         case 1:
-            system("docker exec sistemas-operacionais-025_met01_1 ./app"); 
+            system("docker exec sistemas-operacionais-025-met01-1 ./app"); 
             break;
         case 2:
-            system("docker exec sistemas-operacionais-025_met02_1 ./app");
+            system("docker exec sistemas-operacionais-025-met02-1 ./app");
             break;
         case 3:
-            system("docker exec sistemas-operacionais-025_met03_1 ./app");
+            system("docker exec sistemas-operacionais-025-met03-1 ./app");
             break;
         case 4:
-            system("docker exec sistemas-operacionais-025_met04_1 ./app");
+            system("docker exec sistemas-operacionais-025-met04-1 ./app");
             break;
         case 5:
-            system("docker exec sistemas-operacionais-025_met05_1 ./app");
+            system("docker exec sistemas-operacionais-025-met05-1 ./app");
             break;
         case 6:
-            system("docker exec sistemas-operacionais-025_met06_1 ./app");
+            system("docker exec sistemas-operacionais-025-met06-1 ./app");
             break;
         case 7:
-            system("docker exec sistemas-operacionais-025_met07_1 ./app");
+            system("docker exec sistemas-operacionais-025-met07-1 ./app");
             break;
         case 8:
-            system("docker exec sistemas-operacionais-025_met08_1 ./app");
+            system("docker exec sistemas-operacionais-025-met08-1 ./app");
             break;
         case 9:
-            system("docker exec sistemas-operacionais-025_met09_1 ./app");
+            system("docker exec sistemas-operacionais-025-met09-1 ./app");
             break;
         case 10:
-            system("docker exec sistemas-operacionais-025_iobound_1 ./app");
+            system("docker exec sistemas-operacionais-025-iobound-1 ./app");
             break;
         case 11:
-            system("docker exec sistemas-operacionais-025_cpubound_1 ./app");
+            system("docker exec sistemas-operacionais-025-cpubound-1 ./app");
             break;
         default:
             printf("Opção inválida.\n");
