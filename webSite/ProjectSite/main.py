@@ -253,6 +253,8 @@ def entrega2():
         num_consumidores = int(request.form['num_consumidores'])
         buffer_size = int(request.form['buffer_size'])
 
+
+
         # Definir as variáveis de status
         empty = c_int(buffer_size)
         full = c_int(0)
@@ -271,6 +273,8 @@ def entrega2():
             'full': full.value,
             'buffer': [buffer[i] for i in range(buffer_size)]
         }
+        cmd = f"docker exec sistemas-operacionais-025-producerConsumer-1 ./app {num_produtores} {num_consumidores} {buffer_size}"
+        os.system(cmd)
 
     return render_template('entrega2.html', buffer_status=buffer_status)
 
