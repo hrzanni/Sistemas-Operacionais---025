@@ -2,7 +2,7 @@
 Essa etapa do projeto apresenta uma simulação da clássica solução de concorrência do problema Produtor-Consumidor, no qual múltiplos processos ou threads compartilham um recurso comum (normalmente um buffer), e os mesmos precisam coordenar o acesso a esse recurso entre si de forma que não ocorra conflito entre ambas as faces, podendo levar a problemas como Overflow e Underflow.
 
 ## 🎯 Objetivo:
-Modelar um sistema onde múltiplos produtores e consumidores compartilham um buffer limitado, garantindo que haja:
+Modelar um sistema no qual múltiplos produtores e consumidores compartilham um buffer limitado, garantindo que haja:
 
 - **Sincronização** correta entre as threads
 - **Evitar condição de corrida** e acesso simultâneo
