@@ -1,5 +1,5 @@
 ## 🧵 Problema Produtor-Consumidor — Simulação em C:
-Essa etapa do projeto apresenta uma simulação da clássica solução de concorrência do problema Produtor-Consumidor, no qual múltiplos processos ou threads compartilham um recurso comum (normalmente um buffer), e os mesmos precisam coordenar o acesso a esse recurso entre si de forma que não ocorra conflito entre ambas as faces, podendo levar a problemas como Overflow e Underflow.
+Este projeto simula a solução clássica para o problema de concorrência "Produtor-Consumidor". Nele, múltiplas threads coordenam o acesso a um buffer compartilhado para prevenir conflitos, como overflow e underflow.
 
 ## 🎯 Objetivo:
 Modelar um sistema no qual múltiplos produtores e consumidores compartilham um buffer limitado, garantindo que haja:
@@ -19,9 +19,9 @@ Modelar um sistema no qual múltiplos produtores e consumidores compartilham um 
 
 - **Buffer compartilhado** implementado como vetor circular
 - **Semáforos:**
-  - `mutex`: exclusão mútua para acesso ao buffer
-  - `empty`: controla quantos espaços estão livres
-  - `full`: controla quantos itens estão disponíveis
+  - `mutex`: para garantir acesso exclusivo
+  - `empty`: para rastrear espaços vazios  
+  - `full`: para contar os itens disponíveis
 - **Produtores:** geram números aleatórios e os colocam no buffer
 - **Consumidores:** retiram elementos do buffer e processam
 - **Contador de ciclos:** incrementado a cada esvaziamento total do buffer
