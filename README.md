@@ -2,13 +2,23 @@
 
 _Projeto acadêmico da disciplina Sistemas Operacionais, da turma do curso Bacharelado em Sistemas de Informação, no 1° semestre de 2025._
 
-Nessa primeira entrega de módulo, o projeto visa introduzir a ideia de primitivas de chamadas de sistemas disponíveis no Linux para os alunos, apresentando algumas das principais utilizações das mesmas nas categorias de:
-  - Gerenciamento de memória
-  - Gerenciamento de processos
-  - Gerenciamento de arquivos
-  - Gerenciamento de E/S
+O projeto é dividido em 3 módulos entregáveis nos quais os alunos obteram conhecimentos sobre diversas áreas que abrangem os principais tópicos sobre Sistemas Operacionais. Cada entrega tem um objetivo diferente, sendo essas separadas da seguinte forma:
 
-No projeto estarão apresentados programas, na **linguagem C**, juntamente com breves relatórios contendo explicações sobre a funcionalidade de cada um dos mesmos e com a aprensentação estatísticas fornecidas pelas ferramentas 'strace' e 'time'.
+# Módulo 1 - Chamadas Primitivas de sistemas disponíveis no Linux, apresentando as utilizações nas categorias de:
+
+- Gerenciamento de memória. 
+- Gerenciamento de processos.
+- Gerenciamento de arquivos.
+- Gerenciamento de E/S.
+
+Além de explorar conceitos de processos CPU-Bound e I/O-Bound.
+
+# Módulo 2 - Problema do Produto Consumidor juntamente com sua solução.
+
+# Módulo 3 - Desenvolver um simulador de gerenciamento de memória virtual com paginação.
+
+# Entrega Final - Desenvolvimento de uma Aplicação Web que contenha formas interativas, como simuladores e vídeos didáticos, apresentando todos os módulos que já foram entregues. A aplicação deverá ser desenvolvida com um front-end dinâmico e executada em um ambiente de contêiner Docker.
+
 
 
 ## ALUNOS:
