@@ -2,9 +2,9 @@
 
 _Projeto acadêmico da disciplina Sistemas Operacionais, da turma do curso Bacharelado em Sistemas de Informação, no 1° semestre de 2025._
 
-O projeto é dividido em 3 módulos entregáveis nos quais os alunos obteram conhecimentos sobre diversas áreas que abrangem os principais tópicos sobre Sistemas Operacionais. Cada entrega tem um objetivo diferente, sendo essas separadas da seguinte forma:
+O projeto é dividido em 3 módulos entregáveis nos quais os alunos obtiveram conhecimentos sobre diversas áreas que abrangem os principais tópicos sobre Sistemas Operacionais. Cada entrega tem um objetivo diferente, sendo essas separadas da seguinte forma:
 
-# Módulo 1 - 
+## Módulo 1 - 
 Chamadas Primitivas de sistemas disponíveis no Linux, apresentando as utilizações nas categorias de:
 - Gerenciamento de memória. 
 - Gerenciamento de processos.
@@ -13,18 +13,20 @@ Chamadas Primitivas de sistemas disponíveis no Linux, apresentando as utilizaç
 
 Além de explorar conceitos de processos CPU-Bound e I/O-Bound.
 
-# Módulo 2 - 
+## Módulo 2 - 
 Problema do Produto Consumidor juntamente com sua solução.
 
-# Módulo 3 - 
+## Módulo 3 - 
 Desenvolver um simulador de gerenciamento de memória virtual com paginação.
 
-# Entrega Final - 
+## Entrega Final - 
 Desenvolvimento de uma Aplicação Web que contenha formas interativas, como simuladores e vídeos didáticos, apresentando todos os módulos que já foram entregues. A aplicação deverá ser desenvolvida com um front-end dinâmico e executada em um ambiente de contêiner Docker.
 
 
+Nesse Git, pode-se consultar todos os módulos que foram realizados pelos alunos (todos com Readme's explicando brevemente sobre os assuntos + códigos de exemplo) juntamente com instruções para acessar a aplicação Web e poder aprofundar-se no mundo dos Sistemas-Operacionais junto conosco!
 
-## ALUNOS:
+
+### ALUNOS:
 
   - **Caique Martins Costa Xavier** nusp: 15573769
   - **Fabio Alves dos Santos** nusp: 15494462
