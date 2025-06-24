@@ -4,8 +4,8 @@ _Projeto acadêmico da disciplina Sistemas Operacionais, da turma do curso Bacha
 
 O projeto é dividido em 3 módulos entregáveis nos quais os alunos obteram conhecimentos sobre diversas áreas que abrangem os principais tópicos sobre Sistemas Operacionais. Cada entrega tem um objetivo diferente, sendo essas separadas da seguinte forma:
 
-# Módulo 1 - Chamadas Primitivas de sistemas disponíveis no Linux, apresentando as utilizações nas categorias de:
-
+# Módulo 1 - 
+Chamadas Primitivas de sistemas disponíveis no Linux, apresentando as utilizações nas categorias de:
 - Gerenciamento de memória. 
 - Gerenciamento de processos.
 - Gerenciamento de arquivos.
