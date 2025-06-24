@@ -13,11 +13,14 @@ O projeto é dividido em 3 módulos entregáveis nos quais os alunos obteram con
 
 Além de explorar conceitos de processos CPU-Bound e I/O-Bound.
 
-# Módulo 2 - Problema do Produto Consumidor juntamente com sua solução.
+# Módulo 2 - 
+Problema do Produto Consumidor juntamente com sua solução.
 
-# Módulo 3 - Desenvolver um simulador de gerenciamento de memória virtual com paginação.
+# Módulo 3 - 
+Desenvolver um simulador de gerenciamento de memória virtual com paginação.
 
-# Entrega Final - Desenvolvimento de uma Aplicação Web que contenha formas interativas, como simuladores e vídeos didáticos, apresentando todos os módulos que já foram entregues. A aplicação deverá ser desenvolvida com um front-end dinâmico e executada em um ambiente de contêiner Docker.
+# Entrega Final - 
+Desenvolvimento de uma Aplicação Web que contenha formas interativas, como simuladores e vídeos didáticos, apresentando todos os módulos que já foram entregues. A aplicação deverá ser desenvolvida com um front-end dinâmico e executada em um ambiente de contêiner Docker.
 
 
 
