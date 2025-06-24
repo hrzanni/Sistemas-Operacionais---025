@@ -85,7 +85,7 @@ services:
         SOURCE_FILE: Entrega_2/producerConsumer.c
     volumes:
       - ./webSite/dados:/app/dados
-    entrypoint: ["./app", "2", "2", "5"]
+    entrypoint: sleep infinity
 
   iobound:
     build:
@@ -102,3 +102,16 @@ services:
       args:
         SOURCE_FILE: code-system-calls/IO_bound_CPU_bound/CPU_bound.c
     command: sh -c "./app; tail -f /dev/null"
+
+  simulador_memoria:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SOURCE_FILE: Entrega_3/pc_lib_simulator3.cpp
+    volumes:
+      - ./webSite/dados:/app/dados
+      - ./uploads:/app/webSite/ProjectSite/uploads
+    tty: true
+    command: sleep infinity
+

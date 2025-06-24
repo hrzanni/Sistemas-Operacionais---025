@@ -68,35 +68,50 @@
         const item = document.createElement('li');
         item.classList.add('bufferItem');
 
-        if (i < currentBuffer.length) {
-          // Exibe o valor real que foi colocado no buffer
+        if (i < currentBuffer.length && currentBuffer[i] !== null && currentBuffer[i] !== -1) {
           item.textContent = currentBuffer[i];
           item.classList.add('filled');
         } else {
           item.classList.add('empty');
+          item.textContent = '';
         }
+
 
         bufferList.appendChild(item);
       }
     }
 
-    function startAnimation() {
-      const intervalId = setInterval(() => {
-        if (currentStep < simulationSteps.length) {
-          const step = simulationSteps[currentStep];
-          const stepElement = document.createElement('div');
-          stepElement.innerHTML = `Passo ${step.step}: ${step.descricao}`;
-          stepsContainer.appendChild(stepElement);
-          if (step.buffer_status) updateBuffer(step.buffer_status);
-          currentStep++;
-        } else {
-          clearInterval(intervalId);
-          totalProducoesElement.textContent = totalProducoes;
-          totalConsumosElement.textContent  = totalConsumos;
-          tempoExecucaoElement.textContent  = tempoExecucao;
-        }
-      }, 2000);
+  function startAnimation() {
+    let intervalId = null;
+
+    function mostrarPasso() {
+      if (currentStep >= simulationSteps.length) {
+        clearInterval(intervalId);
+        totalProducoesElement.textContent = totalProducoes;
+        totalConsumosElement.textContent = totalConsumos;
+        tempoExecucaoElement.textContent = tempoExecucao;
+        return;
+      }
+
+      const step = simulationSteps[currentStep];
+      const passo = step?.step ?? currentStep + 1;
+      const desc = step?.descricao ?? "Descrição não disponível";
+
+      const stepElement = document.createElement('div');
+      stepElement.innerHTML = `Passo ${passo}: ${desc}`;
+      stepsContainer.appendChild(stepElement);
+
+      if (step.buffer_status !== undefined && step.buffer_status !== null) {
+        updateBuffer(step.buffer_status);
+      }
+
+      currentStep++;
     }
+
+    // Começa de imediato e continua a cada 2 segundos
+    mostrarPasso();
+    intervalId = setInterval(mostrarPasso, 2000);
+  }
 
     // Delay inicial antes de começar
     setTimeout(startAnimation, 1000);

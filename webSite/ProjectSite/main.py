@@ -278,77 +278,62 @@ def entrega2():
 # Página do simulador do problema produtor/consumidor
 @app.route('/simuladorEntrega2', methods=['POST'])
 def simulacao():
-    
+    import time, os, json, subprocess
+
+    # Valores padrão
+    simulation_steps = []
+    total_producoes = 0
+    total_consumos = 0
+    tempo_execucao = 0.0
+
     try:
         num_produtores = int(request.form['num_produtores'])
         num_consumidores = int(request.form['num_consumidores'])
         buffer_size = int(request.form['buffer_size'])
 
-        inicio = time.time()
+        path_executavel = f"docker exec sistemas-operacionais-025-producer_consumer-1 ./app {num_produtores} {num_consumidores} {buffer_size}"
+        comando = f'echo 11 | {path_executavel}'
 
-        # Chama a simulação em C
-        lib.main(num_produtores, num_consumidores, buffer_size)
+        start_time = time.time()
+        subprocess.getoutput(comando)
+        end_time = time.time()
+        tempo_execucao = round(end_time - start_time, 4)
 
-        fim = time.time()
+        saida_path = "webSite/dados/saidaProducer.txt"
 
-        # Calcula o tempo de execução da simulação
-        tempo_execucao = fim - inicio
+        if os.path.exists(saida_path):
+            with open(saida_path, "r") as f:
+                linhas = f.readlines()
 
-        # Cria o buffer para receber o log da simulação
-        log_buffer = create_string_buffer(1024 * 10)  # 10 KB de buffer
-        log_len = lib.get_simulation_log(log_buffer, len(log_buffer))
+            buffer_status = None
+            step_counter = 1
+            for linha in linhas:
+                linha = linha.strip()
+                if not linha:
+                    continue
 
-        # Converte o buffer C em uma string Python
-        log_content = log_buffer.value.decode('utf-8')
+                if linha.startswith("[BUFFER]"):
+                    try:
+                        json_data = json.loads(linha.replace("[BUFFER]", "").strip())
+                        buffer_status = json_data
+                    except Exception as e:
+                        buffer_status = None
+                else:
+                    simulation_steps.append({
+                        "step": step_counter,
+                        "descricao": linha,
+                        "buffer_status": buffer_status  # atualizado antes
+                    })
+                    step_counter += 1
 
-        # Divide o log em passos
-        simulation_steps = []
-        total_producoes = 0
-        total_consumos = 0
+            total_producoes = sum(1 for l in linhas if "colocou" in l)
+            total_consumos = sum(1 for l in linhas if "retirou" in l)
 
-        empty_count = buffer_size
-        full_count = 0
-        buffer_content = []
-
-        for i, line in enumerate(log_content.split('\n')):
-            descricao = line.strip()
-            if not descricao:
-                continue
-
-            if 'colocou' in descricao:
-                total_producoes += 1
-                if empty_count > 0:
-                    # Tenta extrair o número que foi produzido 
-                    match = re.search(r'colocou (\d+(?:\.\d+)?)', descricao)
-                    if match:
-                        valor = float(match.group(1))
-                    else:
-                        valor = '?'
-                    buffer_content.append(valor)
-                    empty_count -= 1
-                    full_count += 1
-            elif 'retirou' in descricao:
-                total_consumos += 1
-                if full_count > 0:
-                    buffer_content.pop(0)  # Simula o consumo (FIFO)
-                    full_count -= 1
-                    empty_count += 1
-
-            # Registra o estado nesse passo
-            simulation_steps.append({
-                'step': i + 1,
-                'descricao': descricao,
-                'buffer_status': {
-                    'empty': empty_count,
-                    'full': full_count,
-                    'buffer': buffer_content.copy() 
-                }
-            })
+        else:
+            simulation_steps = [{"step": 0, "descricao": "Arquivo de saída não encontrado."}]
 
     except Exception as e:
-        print("[ERRO NA SIMULAÇÃO]", e)
-        return render_template('error.html', error_message=str(e)), 500
-
+        simulation_steps = [{"step": 0, "descricao": f"Erro ao executar: {e}"}]
 
     return render_template(
         'simuladorEntrega2.html',
@@ -358,7 +343,7 @@ def simulacao():
         simulation_steps=simulation_steps,
         total_producoes=total_producoes,
         total_consumos=total_consumos,
-        tempo_execucao=round(tempo_execucao, 4)
+        tempo_execucao=tempo_execucao
     )
 
 
@@ -513,11 +498,10 @@ def executar_simulador(config, caminho_arquivo):
 
     return {'steps': steps, 'resumo': resumo}
 
-
-# Página do simulador de memória
 @app.route('/simuladorEntrega3', methods=['POST'])
 def simulador_entrega3():
-    # Pega dados do formulario
+    import subprocess
+
     try:
         tamanho_pagina = int(request.form['tamanho_pagina'])
         bits_endereco = int(request.form['bits_endereco'])
@@ -527,14 +511,12 @@ def simulador_entrega3():
     except Exception as e:
         return render_template('error.html', error_message="Parâmetros inválidos.")
 
-    # Validações
     memoria_fisica_bytes = memoria_fisica_kb * 1024
     max_addressable = 2 ** bits_endereco
 
     if tamanho_pagina <= 0:
         return render_template('error.html', error_message="Tamanho de página inválido.")
 
-   # Memória física deve ser múltiplo do tamanho da página
     if memoria_fisica_bytes % tamanho_pagina != 0:
         return render_template(
             'error.html',
@@ -544,7 +526,6 @@ def simulador_entrega3():
             )
         )
 
-    # Tamanho da página não pode ser maior que o espaço de endereçamento
     if tamanho_pagina > max_addressable:
         return render_template(
             'error.html',
@@ -554,7 +535,6 @@ def simulador_entrega3():
             )
         )
 
-    # Monta o config corretamente após validação
     config = {
         'tamanho_pagina': tamanho_pagina,
         'bits_endereco': bits_endereco,
@@ -563,38 +543,59 @@ def simulador_entrega3():
         'algoritmo': algoritmo
     }
 
-    # Recupera e salva o arquivo enviado
     arquivo = request.files.get('arquivo_operacoes')
-    print(request.files)
     if not arquivo:
         return render_template('error.html', error_message="Nenhum arquivo enviado")
 
     upload_dir = os.path.join(os.getcwd(), 'uploads')
     os.makedirs(upload_dir, exist_ok=True)
     caminho_arquivo = os.path.join(upload_dir, arquivo.filename)
-
-    print("Received file:", arquivo, "Filename:", arquivo.filename)
-
     arquivo.save(caminho_arquivo)
 
     try:
-        # Executa o simulador C++
-        resultado = executar_simulador(config, caminho_arquivo)
-        steps = resultado['steps']
-        resumo = resultado['resumo']
+        # Caminho no container (compartilhado via volume)
+        caminho_no_container = f"/app/webSite/ProjectSite/uploads/{arquivo.filename}"
 
-        # Monta dados_simulacao a partir do último step
+        phys_bytes = memoria_fisica_kb * 1024
+        swap_bytes = memoria_secundaria * 1024 * 1024
+        algoritmo_num = '0' if algoritmo == 'RELOGIO' else '1'
+
+        comando = [
+            "docker", "exec", "sistemas-operacionais-025-simulador_memoria-1",
+            "./app",
+            caminho_no_container,
+            str(tamanho_pagina),
+            str(bits_endereco),
+            str(phys_bytes),
+            str(swap_bytes),
+            algoritmo_num
+        ]
+
+        proc = subprocess.run(comando, capture_output=True, text=True)
+        stdout = proc.stdout
+
+        if proc.returncode != 0:
+            return render_template('error.html', error_message=f"Erro ao executar: {proc.stderr}")
+
+        # Usa o mesmo parser de antes
+        steps = parse_memory_output(stdout)
+
+        resumo = {}
+        for line in stdout.splitlines():
+            if line.startswith('[SUMMARY]'):
+                m = re.match(r'\[SUMMARY\]\s*(.*?):\s*(\d+)', line)
+                if m:
+                    chave = m.group(1).strip().lower().replace(' ', '_').replace('á', 'a')
+                    resumo[chave] = int(m.group(2))
+        resumo['tempo_execucao'] = round(proc.elapsed if hasattr(proc, 'elapsed') else 0, 4)
+
         ultima = steps[-1]
 
-        # Memória física
         memoria_fisica = ultima['frames']
-
-        # Tabelas de páginas agrupadas por PID
         tabelas_paginas = {}
         for pt in ultima['page_tables']:
             pid = pt['pid']
             if pid not in tabelas_paginas:
-                # encontra o estado do processo
                 estado = next(p['state'] for p in ultima['processes'] if p['pid'] == pid)
                 tabelas_paginas[pid] = {
                     'estado': estado,
@@ -608,7 +609,6 @@ def simulador_entrega3():
                 'modificada':   pt['modified']
             })
 
-        # Log de eventos: timestamp = índice do step
         log_eventos = []
         for idx, step in enumerate(steps):
             for ev in step['events']:
@@ -617,7 +617,6 @@ def simulador_entrega3():
                     'mensagem':  ev
                 })
 
-        # Prepara o dicionário para o template
         dados_simulacao = {
             'faltas_pagina':   resumo.get('faltas_de_pagina', 0),
             'operacoes_swap':  resumo.get('operacoes_de_swap', 0),
@@ -625,8 +624,8 @@ def simulador_entrega3():
             'memoria_fisica':  memoria_fisica,
             'tabelas_paginas': tabelas_paginas,
             'log_eventos':     log_eventos,
-            'swap_used':     ultima['swap']['used'],
-            'swap_capacity': ultima['swap']['cap'],
+            'swap_used':       ultima['swap']['used'],
+            'swap_capacity':   ultima['swap']['cap'],
         }
 
         return render_template(
@@ -637,9 +636,9 @@ def simulador_entrega3():
         )
 
     finally:
-        # Limpeza: remove o arquivo temporário
         if os.path.exists(caminho_arquivo):
             os.remove(caminho_arquivo)
+
 
 
 # FIM DA ENTREGA 3

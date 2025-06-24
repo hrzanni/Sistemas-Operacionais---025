@@ -1,4 +1,3 @@
-
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,8 +5,8 @@
 #include <semaphore.h>
 #include <string.h>
 
-#define MAX_STEPS 100
-#define STEP_MSG_SIZE 100
+#define MAX_STEPS 300
+#define STEP_MSG_SIZE 256
 
 sem_t empty, full, mutex;
 int *buffer, buffer_size;
@@ -29,11 +28,43 @@ pthread_mutex_t prod_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t uso_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t ciclo_control_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+// Salva passo e buffer atualizado
 void registrar_step(const char *msg) {
     if (step_count < MAX_STEPS) {
         strncpy(steps[step_count], msg, STEP_MSG_SIZE - 1);
         steps[step_count][STEP_MSG_SIZE - 1] = '\0';
         step_count++;
+
+        if (step_count < MAX_STEPS) {
+            int buf[buffer_size];
+            pthread_mutex_lock(&uso_mutex);
+            int full_slots = buffer_uso;
+            int empty_slots = buffer_size - buffer_uso;
+            pthread_mutex_unlock(&uso_mutex);
+
+            for (int j = 0; j < buffer_size; j++) {
+                buf[j] = buffer[j];
+            }
+
+            char buffer_log[STEP_MSG_SIZE];
+            snprintf(buffer_log, STEP_MSG_SIZE, "[BUFFER] {\"empty\": %d, \"full\": %d, \"buffer\": [", empty_slots, full_slots);
+            int len = strlen(buffer_log);
+            for (int j = 0; j < buffer_size; j++) {
+                if (buf[j] == -1) {
+                    len += snprintf(buffer_log + len, STEP_MSG_SIZE - len, "null");
+                } else {
+                    len += snprintf(buffer_log + len, STEP_MSG_SIZE - len, "%d", buf[j]);
+                }
+                if (j < buffer_size - 1) {
+                    len += snprintf(buffer_log + len, STEP_MSG_SIZE - len, ", ");
+                }
+            }
+            snprintf(buffer_log + len, STEP_MSG_SIZE - len, "]}");
+
+            strncpy(steps[step_count], buffer_log, STEP_MSG_SIZE - 1);
+            steps[step_count][STEP_MSG_SIZE - 1] = '\0';
+            step_count++;
+        }
     }
 }
 
@@ -114,6 +145,7 @@ void* consumidor(void* arg) {
         sem_wait(&mutex);
 
         int item = buffer[out];
+        buffer[out] = -1;  // marca como consumido
         out = (out + 1) % buffer_size;
 
         pthread_mutex_lock(&uso_mutex);
@@ -151,6 +183,8 @@ void simular(int num_prod, int num_cons, int tam_buf) {
 
     buffer_size = tam_buf;
     buffer = malloc(sizeof(int) * buffer_size);
+    for (int i = 0; i < buffer_size; i++) buffer[i] = -1;
+
     in = out = step_count = ciclos = consumo_no_ciclo = 0;
     producao_finalizada = 0;
     produtores_ativos = 0;
@@ -203,6 +237,7 @@ int main(int argc, char *argv[]) {
     simular(num_prod, num_cons, tam_buf);
     return 0;
 }
+
 int get_step_count() {
     return step_count;
 }
@@ -232,4 +267,22 @@ void get_status(int* empty_slots, int* full_slots, int* buffer_out, int buf_size
     for (int i = 0; i < buf_size; i++) {
         buffer_out[i] = buffer[i];
     }
+}
+
+void log_buffer_status() {
+    int empty_slots, full_slots;
+    int buf[buffer_size];
+    sem_getvalue(&empty, &empty_slots);
+    sem_getvalue(&full, &full_slots);
+
+    for (int i = 0; i < buffer_size; i++) {
+        buf[i] = buffer[i];
+    }
+
+    printf("[BUFFER] {\"empty\": %d, \"full\": %d, \"buffer\": [", empty_slots, full_slots);
+    for (int i = 0; i < buffer_size; i++) {
+        printf("%d", buf[i]);
+        if (i < buffer_size - 1) printf(", ");
+    }
+    printf("]}\n");
 }
