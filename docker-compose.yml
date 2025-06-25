@@ -111,7 +111,6 @@ services:
         SOURCE_FILE: Entrega_3/pc_lib_simulator3.cpp
     volumes:
       - ./webSite/dados:/app/dados
-      - ./uploads:/app/webSite/ProjectSite/uploads
+      - ./uploads:/app/uploads      
     tty: true
     command: sleep infinity
-

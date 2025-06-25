@@ -291,16 +291,21 @@ def simulacao():
         num_consumidores = int(request.form['num_consumidores'])
         buffer_size = int(request.form['buffer_size'])
 
-        path_executavel = f"docker exec sistemas-operacionais-025-producer_consumer-1 ./app {num_produtores} {num_consumidores} {buffer_size}"
-        comando = f'echo 11 | {path_executavel}'
+        path_executavel = f"./app {num_produtores} {num_consumidores} {buffer_size}"
+        comando = ["docker", "exec", "sistemas-operacionais-025-producer_consumer-1"] + path_executavel.split()
 
         start_time = time.time()
-        subprocess.getoutput(comando)
+        proc = subprocess.run(comando, capture_output=True, text=True)
         end_time = time.time()
         tempo_execucao = round(end_time - start_time, 4)
 
-        saida_path = "webSite/dados/saidaProducer.txt"
+        if proc.returncode != 0:
+            return render_template(
+                "error.html",
+                error_message=f"Erro ao executar o container Docker:\n{proc.stderr}"
+            )
 
+        saida_path = "webSite/dados/saidaProducer.txt"
         if os.path.exists(saida_path):
             with open(saida_path, "r") as f:
                 linhas = f.readlines()
@@ -316,13 +321,13 @@ def simulacao():
                     try:
                         json_data = json.loads(linha.replace("[BUFFER]", "").strip())
                         buffer_status = json_data
-                    except Exception as e:
+                    except Exception:
                         buffer_status = None
                 else:
                     simulation_steps.append({
                         "step": step_counter,
                         "descricao": linha,
-                        "buffer_status": buffer_status  # atualizado antes
+                        "buffer_status": buffer_status
                     })
                     step_counter += 1
 
@@ -330,10 +335,10 @@ def simulacao():
             total_consumos = sum(1 for l in linhas if "retirou" in l)
 
         else:
-            simulation_steps = [{"step": 0, "descricao": "Arquivo de saída não encontrado."}]
+            return render_template("error.html", error_message="Arquivo de saída não encontrado.")
 
     except Exception as e:
-        simulation_steps = [{"step": 0, "descricao": f"Erro ao executar: {e}"}]
+        return render_template("error.html", error_message=f"Erro geral: {e}")
 
     return render_template(
         'simuladorEntrega2.html',
@@ -345,7 +350,6 @@ def simulacao():
         total_consumos=total_consumos,
         tempo_execucao=tempo_execucao
     )
-
 
 # FIM DA ENTREGA 2
 
@@ -500,39 +504,28 @@ def executar_simulador(config, caminho_arquivo):
 
 @app.route('/simuladorEntrega3', methods=['POST'])
 def simulador_entrega3():
-    import subprocess
+    import subprocess, os, re
+    from flask import request, render_template
 
     try:
         tamanho_pagina = int(request.form['tamanho_pagina'])
         bits_endereco = int(request.form['bits_endereco'])
-        memoria_fisica_kb = int(request.form['memoria_fisica'])  # em KB
-        memoria_secundaria = int(request.form['memoria_secundaria'])  # MB
+        memoria_fisica_kb = int(request.form['memoria_fisica'])
+        memoria_secundaria = int(request.form['memoria_secundaria'])
         algoritmo = request.form['algoritmo']
-    except Exception as e:
+    except Exception:
         return render_template('error.html', error_message="Parâmetros inválidos.")
 
+    # Validações
     memoria_fisica_bytes = memoria_fisica_kb * 1024
     max_addressable = 2 ** bits_endereco
 
-    if tamanho_pagina <= 0:
+    if tamanho_pagina <= 0 or tamanho_pagina > max_addressable:
         return render_template('error.html', error_message="Tamanho de página inválido.")
-
     if memoria_fisica_bytes % tamanho_pagina != 0:
         return render_template(
             'error.html',
-            error_message=(
-                f"A memória física ({memoria_fisica_bytes} bytes ou {memoria_fisica_kb} KB) "
-                f"deve ser múltiplo do tamanho da página ({tamanho_pagina} bytes)."
-            )
-        )
-
-    if tamanho_pagina > max_addressable:
-        return render_template(
-            'error.html',
-            error_message=(
-                f"Tamanho da página ({tamanho_pagina} bytes) não pode ser maior do que "
-                f"o espaço de endereçamento lógico ({max_addressable} bytes)."
-            )
+            error_message="A memória física deve ser múltiplo do tamanho da página."
         )
 
     config = {
@@ -547,15 +540,15 @@ def simulador_entrega3():
     if not arquivo:
         return render_template('error.html', error_message="Nenhum arquivo enviado")
 
+    # Salvar arquivo localmente
     upload_dir = os.path.join(os.getcwd(), 'uploads')
     os.makedirs(upload_dir, exist_ok=True)
     caminho_arquivo = os.path.join(upload_dir, arquivo.filename)
     arquivo.save(caminho_arquivo)
 
     try:
-        # Caminho no container (compartilhado via volume)
-        caminho_no_container = f"/app/webSite/ProjectSite/uploads/{arquivo.filename}"
-
+        # Caminho visível pelo Docker
+        caminho_no_container = f"/app/uploads/{arquivo.filename}"
         phys_bytes = memoria_fisica_kb * 1024
         swap_bytes = memoria_secundaria * 1024 * 1024
         algoritmo_num = '0' if algoritmo == 'RELOGIO' else '1'
@@ -572,12 +565,10 @@ def simulador_entrega3():
         ]
 
         proc = subprocess.run(comando, capture_output=True, text=True)
-        stdout = proc.stdout
-
         if proc.returncode != 0:
-            return render_template('error.html', error_message=f"Erro ao executar: {proc.stderr}")
+            return render_template('error.html', error_message=f"Erro ao executar o simulador:\n{proc.stderr}")
 
-        # Usa o mesmo parser de antes
+        stdout = proc.stdout
         steps = parse_memory_output(stdout)
 
         resumo = {}
@@ -587,20 +578,15 @@ def simulador_entrega3():
                 if m:
                     chave = m.group(1).strip().lower().replace(' ', '_').replace('á', 'a')
                     resumo[chave] = int(m.group(2))
-        resumo['tempo_execucao'] = round(proc.elapsed if hasattr(proc, 'elapsed') else 0, 4)
 
         ultima = steps[-1]
-
         memoria_fisica = ultima['frames']
         tabelas_paginas = {}
         for pt in ultima['page_tables']:
             pid = pt['pid']
             if pid not in tabelas_paginas:
                 estado = next(p['state'] for p in ultima['processes'] if p['pid'] == pid)
-                tabelas_paginas[pid] = {
-                    'estado': estado,
-                    'paginas': []
-                }
+                tabelas_paginas[pid] = {'estado': estado, 'paginas': []}
             tabelas_paginas[pid]['paginas'].append({
                 'numero':       pt['page_id'],
                 'presente':     pt['present'],
@@ -612,10 +598,7 @@ def simulador_entrega3():
         log_eventos = []
         for idx, step in enumerate(steps):
             for ev in step['events']:
-                log_eventos.append({
-                    'timestamp': idx,
-                    'mensagem':  ev
-                })
+                log_eventos.append({'timestamp': idx, 'mensagem': ev})
 
         dados_simulacao = {
             'faltas_pagina':   resumo.get('faltas_de_pagina', 0),
@@ -635,11 +618,12 @@ def simulador_entrega3():
             steps=steps
         )
 
+    except Exception as e:
+        return render_template('error.html', error_message=f"Erro durante a execução: {str(e)}")
+
     finally:
         if os.path.exists(caminho_arquivo):
             os.remove(caminho_arquivo)
-
-
 
 # FIM DA ENTREGA 3
 
@@ -681,4 +665,4 @@ def anotacoes():
 
 
 if __name__ == '__main__':
-    app.run(port=5005, debug=True)
+   app.run(host="0.0.0.0", port=7177, debug=True)
