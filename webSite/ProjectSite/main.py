@@ -330,78 +330,88 @@ def entrega2():
 # Página do simulador do problema produtor/consumidor
 @app.route('/simuladorEntrega2', methods=['POST'])
 def simulacao():
-    import time, os, json, subprocess
-
-    # Valores padrão
     simulation_steps = []
     total_producoes = 0
-    total_consumos = 0
-    tempo_execucao = 0.0
+    total_consumos  = 0
+    tempo_execucao  = 0.0
 
     try:
-        num_produtores = int(request.form['num_produtores'])
-        num_consumidores = int(request.form['num_consumidores'])
-        buffer_size = int(request.form['buffer_size'])
+        # 1) Parâmetros do form
+        np = int(request.form['num_produtores'])
+        nc = int(request.form['num_consumidores'])
+        bs = int(request.form['buffer_size'])
 
-        path_executavel = f"./app {num_produtores} {num_consumidores} {buffer_size}"
-        comando = ["docker", "exec", "sistemas-operacionais-025-producer_consumer-1"] + path_executavel.split()
-
-        start_time = time.time()
-        proc = subprocess.run(comando, capture_output=True, text=True)
-        end_time = time.time()
-        tempo_execucao = round(end_time - start_time, 4)
+        # 2) Chama o container Docker
+        cmd = [
+            "docker", "exec",
+            "sistemas-operacionais-025-producer_consumer-1",
+            "./app", str(np), str(nc), str(bs)
+        ]
+        t0 = time.time()
+        proc = subprocess.run(cmd, capture_output=True, text=True)
+        tempo_execucao = round(time.time() - t0, 4)
 
         if proc.returncode != 0:
-            return render_template(
-                "error.html",
-                error_message=f"Erro ao executar o container Docker:\n{proc.stderr}"
+            return render_template("error.html",
+                error_message=f"Erro Docker:\n{proc.stderr}"
             )
 
-        saida_path = "webSite/dados/saidaProducer.txt"
-        if os.path.exists(saida_path):
-            with open(saida_path, "r") as f:
-                linhas = f.readlines()
+        # 3) Lê arquivo de saída
+        path = "webSite/dados/saidaProducer.txt"
+        if not os.path.exists(path):
+            return render_template("error.html",
+                error_message="Arquivo de saída não encontrado."
+            )
+        with open(path) as f:
+            lines = [l.strip() for l in f if l.strip()]
 
-            buffer_status = None
-            step_counter = 1
-            for linha in linhas:
-                linha = linha.strip()
-                if not linha:
-                    continue
-
-                if linha.startswith("[BUFFER]"):
-                    try:
-                        json_data = json.loads(linha.replace("[BUFFER]", "").strip())
-                        buffer_status = json_data
-                    except Exception:
-                        buffer_status = None
-                else:
-                    simulation_steps.append({
-                        "step": step_counter,
-                        "descricao": linha,
-                        "buffer_status": buffer_status
-                    })
-                    step_counter += 1
-
-            total_producoes = sum(1 for l in linhas if "colocou" in l)
-            total_consumos = sum(1 for l in linhas if "retirou" in l)
-
-        else:
-            return render_template("error.html", error_message="Arquivo de saída não encontrado.")
+        # 4) Novo parsing: descrição + buffer juntos
+        i = 0
+        step = 1
+        while i < len(lines):
+            line = lines[i]
+            if line.startswith("[BUFFER]"):
+                # se por acaso começar com buffer, só avançamos
+                i += 1
+                continue
+            # é linha de descrição
+            desc = line
+            buf = None
+            # olha próximo elemento para ver se é buffer
+            if i+1 < len(lines) and lines[i+1].startswith("[BUFFER]"):
+                try:
+                    buf = json.loads(lines[i+1].replace("[BUFFER]", "").strip())
+                except:
+                    buf = None
+                i += 1  # consumimos também a linha de buffer
+            simulation_steps.append({
+                "step":          step,
+                "descricao":     desc,
+                "buffer_status": buf
+            })
+            step += 1
+            i += 1
+        # 5) Estatísticas
+        total_producoes = sum(1 for l in lines if "colocou" in l)
+        total_consumos  = sum(1 for l in lines if "retirou" in l)
 
     except Exception as e:
-        return render_template("error.html", error_message=f"Erro geral: {e}")
+        return render_template("error.html",
+            error_message=f"Erro geral na simulação: {e}"
+        )
 
+    # 6) Render final
     return render_template(
         'simuladorEntrega2.html',
-        num_produtores=num_produtores,
-        num_consumidores=num_consumidores,
-        buffer_size=buffer_size,
-        simulation_steps=simulation_steps,
-        total_producoes=total_producoes,
-        total_consumos=total_consumos,
-        tempo_execucao=tempo_execucao
+        num_produtores   = np,
+        num_consumidores = nc,
+        buffer_size      = bs,
+        simulation_steps = simulation_steps,
+        total_producoes  = total_producoes,
+        total_consumos   = total_consumos,
+        tempo_execucao   = tempo_execucao
     )
+
 
 # FIM DA ENTREGA 2
 

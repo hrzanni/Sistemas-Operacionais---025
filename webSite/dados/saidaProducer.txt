@@ -4,9 +4,9 @@ Consumidor 1 retirou 83 do buffer
 [BUFFER] {"empty": 5, "full": 0, "buffer": [null, null, null, null, null]}
 Produtor 1 colocou 86 no buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [null, 86, null, null, null]}
-Consumidor 1 retirou 86 do buffer
-[BUFFER] {"empty": 5, "full": 0, "buffer": [null, null, null, null, null]}
 Produtor 1 colocou 77 no buffer
+[BUFFER] {"empty": 3, "full": 2, "buffer": [null, 86, 77, null, null]}
+Consumidor 1 retirou 86 do buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, 77, null, null]}
 Produtor 1 colocou 15 no buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [null, null, 77, 15, null]}
@@ -18,9 +18,9 @@ Consumidor 1 retirou 15 do buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, null, null, 93]}
 Produtor 1 colocou 35 no buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [35, null, null, null, 93]}
-Consumidor 1 retirou 93 do buffer
-[BUFFER] {"empty": 4, "full": 1, "buffer": [35, null, null, null, null]}
 Produtor 1 colocou 86 no buffer
+[BUFFER] {"empty": 2, "full": 3, "buffer": [35, 86, null, null, 93]}
+Consumidor 1 retirou 93 do buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [35, 86, null, null, null]}
 Produtor 1 colocou 92 no buffer
 [BUFFER] {"empty": 2, "full": 3, "buffer": [35, 86, 92, null, null]}
