@@ -1,4 +1,4 @@
-from flask import Flask, config, render_template, jsonify, request, redirect, url_for
+from flask import Flask, config, render_template, jsonify, request, redirect, url_for, session
 from ctypes import CDLL, c_int, c_char_p, create_string_buffer, byref, POINTER
 import re
 import time
@@ -8,12 +8,64 @@ import json
 
 
 app = Flask(__name__)
+app.secret_key = 'chave-super-secreta'
 
+# Caminho para o arquivo de usuários
+USUARIOS_ARQUIVO = 'webSite/ProjectSite/data/usuarios.json'
+
+# Função para carregar os usuários do arquivo JSON
+def carregar_usuarios():
+    if not os.path.exists(USUARIOS_ARQUIVO):
+        return {}
+    with open(USUARIOS_ARQUIVO, 'r') as f:
+        return json.load(f)
+
+# Função para salvar os usuários no arquivo JSON
+def salvar_usuarios(usuarios):
+    with open(USUARIOS_ARQUIVO, 'w') as f:
+        json.dump(usuarios, f)
+
+# Função da tela tela de Login
+@app.route('/telaLogin', methods=['GET', 'POST'])
+def telaLogin():
+    if request.method == 'POST':
+        usuarios = carregar_usuarios()
+        usuario = request.form['username']
+        senha = request.form['password']
+        if usuario in usuarios and usuarios[usuario] == senha:
+            session['usuario'] = usuario
+            return redirect(url_for('home', msg=f"{usuario} entrou com sucesso"))
+        else:
+            return render_template('telaLogin.html', erro="Usuário ou senha incorretos.")
+    return render_template('telaLogin.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    usuarios = carregar_usuarios()
+    usuario = request.form['username']
+    senha = request.form['password']
+    if usuario in usuarios:
+        return render_template('telaLogin.html', erro="Usuário já existe.")
+    usuarios[usuario] = senha
+    salvar_usuarios(usuarios)
+    return render_template('telaLogin.html', mensagem="Usuário cadastrado com sucesso.")
+
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    return redirect(url_for('telaLogin'))
 
 # Página da home do projeto
 @app.route('/')
 def home():
-    return render_template('home.html')
+    if 'usuario' not in session:
+        return redirect(url_for('telaLogin'))
+
+    # captura a mensagem que veio via ?msg=...
+    mensagem = request.args.get('msg')
+    return render_template('home.html',
+                           usuario=session['usuario'],
+                           mensagem=mensagem)
     
 # Página da entrega 1 do projeto, contém a descrição da entrega e as system calls
 @app.route('/entrega1')

@@ -1,5 +1,20 @@
 /* Edição da home.html */
 
+.welcome-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Opcional: dá um pouco de destaque na .alert */
+.welcome-container .alert.success {
+  display: inline-block;
+  padding: 0.5em 1em;
+  background: #e0ffe0;
+  border: 1px solid #0a0;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
 .participantes {
   background-color: #333;
   color: white;

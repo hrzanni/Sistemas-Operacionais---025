@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <style>
+      body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        text-align: center;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 90%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      button {
+        width: 95%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .message {
+        margin-top: 10px;
+        color: green;
+      }
+
+      .error {
+        color: red;
+      }
+
+      h2 {
+        margin-bottom: 10px;
+      }
+
+      hr {
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Entrar</h2>
+      <form method="POST" action="{{ url_for('telaLogin') }}">
+        <input type="text" name="username" placeholder="Usuário" required />
+        <input type="password" name="password" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+      </form>
+
+      <hr />
+
+      <h2>Criar Conta</h2>
+      <form method="POST" action="{{ url_for('register') }}">
+        <input
+          type="text"
+          name="username"
+          placeholder="Novo Usuário"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Nova Senha"
+          required
+        />
+        <button type="submit">Criar Conta</button>
+      </form>
+
+      {% if mensagem %}
+      <div class="message">{{ mensagem }}</div>
+      {% endif %} {% if erro %}
+      <div class="error">{{ erro }}</div>
+      {% endif %}
+    </div>
+  </body>
+</html>
