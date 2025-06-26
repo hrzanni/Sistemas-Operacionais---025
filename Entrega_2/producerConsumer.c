@@ -1,3 +1,6 @@
+// Produtor/Consumidor
+
+// Inclusão das bibliotecas necessárias
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,24 +8,34 @@
 #include <semaphore.h>
 #include <string.h>
 
+// Definições de tamanho do log de passos
 #define MAX_STEPS 300
 #define STEP_MSG_SIZE 256
 
+// Semáforos para sincronização
 sem_t empty, full, mutex;
+
+// Buffer circular
 int *buffer, buffer_size;
 int in = 0, out = 0;
+
+// Registro de etapas da simulação
 int step_count = 0;
 char steps[MAX_STEPS][STEP_MSG_SIZE];
 
+// Contador de ciclos
 int ciclos = 0;
 int ciclos_max = 3;
 
+// Controle da produção
 int produtores_ativos = 0;
 int producao_finalizada = 0;
 
+// Controle de ciclos de produção/consumo
 int buffer_uso = 0;
 int consumo_no_ciclo = 0;
 
+// Mutexes auxiliares para garantir exclusão mútua em regiões críticas
 pthread_mutex_t ciclo_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t prod_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t uso_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -68,16 +81,19 @@ void registrar_step(const char *msg) {
     }
 }
 
+// Função executada por cada thread produtora
 void* produtor(void* arg) {
     int id = *((int*)arg);
     free(arg);
     printf("Produtor %d iniciado\n", id);
 
+    // Marca produtor como ativo
     pthread_mutex_lock(&prod_mutex);
     produtores_ativos++;
     pthread_mutex_unlock(&prod_mutex);
 
     while (1) {
+        // Verifica se os ciclos acabaram
         pthread_mutex_lock(&ciclo_mutex);
         if (ciclos >= ciclos_max) {
             pthread_mutex_unlock(&ciclo_mutex);
@@ -85,8 +101,8 @@ void* produtor(void* arg) {
         }
         pthread_mutex_unlock(&ciclo_mutex);
 
-        sem_wait(&empty);
-        sem_wait(&mutex);
+        sem_wait(&empty);   // Espera buffer ter espaço
+        sem_wait(&mutex);   // Região crítica
 
         int item = rand() % 100;
         buffer[in] = item;
@@ -100,12 +116,13 @@ void* produtor(void* arg) {
         snprintf(msg, STEP_MSG_SIZE, "Produtor %d colocou %d no buffer", id, item);
         registrar_step(msg);
 
-        sem_post(&mutex);
-        sem_post(&full);
+        sem_post(&mutex);   // Libera região crítica
+        sem_post(&full);    // Sinaliza que há item disponível
 
-        usleep(100000);
+        usleep(100000);     // Sinaliza que há item disponível
     }
 
+    // Atualiza controle de produtores ativos
     pthread_mutex_lock(&prod_mutex);
     produtores_ativos--;
     if (produtores_ativos == 0) {
@@ -117,6 +134,7 @@ void* produtor(void* arg) {
     return NULL;
 }
 
+// Função executada por cada thread consumidora
 void* consumidor(void* arg) {
     int id = *((int*)arg);
     free(arg);
@@ -132,17 +150,19 @@ void* consumidor(void* arg) {
         pthread_mutex_unlock(&prod_mutex);
 
         int ocupado;
-        sem_getvalue(&full, &ocupado);
+        sem_getvalue(&full, &ocupado);  // Verifica se há itens para consumir
 
+
+        // Condição de parada: produção acabou e buffer está vazio
         if (fim_ciclos && fim_producao && ocupado == 0) break;
 
         if (ocupado == 0) {
-            usleep(50000);
+            usleep(50000);  // Espera um pouco antes de tentar novamente
             continue;
         }
 
-        sem_wait(&full);
-        sem_wait(&mutex);
+        sem_wait(&full);    // Espera item disponível
+        sem_wait(&mutex);   // Região crítica
 
         int item = buffer[out];
         buffer[out] = -1;  // marca como consumido
@@ -152,6 +172,7 @@ void* consumidor(void* arg) {
         buffer_uso--;
         pthread_mutex_unlock(&uso_mutex);
 
+        // Controle de ciclo
         pthread_mutex_lock(&ciclo_control_mutex);
         consumo_no_ciclo++;
         if (consumo_no_ciclo == buffer_size) {
@@ -169,15 +190,16 @@ void* consumidor(void* arg) {
         snprintf(msg, STEP_MSG_SIZE, "Consumidor %d retirou %d do buffer", id, item);
         registrar_step(msg);
 
-        sem_post(&mutex);
-        sem_post(&empty);
-        usleep(150000);
+        sem_post(&mutex);   // Libera buffer
+        sem_post(&empty);   // Sinaliza que há espaço disponível
+        usleep(150000);     // Simula tempo de consumo
     }
 
     printf("Consumidor %d finalizado\n", id);
     return NULL;
 }
 
+// Função principal da simulação
 void simular(int num_prod, int num_cons, int tam_buf) {
     printf("🚀 Simulação C iniciada!\n");
 
@@ -185,14 +207,17 @@ void simular(int num_prod, int num_cons, int tam_buf) {
     buffer = malloc(sizeof(int) * buffer_size);
     for (int i = 0; i < buffer_size; i++) buffer[i] = -1;
 
+    // Zera variáveis globais
     in = out = step_count = ciclos = consumo_no_ciclo = 0;
     producao_finalizada = 0;
     produtores_ativos = 0;
 
+    // Inicializa semáforos
     sem_init(&mutex, 0, 1);
     sem_init(&empty, 0, buffer_size);
     sem_init(&full, 0, 0);
 
+    // Cria threads produtoras e consumidoras
     pthread_t prod_threads[num_prod];
     pthread_t cons_threads[num_cons];
 
@@ -208,11 +233,13 @@ void simular(int num_prod, int num_cons, int tam_buf) {
         pthread_create(&cons_threads[i], NULL, consumidor, arg);
     }
 
+    // Aguarda todas as threads terminarem
     for (int i = 0; i < num_prod; i++)
         pthread_join(prod_threads[i], NULL);
     for (int i = 0; i < num_cons; i++)
         pthread_join(cons_threads[i], NULL);
 
+    // Grava log da simulação em arquivo
     FILE *fp = fopen("dados/saidaProducer.txt", "w");
     if (fp) {
         for (int i = 0; i < step_count; i++) {
@@ -224,6 +251,7 @@ void simular(int num_prod, int num_cons, int tam_buf) {
     printf("✅ Simulação finalizada com sucesso!\n");
 }
 
+// Função principal
 int main(int argc, char *argv[]) {
     if (argc != 4) {
         fprintf(stderr, "Uso: %s <num_produtores> <num_consumidores> <tam_buffer>\n", argv[0]);
@@ -238,6 +266,7 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+// Funções auxiliares para acesso externo aos dados da simulação
 int get_step_count() {
     return step_count;
 }
@@ -261,6 +290,7 @@ int get_simulation_log(char *log_buffer, int max_len) {
     return len;
 }
 
+// Retorna o estado atual do buffer
 void get_status(int* empty_slots, int* full_slots, int* buffer_out, int buf_size) {
     sem_getvalue(&empty, empty_slots);
     sem_getvalue(&full, full_slots);
@@ -269,6 +299,7 @@ void get_status(int* empty_slots, int* full_slots, int* buffer_out, int buf_size
     }
 }
 
+// Mostra o estado atual do buffer no terminal
 void log_buffer_status() {
     int empty_slots, full_slots;
     int buf[buffer_size];

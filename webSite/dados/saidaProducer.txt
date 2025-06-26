@@ -1,80 +1,80 @@
 Produtor 1 colocou 83 no buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [83, null, null, null, null]}
+Produtor 2 colocou 86 no buffer
+[BUFFER] {"empty": 3, "full": 2, "buffer": [83, 86, null, null, null]}
+Produtor 4 colocou 77 no buffer
+[BUFFER] {"empty": 2, "full": 3, "buffer": [83, 86, 77, null, null]}
+Produtor 3 colocou 15 no buffer
+[BUFFER] {"empty": 1, "full": 4, "buffer": [83, 86, 77, 15, null]}
 Consumidor 1 retirou 83 do buffer
-[BUFFER] {"empty": 5, "full": 0, "buffer": [null, null, null, null, null]}
-Produtor 1 colocou 86 no buffer
-[BUFFER] {"empty": 4, "full": 1, "buffer": [null, 86, null, null, null]}
-Produtor 1 colocou 77 no buffer
-[BUFFER] {"empty": 3, "full": 2, "buffer": [null, 86, 77, null, null]}
-Consumidor 1 retirou 86 do buffer
-[BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, 77, null, null]}
-Produtor 1 colocou 15 no buffer
+[BUFFER] {"empty": 2, "full": 3, "buffer": [null, 86, 77, 15, null]}
+Consumidor 2 retirou 86 do buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [null, null, 77, 15, null]}
-Consumidor 1 retirou 77 do buffer
+Consumidor 3 retirou 77 do buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, null, 15, null]}
+Consumidor 4 retirou 15 do buffer
+[BUFFER] {"empty": 5, "full": 0, "buffer": [null, null, null, null, null]}
 Produtor 1 colocou 93 no buffer
-[BUFFER] {"empty": 3, "full": 2, "buffer": [null, null, null, 15, 93]}
-Consumidor 1 retirou 15 do buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, null, null, 93]}
-Produtor 1 colocou 35 no buffer
+Produtor 2 colocou 35 no buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [35, null, null, null, 93]}
-Produtor 1 colocou 86 no buffer
+Produtor 4 colocou 86 no buffer
 [BUFFER] {"empty": 2, "full": 3, "buffer": [35, 86, null, null, 93]}
+Produtor 3 colocou 92 no buffer
+[BUFFER] {"empty": 1, "full": 4, "buffer": [35, 86, 92, null, 93]}
 Consumidor 1 retirou 93 do buffer
-[BUFFER] {"empty": 3, "full": 2, "buffer": [35, 86, null, null, null]}
-Produtor 1 colocou 92 no buffer
 [BUFFER] {"empty": 2, "full": 3, "buffer": [35, 86, 92, null, null]}
-Consumidor 1 retirou 35 do buffer
+Consumidor 2 retirou 35 do buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [null, 86, 92, null, null]}
+Consumidor 3 retirou 86 do buffer
+[BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, 92, null, null]}
+Consumidor 4 retirou 92 do buffer
+[BUFFER] {"empty": 5, "full": 0, "buffer": [null, null, null, null, null]}
 Produtor 1 colocou 49 no buffer
-[BUFFER] {"empty": 2, "full": 3, "buffer": [null, 86, 92, 49, null]}
-Produtor 1 colocou 21 no buffer
-[BUFFER] {"empty": 1, "full": 4, "buffer": [null, 86, 92, 49, 21]}
-Consumidor 1 retirou 86 do buffer
-[BUFFER] {"empty": 2, "full": 3, "buffer": [null, null, 92, 49, 21]}
-Produtor 1 colocou 62 no buffer
-[BUFFER] {"empty": 1, "full": 4, "buffer": [62, null, 92, 49, 21]}
-Consumidor 1 retirou 92 do buffer
+[BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, null, 49, null]}
+Produtor 3 colocou 21 no buffer
+[BUFFER] {"empty": 3, "full": 2, "buffer": [null, null, null, 49, 21]}
+Produtor 2 colocou 62 no buffer
 [BUFFER] {"empty": 2, "full": 3, "buffer": [62, null, null, 49, 21]}
-Produtor 1 colocou 27 no buffer
+Produtor 4 colocou 27 no buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [62, 27, null, 49, 21]}
 Produtor 1 colocou 90 no buffer
 [BUFFER] {"empty": 0, "full": 5, "buffer": [62, 27, 90, 49, 21]}
 Consumidor 1 retirou 49 do buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [62, 27, 90, null, 21]}
-Produtor 1 colocou 59 no buffer
+Produtor 2 colocou 59 no buffer
 [BUFFER] {"empty": 0, "full": 5, "buffer": [62, 27, 90, 59, 21]}
-Consumidor 1 retirou 21 do buffer
+Consumidor 2 retirou 21 do buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [62, 27, 90, 59, null]}
-Produtor 1 colocou 63 no buffer
+Produtor 4 colocou 63 no buffer
 [BUFFER] {"empty": 0, "full": 5, "buffer": [62, 27, 90, 59, 63]}
-Consumidor 1 retirou 62 do buffer
+Consumidor 3 retirou 62 do buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [null, 27, 90, 59, 63]}
-Produtor 1 colocou 26 no buffer
+Produtor 3 colocou 26 no buffer
 [BUFFER] {"empty": 0, "full": 5, "buffer": [26, 27, 90, 59, 63]}
-Consumidor 1 retirou 27 do buffer
+Consumidor 4 retirou 27 do buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [26, null, 90, 59, 63]}
 Produtor 1 colocou 40 no buffer
 [BUFFER] {"empty": 0, "full": 5, "buffer": [26, 40, 90, 59, 63]}
 Consumidor 1 retirou 90 do buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [26, 40, null, 59, 63]}
-Produtor 1 colocou 26 no buffer
-[BUFFER] {"empty": 0, "full": 5, "buffer": [26, 40, 26, 59, 63]}
-Consumidor 1 retirou 59 do buffer
-[BUFFER] {"empty": 1, "full": 4, "buffer": [26, 40, 26, null, 63]}
-Produtor 1 colocou 72 no buffer
-[BUFFER] {"empty": 0, "full": 5, "buffer": [26, 40, 26, 72, 63]}
-Consumidor 1 retirou 63 do buffer
-[BUFFER] {"empty": 1, "full": 4, "buffer": [26, 40, 26, 72, null]}
-Produtor 1 colocou 36 no buffer
-[BUFFER] {"empty": 0, "full": 5, "buffer": [26, 40, 26, 72, 36]}
-Consumidor 1 retirou 26 do buffer
+Consumidor 2 retirou 59 do buffer
+[BUFFER] {"empty": 2, "full": 3, "buffer": [26, 40, null, null, 63]}
+Consumidor 3 retirou 63 do buffer
+[BUFFER] {"empty": 3, "full": 2, "buffer": [26, 40, null, null, null]}
+Produtor 3 colocou 26 no buffer
+[BUFFER] {"empty": 2, "full": 3, "buffer": [26, 40, 26, null, null]}
+Consumidor 4 retirou 26 do buffer
+[BUFFER] {"empty": 3, "full": 2, "buffer": [null, 40, 26, null, null]}
+Produtor 2 colocou 72 no buffer
+[BUFFER] {"empty": 2, "full": 3, "buffer": [null, 40, 26, 72, null]}
+Produtor 4 colocou 36 no buffer
 [BUFFER] {"empty": 1, "full": 4, "buffer": [null, 40, 26, 72, 36]}
 Consumidor 1 retirou 40 do buffer
 [BUFFER] {"empty": 2, "full": 3, "buffer": [null, null, 26, 72, 36]}
-Consumidor 1 retirou 26 do buffer
+Consumidor 4 retirou 26 do buffer
 [BUFFER] {"empty": 3, "full": 2, "buffer": [null, null, null, 72, 36]}
-Consumidor 1 retirou 72 do buffer
+Consumidor 2 retirou 72 do buffer
 [BUFFER] {"empty": 4, "full": 1, "buffer": [null, null, null, null, 36]}
-Consumidor 1 retirou 36 do buffer
+Consumidor 3 retirou 36 do buffer
 [BUFFER] {"empty": 5, "full": 0, "buffer": [null, null, null, null, null]}
